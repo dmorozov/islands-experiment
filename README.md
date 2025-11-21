@@ -1,21 +1,25 @@
 # Islands architecture experiment
 
+## Project folders
+
+Quarkus Quinoa with Astro front-end is located in quarkus-astro-app folder.
+The Astro application is in the quarkus-astro-app/src/main/webui folder.
+
 ## Frameworks
 
-1. Quarkus Quinoa with Astro in quarkus-astro-app folder. The Astro application is in the quarkus-astro-app/src/main/webui folder.
-2. [Astro](https://astro.build/), [Astro Installation](https://docs.astro.build/en/install-and-setup/)
-3. [Preact](https://preactjs.com/)
-4. [Using Preact with Typescript](https://preactjs.com/guide/v10/typescript/)
-5. [Islands Architecture](https://docs.astro.build/en/concepts/islands/)
-6. [Astro with Preact](https://docs.astro.build/en/guides/integrations-guide/preact/)
-7. [Astro with Typescript](https://docs.astro.build/en/guides/typescript/)
-8. [Shadcn UI](https://ui.shadcn.com/)
-9. [Shadcn UI with Astro](https://ui.shadcn.com/docs/installation/astro)
-10. [Tailwind configuration with Astro](https://docs.astro.build/en/guides/styling/#tailwind)
-11. Prettier and ESLint configuration with best practices for the selected tech stack.
-12. Use [TanStack Query](https://tanstack.com/query/latest) with Axios for the calls to the server API.
-13. Use [Orval](https://orval.dev/overview) to generate client with TanStack Query and Axios from OpenAI schema yaml.
-14. To run the application:
+1. [Astro](https://astro.build/), [Astro Installation](https://docs.astro.build/en/install-and-setup/)
+2. [Preact](https://preactjs.com/)
+3. [Using Preact with Typescript](https://preactjs.com/guide/v10/typescript/)
+4. [Islands Architecture](https://docs.astro.build/en/concepts/islands/)
+5. [Astro with Preact](https://docs.astro.build/en/guides/integrations-guide/preact/)
+6. [Astro with Typescript](https://docs.astro.build/en/guides/typescript/)
+7. [Shadcn UI](https://ui.shadcn.com/)
+8. [Shadcn UI with Astro](https://ui.shadcn.com/docs/installation/astro)
+9. [Tailwind configuration with Astro](https://docs.astro.build/en/guides/styling/#tailwind)
+10. Prettier and ESLint configuration with best practices for the selected tech stack.
+11. Use [TanStack Query](https://tanstack.com/query/latest) with Axios for the calls to the server API.
+12. Use [Orval](https://orval.dev/overview) to generate client with TanStack Query and Axios from OpenAI schema yaml.
+13. To run the application:
 
 ```bash
 quarkus dev
