@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN" "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+
+<suppressions>
+  <suppress files="[/\\]target[/\\]" checks=".*" />
+  <suppress files="[/\\]generated-sources[/\\]" checks=".*" />
+  <!-- Llama3 has a lot of code style issues. Ignoring. -->
+  <suppress files="[\\\\/]com[\\\\/]llama4j[\\\\/].*" checks=".*" />
+</suppressions>

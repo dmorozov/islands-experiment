@@ -1,0 +1,39 @@
+version: "3.8"
+
+volumes:
+  postgres-data:
+  valkey_data:
+    driver: local
+
+networks:
+  default:
+    name: superbia-experiments-network
+    driver: bridge
+
+services:
+  superbia-experiments-app:
+    container_name: superbia-experiments-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        INSTALL_MAVEN: "true"
+        MAVEN_VERSION: "3.9.6"
+        NODE_VERSION: "20.17.0"
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    volumes:
+      - ..:/workspaces:cached
+      - ~/.ssh:/home/vscode/.ssh
+      - ~/.m2:/home/vscode/.m2
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+    # Uncomment the next line to use a non-root user for all processes.
+    # user: vscode
+
+    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
+    # (Adding the "ports" property to this file will not forward from a Codespace.)

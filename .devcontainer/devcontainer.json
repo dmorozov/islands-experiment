@@ -1,0 +1,81 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/java
+{
+  "name": "SuperbiaExperiments",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "superbia-experiments-app",
+  "shutdownAction": "stopCompose",
+  // Explicitly declaring which source-code folder to mount and where to mount it in the container
+  "workspaceFolder": "/workspaces",
+  "features": {
+    // Ensures that Quarkus is installed in the container
+    "ghcr.io/devcontainers-contrib/features/quarkus-sdkman:2": {
+      "version": "3.6.7",
+      "jdkVersion": "21"
+    },
+    // Installs a set of common command line utilities, Oh My Zsh!, and sets up a non-root user.
+    "ghcr.io/devcontainers/features/common-utils:2.0.11": {
+      "installZsh": true,
+      "configureZshAsDefaultShell": true,
+      "installOhMyZsh": true,
+      "installOhMyZshConfig": true,
+      "upgradePackages": true,
+      "username": "vscode"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      // Set *default* container specific settings.json values on container create.
+      "settings": {},
+      "extensions": [
+        // Backend development
+        "vscjava.vscode-java-pack",
+        "redhat.vscode-quarkus",
+        "redhat.fabric8-analytics",
+        "shengchen.vscode-checkstyle", // CheckStyle for Java
+        "cracrayol.pmd-java", // PMD static code analysis
+        // Git extensions
+        "github.vscode-pull-request-github", // GitHub integration
+        "donjayamanne.githistory", // Git History
+        "mhutchie.git-graph", // Git History Graph
+        // Frontend development
+        "franneck94.vscode-typescript-extension-pack", // TypeScript Extension Pack
+        "dbaeumer.vscode-eslint", // ESLint
+        "esbenp.prettier-vscode", // Prettier
+        "rvest.vs-code-prettier-eslint", // ESLint + Prettier
+        "infeng.vscode-react-typescript", // Typescript React code snippets
+        "formulahendry.auto-close-tag", // Auto Close Tag
+        "formulahendry.auto-rename-tag", // Auto Rename Tag
+        "streetsidesoftware.code-spell-checker", // Code Spell Checker
+        "Zignd.html-css-class-completion", // IntelliSense for CSS class names in HTML
+        "naumovs.color-highlight", // Color Highlight
+        "Magssch.react-typescript-boilerplate", // Snippets for modern React development in TypeScript
+        "wix.vscode-import-cost", // JavaScript library import cost
+        "vunguyentuan.vscode-postcss", // PostCSS Intellisense and Highlighting
+        "redhat.vscode-xml", // XML document formatter
+        "redhat.vscode-microprofile" // YAML editor
+      ]
+    }
+  },
+  "postStartCommand": "bash .devcontainer/postCreateCommand.sh", // && ./mvnw compile quarkus:dev -pl app
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // This can be used to network with other containers or with the host.
+  "portsAttributes": {
+    "7171": {
+      "label": "Experiment Web"
+    },
+    "3000": {
+      "label": "UI dev server"
+    }
+  },
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [
+    7171,
+    3000
+  ],
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" // Binding the host docker socket to the containerit
+  ],
+  // Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+  "remoteUser": "vscode"
+}
