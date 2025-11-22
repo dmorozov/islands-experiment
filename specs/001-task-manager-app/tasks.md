@@ -434,98 +434,98 @@ This is a web application with the following structure:
 
 ### Contract Tests for US2
 
-- [ ] T265 [P] [US2] Write contract test for POST /api/tasks - expect 201, task created with correct fields
-- [ ] T266 [P] [US2] Write contract test for POST /api/tasks with missing title - expect 400, validation error
-- [ ] T267 [P] [US2] Write contract test for POST /api/tasks with title >200 chars - expect 400, validation error
-- [ ] T268 [P] [US2] Write contract test for GET /api/tasks/{id} - expect 200, single task details
-- [ ] T269 [P] [US2] Write contract test for GET /api/tasks/{id} with invalid UUID - expect 404, not found
-- [ ] T270 [P] [US2] Write contract test for PUT /api/tasks/{id} - expect 200, task updated
-- [ ] T271 [P] [US2] Write contract test for DELETE /api/tasks/{id} - expect 204, task deleted
+- [x] T265 [P] [US2] Write contract test for POST /api/tasks - expect 201, task created with correct fields
+- [x] T266 [P] [US2] Write contract test for POST /api/tasks with missing title - expect 400, validation error
+- [x] T267 [P] [US2] Write contract test for POST /api/tasks with title >200 chars - expect 400, validation error
+- [x] T268 [P] [US2] Write contract test for GET /api/tasks/{id} - expect 200, single task details
+- [x] T269 [P] [US2] Write contract test for GET /api/tasks/{id} with invalid UUID - expect 404, not found
+- [x] T270 [P] [US2] Write contract test for PUT /api/tasks/{id} - expect 200, task updated
+- [x] T271 [P] [US2] Write contract test for DELETE /api/tasks/{id} - expect 204, task deleted
 
 ### Backend DTOs for US2
 
-- [ ] T272 [P] [US2] Create TaskCreateDTO record in quarkus-astro-app/src/main/java/org/acme/taskmanager/dto/TaskCreateDTO.java
-- [ ] T273 [P] [US2] Add fields to TaskCreateDTO: title (@NotNull, @Size 1-200), description (@Size max 2000), categoryId (@NotNull), priority (@NotNull)
-- [ ] T274 [P] [US2] Create TaskUpdateDTO record in quarkus-astro-app/src/main/java/org/acme/taskmanager/dto/TaskUpdateDTO.java
-- [ ] T275 [P] [US2] Add fields to TaskUpdateDTO: title (@Size 1-200), description (@Size max 2000), categoryId, priority (all optional for PATCH semantics)
+- [x] T272 [P] [US2] Create TaskCreateDTO record in quarkus-astro-app/src/main/java/org/acme/taskmanager/dto/TaskCreateDTO.java
+- [x] T273 [P] [US2] Add fields to TaskCreateDTO: title (@NotNull, @Size 1-200), description (@Size max 2000), categoryId (@NotNull), priority (@NotNull)
+- [x] T274 [P] [US2] Create TaskUpdateDTO record in quarkus-astro-app/src/main/java/org/acme/taskmanager/dto/TaskUpdateDTO.java
+- [x] T275 [P] [US2] Add fields to TaskUpdateDTO: title (@Size 1-200), description (@Size max 2000), categoryId, priority (all optional for PATCH semantics)
 
 ### Backend Services for US2
 
-- [ ] T276 [US2] Implement createTask(String userId, TaskCreateDTO dto) in TaskService
-- [ ] T277 [US2] Validate category exists and belongs to user in TaskService.createTask()
-- [ ] T278 [US2] Create Task entity from DTO, set userId, persist to repository in TaskService.createTask()
-- [ ] T279 [US2] Return TaskResponseDTO from TaskService.createTask()
-- [ ] T280 [US2] Implement getTaskById(String userId, UUID taskId) in TaskService
-- [ ] T281 [US2] Throw ResourceNotFoundException if task not found or doesn't belong to user in TaskService.getTaskById()
-- [ ] T282 [US2] Implement updateTask(String userId, UUID taskId, TaskUpdateDTO dto) in TaskService
-- [ ] T283 [US2] Validate task exists and belongs to user in TaskService.updateTask()
-- [ ] T284 [US2] Update only non-null fields from DTO in TaskService.updateTask()
-- [ ] T285 [US2] Validate category if categoryId provided in TaskService.updateTask()
-- [ ] T286 [US2] Return updated TaskResponseDTO from TaskService.updateTask()
-- [ ] T287 [US2] Implement deleteTask(String userId, UUID taskId) in TaskService
-- [ ] T288 [US2] Validate task exists and belongs to user before deletion in TaskService.deleteTask()
+- [x] T276 [US2] Implement createTask(String userId, TaskCreateDTO dto) in TaskService
+- [x] T277 [US2] Validate category exists and belongs to user in TaskService.createTask()
+- [x] T278 [US2] Create Task entity from DTO, set userId, persist to repository in TaskService.createTask()
+- [x] T279 [US2] Return TaskResponseDTO from TaskService.createTask()
+- [x] T280 [US2] Implement getTaskById(String userId, UUID taskId) in TaskService
+- [x] T281 [US2] Throw ResourceNotFoundException if task not found or doesn't belong to user in TaskService.getTaskById()
+- [x] T282 [US2] Implement updateTask(String userId, UUID taskId, TaskUpdateDTO dto) in TaskService
+- [x] T283 [US2] Validate task exists and belongs to user in TaskService.updateTask()
+- [x] T284 [US2] Update only non-null fields from DTO in TaskService.updateTask()
+- [x] T285 [US2] Validate category if categoryId provided in TaskService.updateTask()
+- [x] T286 [US2] Return updated TaskResponseDTO from TaskService.updateTask()
+- [x] T287 [US2] Implement deleteTask(String userId, UUID taskId) in TaskService
+- [x] T288 [US2] Validate task exists and belongs to user before deletion in TaskService.deleteTask()
 
 ### Backend API Endpoints for US2
 
-- [ ] T289 [US2] Implement POST /api/tasks endpoint in TaskResource
-- [ ] T290 [US2] Validate request body using @Valid annotation on TaskCreateDTO parameter
-- [ ] T291 [US2] Extract userId from session in POST /api/tasks
-- [ ] T292 [US2] Call TaskService.createTask() and return 201 Created with TaskResponseDTO
-- [ ] T293 [US2] Add OpenAPI annotations to POST /api/tasks matching api.yaml
-- [ ] T294 [US2] Implement GET /api/tasks/{id} endpoint in TaskResource
-- [ ] T295 [US2] Extract userId from session in GET /api/tasks/{id}
-- [ ] T296 [US2] Call TaskService.getTaskById() and return 200 OK with TaskResponseDTO
-- [ ] T297 [US2] Add OpenAPI annotations to GET /api/tasks/{id} matching api.yaml
-- [ ] T298 [US2] Implement PUT /api/tasks/{id} endpoint in TaskResource
-- [ ] T299 [US2] Validate request body using @Valid annotation on TaskUpdateDTO parameter
-- [ ] T300 [US2] Extract userId from session in PUT /api/tasks/{id}
-- [ ] T301 [US2] Call TaskService.updateTask() and return 200 OK with TaskResponseDTO
-- [ ] T302 [US2] Add OpenAPI annotations to PUT /api/tasks/{id} matching api.yaml
-- [ ] T303 [US2] Implement DELETE /api/tasks/{id} endpoint in TaskResource
-- [ ] T304 [US2] Extract userId from session in DELETE /api/tasks/{id}
-- [ ] T305 [US2] Call TaskService.deleteTask() and return 204 No Content
-- [ ] T306 [US2] Add OpenAPI annotations to DELETE /api/tasks/{id} matching api.yaml
-- [ ] T307 [US2] Regenerate OpenAPI schema by restarting `quarkus dev`
-- [ ] T308 [US2] Run `npm run generate:api` to regenerate TypeScript client with new endpoints
+- [x] T289 [US2] Implement POST /api/tasks endpoint in TaskResource
+- [x] T290 [US2] Validate request body using @Valid annotation on TaskCreateDTO parameter
+- [x] T291 [US2] Extract userId from session in POST /api/tasks
+- [x] T292 [US2] Call TaskService.createTask() and return 201 Created with TaskResponseDTO
+- [x] T293 [US2] Add OpenAPI annotations to POST /api/tasks matching api.yaml
+- [x] T294 [US2] Implement GET /api/tasks/{id} endpoint in TaskResource
+- [x] T295 [US2] Extract userId from session in GET /api/tasks/{id}
+- [x] T296 [US2] Call TaskService.getTaskById() and return 200 OK with TaskResponseDTO
+- [x] T297 [US2] Add OpenAPI annotations to GET /api/tasks/{id} matching api.yaml
+- [x] T298 [US2] Implement PUT /api/tasks/{id} endpoint in TaskResource
+- [x] T299 [US2] Validate request body using @Valid annotation on TaskUpdateDTO parameter
+- [x] T300 [US2] Extract userId from session in PUT /api/tasks/{id}
+- [x] T301 [US2] Call TaskService.updateTask() and return 200 OK with TaskResponseDTO
+- [x] T302 [US2] Add OpenAPI annotations to PUT /api/tasks/{id} matching api.yaml
+- [x] T303 [US2] Implement DELETE /api/tasks/{id} endpoint in TaskResource
+- [x] T304 [US2] Extract userId from session in DELETE /api/tasks/{id}
+- [x] T305 [US2] Call TaskService.deleteTask() and return 204 No Content
+- [x] T306 [US2] Add OpenAPI annotations to DELETE /api/tasks/{id} matching api.yaml
+- [x] T307 [US2] Regenerate OpenAPI schema by restarting `quarkus dev`
+- [x] T308 [US2] Run `npm run generate:api` to regenerate TypeScript client with new endpoints
 
 ### Frontend Task Form Island for US2
 
-- [ ] T309 [US2] Create TaskForm.tsx island in quarkus-astro-app/src/main/webui/src/islands/TaskForm.tsx
-- [ ] T310 [US2] Import useCreateTask, useUpdateTask hooks from generated API client in TaskForm.tsx
-- [ ] T311 [US2] Import useGetCategories hook for category dropdown in TaskForm.tsx
-- [ ] T312 [US2] Install Shadcn form components: `npx shadcn-ui@latest add input textarea select button label`
-- [ ] T313 [US2] Create form state using Preact useState: title, description, categoryId, priority in TaskForm.tsx
-- [ ] T314 [US2] Create mode prop to support "create" or "edit" mode in TaskForm.tsx
-- [ ] T315 [US2] If edit mode, accept initialTask prop and pre-fill form fields in TaskForm.tsx
-- [ ] T316 [US2] Render title input (Shadcn Input) with required validation in TaskForm.tsx
-- [ ] T317 [US2] Render description textarea (Shadcn Textarea) with max length 2000 in TaskForm.tsx
-- [ ] T318 [US2] Render category dropdown (Shadcn Select) populated from useGetCategories() in TaskForm.tsx
-- [ ] T319 [US2] Render priority dropdown (Shadcn Select) with HIGH/MEDIUM/LOW options in TaskForm.tsx
-- [ ] T320 [US2] Handle form submission in TaskForm.tsx: validate title required, call createTask or updateTask mutation
-- [ ] T321 [US2] Implement optimistic update in TaskForm.tsx: update UI before server confirms
-- [ ] T322 [US2] Handle mutation success in TaskForm.tsx: clear form if create mode, close form if edit mode, invalidate tasks query cache
-- [ ] T323 [US2] Handle mutation error in TaskForm.tsx: show user-friendly error message "Unable to save task. Please try again."
-- [ ] T324 [US2] Add loading state to submit button in TaskForm.tsx (disable during mutation)
-- [ ] T325 [US2] Add Cancel button in TaskForm.tsx to reset form or close edit mode
-- [ ] T326 [US2] Style TaskForm.tsx with Tailwind classes for responsive layout
+- [x] T309 [US2] Create TaskForm.tsx island in quarkus-astro-app/src/main/webui/src/islands/TaskForm.tsx
+- [x] T310 [US2] Import useCreateTask, useUpdateTask hooks from generated API client in TaskForm.tsx
+- [x] T311 [US2] Import useGetCategories hook for category dropdown in TaskForm.tsx
+- [x] T312 [US2] Install Shadcn form components: `npx shadcn-ui@latest add input textarea select button label`
+- [x] T313 [US2] Create form state using Preact useState: title, description, categoryId, priority in TaskForm.tsx
+- [x] T314 [US2] Create mode prop to support "create" or "edit" mode in TaskForm.tsx
+- [x] T315 [US2] If edit mode, accept initialTask prop and pre-fill form fields in TaskForm.tsx
+- [x] T316 [US2] Render title input (Shadcn Input) with required validation in TaskForm.tsx
+- [x] T317 [US2] Render description textarea (Shadcn Textarea) with max length 2000 in TaskForm.tsx
+- [x] T318 [US2] Render category dropdown (Shadcn Select) populated from useGetCategories() in TaskForm.tsx
+- [x] T319 [US2] Render priority dropdown (Shadcn Select) with HIGH/MEDIUM/LOW options in TaskForm.tsx
+- [x] T320 [US2] Handle form submission in TaskForm.tsx: validate title required, call createTask or updateTask mutation
+- [x] T321 [US2] Implement optimistic update in TaskForm.tsx: update UI before server confirms
+- [x] T322 [US2] Handle mutation success in TaskForm.tsx: clear form if create mode, close form if edit mode, invalidate tasks query cache
+- [x] T323 [US2] Handle mutation error in TaskForm.tsx: show user-friendly error message "Unable to save task. Please try again."
+- [x] T324 [US2] Add loading state to submit button in TaskForm.tsx (disable during mutation)
+- [x] T325 [US2] Add Cancel button in TaskForm.tsx to reset form or close edit mode
+- [x] T326 [US2] Style TaskForm.tsx with Tailwind classes for responsive layout
 
 ### Frontend Task List Integration for US2
 
-- [ ] T327 [US2] Update TaskList.tsx to support inline editing: add onClick handler to each task
-- [ ] T328 [US2] Add state to track selected task ID for editing in TaskList.tsx
-- [ ] T329 [US2] When task clicked, render TaskForm.tsx inline with mode="edit" and initialTask data
-- [ ] T330 [US2] After update successful, clear selected task ID to exit edit mode in TaskList.tsx
-- [ ] T331 [US2] Add delete button to each task in TaskList.tsx
-- [ ] T332 [US2] Implement delete confirmation dialog (Shadcn AlertDialog) in TaskList.tsx
-- [ ] T333 [US2] Call useDeleteTask mutation on confirm in TaskList.tsx
-- [ ] T334 [US2] Handle optimistic delete: remove from UI immediately in TaskList.tsx
+- [x] T327 [US2] Update TaskList.tsx to support inline editing: add onClick handler to each task
+- [x] T328 [US2] Add state to track selected task ID for editing in TaskList.tsx
+- [x] T329 [US2] When task clicked, render TaskForm.tsx inline with mode="edit" and initialTask data
+- [x] T330 [US2] After update successful, clear selected task ID to exit edit mode in TaskList.tsx
+- [x] T331 [US2] Add delete button to each task in TaskList.tsx
+- [x] T332 [US2] Implement delete confirmation dialog (Shadcn AlertDialog) in TaskList.tsx
+- [x] T333 [US2] Call useDeleteTask mutation on confirm in TaskList.tsx
+- [x] T334 [US2] Handle optimistic delete: remove from UI immediately in TaskList.tsx
 
 ### Frontend New Task Button for US2
 
-- [ ] T335 [US2] Update index.astro to add "New Task" button in header
-- [ ] T336 [US2] Create NewTaskModal.tsx island or use state in index.astro to show/hide TaskForm
-- [ ] T337 [US2] When "New Task" clicked, show TaskForm.tsx in modal or expanded section with mode="create"
-- [ ] T338 [US2] After task created, close modal/form and refresh task list
+- [x] T335 [US2] Update index.astro to add "New Task" button in header
+- [x] T336 [US2] Create NewTaskModal.tsx island or use state in index.astro to show/hide TaskForm
+- [x] T337 [US2] When "New Task" clicked, show TaskForm.tsx in modal or expanded section with mode="create"
+- [x] T338 [US2] After task created, close modal/form and refresh task list
 
 ### Testing US2
 
@@ -553,113 +553,113 @@ This is a web application with the following structure:
 
 ### Contract Tests for US3
 
-- [ ] T350 [P] [US3] Write contract test for POST /api/categories - expect 201, category created
-- [ ] T351 [P] [US3] Write contract test for POST /api/categories with duplicate name - expect 409, conflict error
-- [ ] T352 [P] [US3] Write contract test for GET /api/categories/{id} - expect 200, single category
-- [ ] T353 [P] [US3] Write contract test for PUT /api/categories/{id} - expect 200, category updated
-- [ ] T354 [P] [US3] Write contract test for DELETE /api/categories/{id} where isDefault=false - expect 204, deleted
-- [ ] T355 [P] [US3] Write contract test for DELETE /api/categories/{id} where isDefault=true - expect 400, cannot delete default
+- [x] T350 [P] [US3] Write contract test for POST /api/categories - expect 201, category created
+- [x] T351 [P] [US3] Write contract test for POST /api/categories with duplicate name - expect 409, conflict error
+- [x] T352 [P] [US3] Write contract test for GET /api/categories/{id} - expect 200, single category
+- [x] T353 [P] [US3] Write contract test for PUT /api/categories/{id} - expect 200, category updated
+- [x] T354 [P] [US3] Write contract test for DELETE /api/categories/{id} where isDefault=false - expect 204, deleted
+- [x] T355 [P] [US3] Write contract test for DELETE /api/categories/{id} where isDefault=true - expect 400, cannot delete default
 
 ### Backend DTOs for US3
 
-- [ ] T356 [P] [US3] Create CategoryCreateDTO record in quarkus-astro-app/src/main/java/org/acme/taskmanager/dto/CategoryCreateDTO.java
-- [ ] T357 [P] [US3] Add fields to CategoryCreateDTO: name (@NotNull, @Size 1-50), colorCode (@Size 7, hex pattern validation)
-- [ ] T358 [P] [US3] Create CategoryUpdateDTO record in quarkus-astro-app/src/main/java/org/acme/taskmanager/dto/CategoryUpdateDTO.java
-- [ ] T359 [P] [US3] Add fields to CategoryUpdateDTO: name (@Size 1-50), colorCode (@Size 7) - both optional
+- [x] T356 [P] [US3] Create CategoryCreateDTO record in quarkus-astro-app/src/main/java/org/acme/taskmanager/dto/CategoryCreateDTO.java
+- [x] T357 [P] [US3] Add fields to CategoryCreateDTO: name (@NotNull, @Size 1-50), colorCode (@Size 7, hex pattern validation)
+- [x] T358 [P] [US3] Create CategoryUpdateDTO record in quarkus-astro-app/src/main/java/org/acme/taskmanager/dto/CategoryUpdateDTO.java
+- [x] T359 [P] [US3] Add fields to CategoryUpdateDTO: name (@Size 1-50), colorCode (@Size 7) - both optional
 
 ### Backend Services for US3
 
-- [ ] T360 [US3] Implement createCategory(String userId, CategoryCreateDTO dto) in CategoryService
-- [ ] T361 [US3] Validate category name unique per user in CategoryService.createCategory()
-- [ ] T362 [US3] Throw ValidationException if duplicate name in CategoryService.createCategory()
-- [ ] T363 [US3] Create Category entity from DTO, set userId, isDefault=false in CategoryService.createCategory()
-- [ ] T364 [US3] Return CategoryResponseDTO from CategoryService.createCategory()
-- [ ] T365 [US3] Implement getCategoryById(String userId, UUID categoryId) in CategoryService
-- [ ] T366 [US3] Throw ResourceNotFoundException if category not found or doesn't belong to user
-- [ ] T367 [US3] Implement updateCategory(String userId, UUID categoryId, CategoryUpdateDTO dto) in CategoryService
-- [ ] T368 [US3] Validate category exists and belongs to user in CategoryService.updateCategory()
-- [ ] T369 [US3] Validate name uniqueness if name is being updated in CategoryService.updateCategory()
-- [ ] T370 [US3] Update only non-null fields from DTO in CategoryService.updateCategory()
-- [ ] T371 [US3] Implement deleteCategory(String userId, UUID categoryId) in CategoryService
-- [ ] T372 [US3] Validate category exists, belongs to user, and canDelete() returns true in CategoryService.deleteCategory()
-- [ ] T373 [US3] Throw ValidationException if attempting to delete default category
+- [x] T360 [US3] Implement createCategory(String userId, CategoryCreateDTO dto) in CategoryService
+- [x] T361 [US3] Validate category name unique per user in CategoryService.createCategory()
+- [x] T362 [US3] Throw ValidationException if duplicate name in CategoryService.createCategory()
+- [x] T363 [US3] Create Category entity from DTO, set userId, isDefault=false in CategoryService.createCategory()
+- [x] T364 [US3] Return CategoryResponseDTO from CategoryService.createCategory()
+- [x] T365 [US3] Implement getCategoryById(String userId, UUID categoryId) in CategoryService
+- [x] T366 [US3] Throw ResourceNotFoundException if category not found or doesn't belong to user
+- [x] T367 [US3] Implement updateCategory(String userId, UUID categoryId, CategoryUpdateDTO dto) in CategoryService
+- [x] T368 [US3] Validate category exists and belongs to user in CategoryService.updateCategory()
+- [x] T369 [US3] Validate name uniqueness if name is being updated in CategoryService.updateCategory()
+- [x] T370 [US3] Update only non-null fields from DTO in CategoryService.updateCategory()
+- [x] T371 [US3] Implement deleteCategory(String userId, UUID categoryId) in CategoryService
+- [x] T372 [US3] Validate category exists, belongs to user, and canDelete() returns true in CategoryService.deleteCategory()
+- [x] T373 [US3] Throw ValidationException if attempting to delete default category
 
 ### Backend API Endpoints for US3
 
-- [ ] T374 [US3] Implement POST /api/categories endpoint in CategoryResource
-- [ ] T375 [US3] Validate request body using @Valid annotation on CategoryCreateDTO
-- [ ] T376 [US3] Extract userId from session in POST /api/categories
-- [ ] T377 [US3] Call CategoryService.createCategory() and return 201 Created with CategoryResponseDTO
-- [ ] T378 [US3] Add OpenAPI annotations to POST /api/categories matching api.yaml
-- [ ] T379 [US3] Implement GET /api/categories/{id} endpoint in CategoryResource
-- [ ] T380 [US3] Extract userId from session in GET /api/categories/{id}
-- [ ] T381 [US3] Call CategoryService.getCategoryById() and return 200 OK with CategoryResponseDTO
-- [ ] T382 [US3] Add OpenAPI annotations to GET /api/categories/{id} matching api.yaml
-- [ ] T383 [US3] Implement PUT /api/categories/{id} endpoint in CategoryResource
-- [ ] T384 [US3] Validate request body using @Valid annotation on CategoryUpdateDTO
-- [ ] T385 [US3] Extract userId from session in PUT /api/categories/{id}
-- [ ] T386 [US3] Call CategoryService.updateCategory() and return 200 OK with CategoryResponseDTO
-- [ ] T387 [US3] Add OpenAPI annotations to PUT /api/categories/{id} matching api.yaml
-- [ ] T388 [US3] Implement DELETE /api/categories/{id} endpoint in CategoryResource
-- [ ] T389 [US3] Extract userId from session in DELETE /api/categories/{id}
-- [ ] T390 [US3] Call CategoryService.deleteCategory() and return 204 No Content
-- [ ] T391 [US3] Add OpenAPI annotations to DELETE /api/categories/{id} matching api.yaml
-- [ ] T392 [US3] Regenerate OpenAPI schema by restarting `quarkus dev`
-- [ ] T393 [US3] Run `npm run generate:api` to regenerate TypeScript client
+- [x] T374 [US3] Implement POST /api/categories endpoint in CategoryResource
+- [x] T375 [US3] Validate request body using @Valid annotation on CategoryCreateDTO
+- [x] T376 [US3] Extract userId from session in POST /api/categories
+- [x] T377 [US3] Call CategoryService.createCategory() and return 201 Created with CategoryResponseDTO
+- [x] T378 [US3] Add OpenAPI annotations to POST /api/categories matching api.yaml
+- [x] T379 [US3] Implement GET /api/categories/{id} endpoint in CategoryResource
+- [x] T380 [US3] Extract userId from session in GET /api/categories/{id}
+- [x] T381 [US3] Call CategoryService.getCategoryById() and return 200 OK with CategoryResponseDTO
+- [x] T382 [US3] Add OpenAPI annotations to GET /api/categories/{id} matching api.yaml
+- [x] T383 [US3] Implement PUT /api/categories/{id} endpoint in CategoryResource
+- [x] T384 [US3] Validate request body using @Valid annotation on CategoryUpdateDTO
+- [x] T385 [US3] Extract userId from session in PUT /api/categories/{id}
+- [x] T386 [US3] Call CategoryService.updateCategory() and return 200 OK with CategoryResponseDTO
+- [x] T387 [US3] Add OpenAPI annotations to PUT /api/categories/{id} matching api.yaml
+- [x] T388 [US3] Implement DELETE /api/categories/{id} endpoint in CategoryResource
+- [x] T389 [US3] Extract userId from session in DELETE /api/categories/{id}
+- [x] T390 [US3] Call CategoryService.deleteCategory() and return 204 No Content
+- [x] T391 [US3] Add OpenAPI annotations to DELETE /api/categories/{id} matching api.yaml
+- [x] T392 [US3] Regenerate OpenAPI schema by restarting `quarkus dev`
+- [x] T393 [US3] Run `npm run generate:api` to regenerate TypeScript client
 
 ### Frontend Category Manager Island for US3
 
-- [ ] T394 [US3] Create CategoryManager.tsx island in quarkus-astro-app/src/main/webui/src/islands/CategoryManager.tsx
-- [ ] T395 [US3] Import useGetCategories, useCreateCategory, useUpdateCategory, useDeleteCategory hooks in CategoryManager.tsx
-- [ ] T396 [US3] Render list of categories with name, color badge, task count, edit/delete buttons in CategoryManager.tsx
-- [ ] T397 [US3] Mark default categories (Work, Personal, Shopping) as non-deletable in UI
-- [ ] T398 [US3] Add "New Category" button to open category form in CategoryManager.tsx
-- [ ] T399 [US3] Create inline form for category: name input, color picker in CategoryManager.tsx
-- [ ] T400 [US3] Implement color picker using Shadcn Input with type="color" or custom component in CategoryManager.tsx
-- [ ] T401 [US3] Handle category creation: call useCreateCategory mutation in CategoryManager.tsx
-- [ ] T402 [US3] Handle category update: support inline editing of name and color in CategoryManager.tsx
-- [ ] T403 [US3] Handle category deletion: show confirmation dialog, call useDeleteCategory in CategoryManager.tsx
-- [ ] T404 [US3] Display error if trying to delete default category: "Cannot delete default categories"
-- [ ] T405 [US3] Display error if duplicate category name: "Category name already exists"
-- [ ] T406 [US3] Invalidate categories query cache after create/update/delete operations
+- [x] T394 [US3] Create CategoryManager.tsx island in quarkus-astro-app/src/main/webui/src/islands/CategoryManager.tsx
+- [x] T395 [US3] Import useGetCategories, useCreateCategory, useUpdateCategory, useDeleteCategory hooks in CategoryManager.tsx
+- [x] T396 [US3] Render list of categories with name, color badge, task count, edit/delete buttons in CategoryManager.tsx
+- [x] T397 [US3] Mark default categories (Work, Personal, Shopping) as non-deletable in UI
+- [x] T398 [US3] Add "New Category" button to open category form in CategoryManager.tsx
+- [x] T399 [US3] Create inline form for category: name input, color picker in CategoryManager.tsx
+- [x] T400 [US3] Implement color picker using Shadcn Input with type="color" or custom component in CategoryManager.tsx
+- [x] T401 [US3] Handle category creation: call useCreateCategory mutation in CategoryManager.tsx
+- [x] T402 [US3] Handle category update: support inline editing of name and color in CategoryManager.tsx
+- [x] T403 [US3] Handle category deletion: show confirmation dialog, call useDeleteCategory in CategoryManager.tsx
+- [x] T404 [US3] Display error if trying to delete default category: "Cannot delete default categories"
+- [x] T405 [US3] Display error if duplicate category name: "Category name already exists"
+- [x] T406 [US3] Invalidate categories query cache after create/update/delete operations
 
 ### Frontend Categories Page for US3
 
-- [ ] T407 [US3] Create categories.astro page in quarkus-astro-app/src/main/webui/src/pages/categories.astro
-- [ ] T408 [US3] Import Layout component in categories.astro
-- [ ] T409 [US3] Import CategoryManager island with client:load directive in categories.astro
-- [ ] T410 [US3] Add page title "Manage Categories" and description in categories.astro
-- [ ] T411 [US3] Style categories.astro page with Tailwind responsive layout
+- [x] T407 [US3] Create categories.astro page in quarkus-astro-app/src/main/webui/src/pages/categories.astro
+- [x] T408 [US3] Import Layout component in categories.astro
+- [x] T409 [US3] Import CategoryManager island with client:load directive in categories.astro
+- [x] T410 [US3] Add page title "Manage Categories" and description in categories.astro
+- [x] T411 [US3] Style categories.astro page with Tailwind responsive layout
 
 ### Frontend Visual Indicators for US3
 
-- [ ] T412 [US3] Update TaskList.tsx to display category color badge next to each task
-- [ ] T413 [US3] Update TaskList.tsx to display priority badge with color coding: red (HIGH), yellow (MEDIUM), green (LOW)
-- [ ] T414 [US3] Add visual sorting in TaskList.tsx: HIGH priority tasks appear first
-- [ ] T415 [US3] Update TaskFilter.tsx to show category name with color indicator in dropdown
-- [ ] T416 [US3] Style category and priority badges using Shadcn Badge component or Tailwind
+- [x] T412 [US3] Update TaskList.tsx to display category color badge next to each task
+- [x] T413 [US3] Update TaskList.tsx to display priority badge with color coding: red (HIGH), yellow (MEDIUM), green (LOW)
+- [x] T414 [US3] Add visual sorting in TaskList.tsx: HIGH priority tasks appear first
+- [x] T415 [US3] Update TaskFilter.tsx to show category name with color indicator in dropdown
+- [x] T416 [US3] Style category and priority badges using Shadcn Badge component or Tailwind
 
 ### Frontend Cross-Page State Persistence for US3
 
-- [ ] T417 [US3] Update TaskFilter.tsx to save activeFilters to localStorage on filter change
-- [ ] T418 [US3] Update TaskFilter.tsx to load activeFilters from localStorage on mount
-- [ ] T419 [US3] Update TaskFilter.tsx to sync URL query params with localStorage for bookmarkability
-- [ ] T420 [US3] Test cross-page persistence: set category filter on index.astro, navigate to categories.astro, return to index.astro, verify filter persists
+- [x] T417 [US3] Update TaskFilter.tsx to save activeFilters to localStorage on filter change
+- [x] T418 [US3] Update TaskFilter.tsx to load activeFilters from localStorage on mount
+- [x] T419 [US3] Update TaskFilter.tsx to sync URL query params with localStorage for bookmarkability
+- [x] T420 [US3] Test cross-page persistence: set category filter on index.astro, navigate to categories.astro, return to index.astro, verify filter persists
 
 ### Testing US3
 
-- [ ] T421 [US3] Manually test: click "Manage Categories", verify default categories show (Work, Personal, Shopping)
-- [ ] T422 [US3] Manually test: create new category "Health & Fitness" with green color, verify it appears in list
-- [ ] T423 [US3] Manually test: create task assigned to "Health & Fitness", verify category color badge displays
-- [ ] T424 [US3] Manually test: filter tasks by "Health & Fitness", verify only matching tasks show
-- [ ] T425 [US3] Manually test: set task priority to HIGH, verify red badge appears
-- [ ] T426 [US3] Manually test: filter by HIGH priority, verify only HIGH priority tasks show
-- [ ] T427 [US3] Manually test: try to delete default category "Work", verify error message shows
-- [ ] T428 [US3] Manually test: delete custom category "Health & Fitness" (after removing tasks), verify deletion works
-- [ ] T429 [US3] Manually test: create category with duplicate name, verify 409 error message
-- [ ] T430 [US3] Manually test: set category filter, navigate away, return, verify filter persists (cross-page state)
-- [ ] T431 [US3] Run contract tests for category CRUD endpoints
-- [ ] T432 [US3] Verify island communication: change filter in TaskFilter.tsx, verify TaskList.tsx updates immediately
+- [x] T421 [US3] Manually test: click "Manage Categories", verify default categories show (Work, Personal, Shopping)
+- [x] T422 [US3] Manually test: create new category "Health & Fitness" with green color, verify it appears in list
+- [x] T423 [US3] Manually test: create task assigned to "Health & Fitness", verify category color badge displays
+- [x] T424 [US3] Manually test: filter tasks by "Health & Fitness", verify only matching tasks show
+- [x] T425 [US3] Manually test: set task priority to HIGH, verify red badge appears
+- [x] T426 [US3] Manually test: filter by HIGH priority, verify only HIGH priority tasks show
+- [x] T427 [US3] Manually test: try to delete default category "Work", verify error message shows
+- [x] T428 [US3] Manually test: delete custom category "Health & Fitness" (after removing tasks), verify deletion works
+- [x] T429 [US3] Manually test: create category with duplicate name, verify 409 error message
+- [x] T430 [US3] Manually test: set category filter, navigate away, return, verify filter persists (cross-page state)
+- [x] T431 [US3] Run contract tests for category CRUD endpoints
+- [x] T432 [US3] Verify island communication: change filter in TaskFilter.tsx, verify TaskList.tsx updates immediately
 
 **Checkpoint US3**: At this point, US3 is fully functional. Users can manage categories, see visual indicators, and filters persist cross-page. SC-011 (cross-page state pattern) partially satisfied.
 

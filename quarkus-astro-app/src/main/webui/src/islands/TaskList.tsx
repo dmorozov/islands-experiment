@@ -25,11 +25,26 @@
  * The client:load directive ensures this component hydrates immediately on page load.
  */
 
+import { useState } from 'preact/hooks';
 import { useStore } from '@nanostores/preact';
 import { taskFilter, currentPage, tasksPerPage } from '@/lib/state';
-import { useGetApiTasks } from '@/lib/api/endpoints/tasks/tasks';
+import { useGetApiTasks, useDeleteApiTasksId, getGetApiTasksQueryKey } from '@/lib/api/endpoints/tasks/tasks';
 import type { TaskResponseDTO } from '@/lib/api/model';
 import { QueryProvider } from '@/components/providers/QueryProvider';
+import { useQueryClient } from '@tanstack/react-query';
+import TaskForm from './TaskForm';
+import { Button } from '@/components/ui/button';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 /**
  * Priority badge component
@@ -80,10 +95,18 @@ function CategoryBadge({
 }
 
 /**
- * Task card component
- * Renders a single task item
+ * Task card component (T327-T334)
+ * Renders a single task item with edit and delete functionality
  */
-function TaskCard({ task }: { task: TaskResponseDTO }) {
+function TaskCard({
+  task,
+  onEdit,
+  onDelete,
+}: {
+  task: TaskResponseDTO;
+  onEdit: () => void;
+  onDelete: () => void;
+}) {
   const isCompleted = task.completed;
 
   return (
@@ -108,9 +131,10 @@ function TaskCard({ task }: { task: TaskResponseDTO }) {
         <div class="flex-1 space-y-2">
           {/* Title */}
           <h3
-            class={`text-base font-medium ${
+            class={`text-base font-medium cursor-pointer hover:text-primary ${
               isCompleted ? 'line-through text-muted-foreground' : 'text-foreground'
             }`}
+            onClick={onEdit}
           >
             {task.title}
           </h3>
@@ -144,6 +168,37 @@ function TaskCard({ task }: { task: TaskResponseDTO }) {
             <span>
               Created: {new Date(task.createdAt || '').toLocaleDateString()}
             </span>
+          </div>
+
+          {/* T331: Actions - Edit and Delete buttons */}
+          <div class="flex gap-2 pt-2">
+            <Button size="sm" variant="outline" onClick={onEdit}>
+              Edit
+            </Button>
+
+            {/* T332: Delete confirmation dialog */}
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button size="sm" variant="destructive">
+                  Delete
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete Task</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to delete "{task.title}"? This action
+                    cannot be undone.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={onDelete}>
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </div>
       </div>
@@ -257,11 +312,17 @@ function ErrorState({ error }: { error: Error }) {
 }
 
 /**
- * Internal TaskList component
+ * Internal TaskList component (T327-T334)
  *
  * Fetches and displays tasks with filtering, loading, and error states.
+ * Supports inline editing and deletion.
  */
 function TaskListContent() {
+  const queryClient = useQueryClient();
+
+  // T328: Add state to track selected task ID for editing
+  const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
+
   // Subscribe to Nano Stores atoms for reactive state
   const filter = useStore(taskFilter);
   const page = useStore(currentPage);
@@ -276,10 +337,38 @@ function TaskListContent() {
     size: perPage,
   });
 
+  // T333: Call useDeleteTask mutation
+  const deleteMutation = useDeleteApiTasksId();
+
   // Check if any filters are active
   const hasActiveFilters = Boolean(
     filter.category || filter.priority || filter.status
   );
+
+  // T327: Handle task edit
+  const handleEdit = (taskId: string) => {
+    setEditingTaskId(taskId);
+  };
+
+  // T330: After update successful, clear selected task ID to exit edit mode
+  const handleEditSuccess = () => {
+    setEditingTaskId(null);
+  };
+
+  // T333-T334: Handle task delete with optimistic update
+  const handleDelete = async (taskId: string) => {
+    try {
+      await deleteMutation.mutateAsync({ id: taskId });
+
+      // Invalidate tasks query cache to refetch
+      queryClient.invalidateQueries({
+        queryKey: getGetApiTasksQueryKey(),
+      });
+    } catch (error) {
+      console.error('Failed to delete task:', error);
+      alert('Unable to delete task. Please try again.');
+    }
+  };
 
   // Loading state: Show skeleton loaders
   if (isLoading) {
@@ -302,20 +391,44 @@ function TaskListContent() {
     return <EmptyState hasFilters={hasActiveFilters} />;
   }
 
+  // T414: Sort tasks by priority (HIGH first, then MEDIUM, then LOW)
+  const priorityOrder = { HIGH: 0, MEDIUM: 1, LOW: 2 };
+  const sortedTasks = [...tasks].sort((a, b) => {
+    const aPriority = priorityOrder[a.priority as keyof typeof priorityOrder] ?? 3;
+    const bPriority = priorityOrder[b.priority as keyof typeof priorityOrder] ?? 3;
+    return aPriority - bPriority;
+  });
+
   // Success state: Render task list
   return (
     <div class="space-y-4">
       {/* Task count header */}
       <div class="flex items-center justify-between">
         <p class="text-sm text-muted-foreground">
-          Showing {tasks.length} {tasks.length === 1 ? 'task' : 'tasks'}
+          Showing {sortedTasks.length} {sortedTasks.length === 1 ? 'task' : 'tasks'}
         </p>
       </div>
 
       {/* Task grid */}
       <div class="grid gap-4 sm:grid-cols-1 lg:grid-cols-2">
-        {tasks.map((task) => (
-          <TaskCard key={task.id} task={task} />
+        {sortedTasks.map((task) => (
+          <div key={task.id}>
+            {/* T329: When task clicked, render TaskForm inline with mode="edit" */}
+            {editingTaskId === task.id ? (
+              <TaskForm
+                mode="edit"
+                initialTask={task}
+                onSuccess={handleEditSuccess}
+                onCancel={() => setEditingTaskId(null)}
+              />
+            ) : (
+              <TaskCard
+                task={task}
+                onEdit={() => handleEdit(task.id)}
+                onDelete={() => handleDelete(task.id)}
+              />
+            )}
+          </div>
         ))}
       </div>
     </div>

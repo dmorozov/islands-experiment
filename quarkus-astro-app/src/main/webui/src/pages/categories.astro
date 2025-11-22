@@ -1,0 +1,80 @@
+---
+/**
+ * Categories Page - Task Manager
+ *
+ * T407-T411: Category management page where users can create, edit, and delete categories.
+ * Demonstrates Islands Architecture with the CategoryManager island.
+ *
+ * Features:
+ * - List all categories with color badges and task counts
+ * - Create new custom categories
+ * - Edit existing categories (name and color)
+ * - Delete non-default categories
+ * - Visual indicators for default categories
+ * - Responsive layout with Tailwind CSS
+ *
+ * Islands Architecture:
+ * - CategoryManager island hydrated with client:load
+ * - Theme toggle for consistency with other pages
+ * - Static content remains as lightweight HTML
+ */
+
+import Layout from '@/components/Layout.astro';
+import CategoryManager from '@/islands/CategoryManager';
+import ThemeToggle from '@/islands/ThemeToggle';
+---
+
+<Layout title="Manage Categories - Task Manager">
+  <!-- Main container with responsive padding -->
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+
+    <!-- T410: Page Header with Title, Description, and Theme Toggle -->
+    <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h1 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          Manage Categories
+        </h1>
+        <p class="mt-2 text-base text-muted-foreground">
+          Create and organize your task categories with custom colors
+        </p>
+      </div>
+
+      <!-- Theme Toggle - Consistent with other pages -->
+      <div class="flex items-center gap-4">
+        <ThemeToggle client:load />
+      </div>
+    </div>
+
+    <!-- Navigation breadcrumb -->
+    <nav class="mb-6">
+      <ol class="flex items-center gap-2 text-sm text-muted-foreground">
+        <li>
+          <a href="/" class="hover:text-foreground transition-colors">
+            Home
+          </a>
+        </li>
+        <li class="flex items-center gap-2">
+          <span>/</span>
+          <span class="text-foreground font-medium">Categories</span>
+        </li>
+      </ol>
+    </nav>
+
+    <!-- T411: CategoryManager Island - Responsive layout with Tailwind -->
+    <div class="rounded-lg border bg-card p-6 shadow-sm">
+      <!-- T409: Import CategoryManager island with client:load directive -->
+      <CategoryManager client:only="preact" />
+    </div>
+
+    <!-- Info section -->
+    <div class="mt-6 rounded-lg bg-muted p-4">
+      <h3 class="font-medium text-foreground mb-2">About Categories</h3>
+      <ul class="space-y-1 text-sm text-muted-foreground">
+        <li>• Default categories (Work, Personal, Shopping) cannot be deleted</li>
+        <li>• Each category can have a custom color for easy identification</li>
+        <li>• Category names must be unique</li>
+        <li>• Categories with tasks will show the task count</li>
+      </ul>
+    </div>
+  </div>
+</Layout>

@@ -70,4 +70,25 @@ public class CategoryRepository implements PanacheRepositoryBase<Category, UUID>
 
     return count("userId = ?1", userId);
   }
+
+  /**
+   * Checks if a category with the given name exists for a specific user.
+   *
+   * <p>This is used to enforce unique category names per user.
+   *
+   * @param userId the user's unique identifier
+   * @param name the category name to check
+   * @return true if a category with this name exists for the user, false otherwise
+   * @throws IllegalArgumentException if userId or name is null or blank
+   */
+  public boolean existsByUserIdAndName(final String userId, final String name) {
+    if (userId == null || userId.isBlank()) {
+      throw new IllegalArgumentException("User ID cannot be null or blank");
+    }
+    if (name == null || name.isBlank()) {
+      throw new IllegalArgumentException("Category name cannot be null or blank");
+    }
+
+    return count("userId = ?1 and name = ?2", userId, name) > 0;
+  }
 }

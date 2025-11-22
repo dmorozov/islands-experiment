@@ -6,22 +6,29 @@
  * OpenAPI spec version: 1.0.0
  */
 import {
+  useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
+  MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query';
 
 import type {
-  CategoryResponseDTO
+  CategoryCreateDTO,
+  CategoryResponseDTO,
+  CategoryUpdateDTO,
+  Uuid
 } from '../../model';
 
 import { customInstance } from '../../../../api/mutator';
@@ -121,3 +128,288 @@ export function useGetApiCategories<TData = Awaited<ReturnType<typeof getApiCate
 
 
 
+/**
+ * Create a custom category with a unique name and color code
+ * @summary Create a new category
+ */
+export const postApiCategories = (
+    categoryCreateDTO: CategoryCreateDTO,
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<CategoryResponseDTO>(
+      {url: `http://localhost:7171/api/categories`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: categoryCreateDTO, signal
+    },
+      );
+    }
+  
+
+
+export const getPostApiCategoriesMutationOptions = <TError = void | void | void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiCategories>>, TError,{data: CategoryCreateDTO}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postApiCategories>>, TError,{data: CategoryCreateDTO}, TContext> => {
+
+const mutationKey = ['postApiCategories'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiCategories>>, {data: CategoryCreateDTO}> = (props) => {
+          const {data} = props ?? {};
+
+          return  postApiCategories(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostApiCategoriesMutationResult = NonNullable<Awaited<ReturnType<typeof postApiCategories>>>
+    export type PostApiCategoriesMutationBody = CategoryCreateDTO
+    export type PostApiCategoriesMutationError = void | void | void
+
+    /**
+ * @summary Create a new category
+ */
+export const usePostApiCategories = <TError = void | void | void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiCategories>>, TError,{data: CategoryCreateDTO}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postApiCategories>>,
+        TError,
+        {data: CategoryCreateDTO},
+        TContext
+      > => {
+
+      const mutationOptions = getPostApiCategoriesMutationOptions(options);
+
+      return useMutation(mutationOptions, queryClient);
+    }
+    /**
+ * Update a category's name and/or color code (PATCH semantics)
+ * @summary Update a category
+ */
+export const putApiCategoriesId = (
+    id: Uuid,
+    categoryUpdateDTO: CategoryUpdateDTO,
+ ) => {
+      
+      
+      return customInstance<CategoryResponseDTO>(
+      {url: `http://localhost:7171/api/categories/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: categoryUpdateDTO
+    },
+      );
+    }
+  
+
+
+export const getPutApiCategoriesIdMutationOptions = <TError = void | void | void | void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putApiCategoriesId>>, TError,{id: Uuid;data: CategoryUpdateDTO}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof putApiCategoriesId>>, TError,{id: Uuid;data: CategoryUpdateDTO}, TContext> => {
+
+const mutationKey = ['putApiCategoriesId'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putApiCategoriesId>>, {id: Uuid;data: CategoryUpdateDTO}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  putApiCategoriesId(id,data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PutApiCategoriesIdMutationResult = NonNullable<Awaited<ReturnType<typeof putApiCategoriesId>>>
+    export type PutApiCategoriesIdMutationBody = CategoryUpdateDTO
+    export type PutApiCategoriesIdMutationError = void | void | void | void
+
+    /**
+ * @summary Update a category
+ */
+export const usePutApiCategoriesId = <TError = void | void | void | void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putApiCategoriesId>>, TError,{id: Uuid;data: CategoryUpdateDTO}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof putApiCategoriesId>>,
+        TError,
+        {id: Uuid;data: CategoryUpdateDTO},
+        TContext
+      > => {
+
+      const mutationOptions = getPutApiCategoriesIdMutationOptions(options);
+
+      return useMutation(mutationOptions, queryClient);
+    }
+    /**
+ * Retrieve a specific category belonging to the authenticated user
+ * @summary Get category by ID
+ */
+export const getApiCategoriesId = (
+    id: Uuid,
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<CategoryResponseDTO>(
+      {url: `http://localhost:7171/api/categories/${id}`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+
+
+export const getGetApiCategoriesIdQueryKey = (id?: Uuid,) => {
+    return [
+    `http://localhost:7171/api/categories/${id}`
+    ] as const;
+    }
+
+    
+export const getGetApiCategoriesIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiCategoriesId>>, TError = void | void>(id: Uuid, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiCategoriesId>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiCategoriesIdQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiCategoriesId>>> = ({ signal }) => getApiCategoriesId(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiCategoriesId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiCategoriesIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiCategoriesId>>>
+export type GetApiCategoriesIdQueryError = void | void
+
+
+export function useGetApiCategoriesId<TData = Awaited<ReturnType<typeof getApiCategoriesId>>, TError = void | void>(
+ id: Uuid, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiCategoriesId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiCategoriesId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiCategoriesId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiCategoriesId<TData = Awaited<ReturnType<typeof getApiCategoriesId>>, TError = void | void>(
+ id: Uuid, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiCategoriesId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiCategoriesId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiCategoriesId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiCategoriesId<TData = Awaited<ReturnType<typeof getApiCategoriesId>>, TError = void | void>(
+ id: Uuid, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiCategoriesId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get category by ID
+ */
+
+export function useGetApiCategoriesId<TData = Awaited<ReturnType<typeof getApiCategoriesId>>, TError = void | void>(
+ id: Uuid, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiCategoriesId>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiCategoriesIdQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
+ * Delete a non-default category. Default categories cannot be deleted.
+ * @summary Delete a category
+ */
+export const deleteApiCategoriesId = (
+    id: Uuid,
+ ) => {
+      
+      
+      return customInstance<void>(
+      {url: `http://localhost:7171/api/categories/${id}`, method: 'DELETE'
+    },
+      );
+    }
+  
+
+
+export const getDeleteApiCategoriesIdMutationOptions = <TError = void | void | void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiCategoriesId>>, TError,{id: Uuid}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deleteApiCategoriesId>>, TError,{id: Uuid}, TContext> => {
+
+const mutationKey = ['deleteApiCategoriesId'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteApiCategoriesId>>, {id: Uuid}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteApiCategoriesId(id,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteApiCategoriesIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteApiCategoriesId>>>
+    
+    export type DeleteApiCategoriesIdMutationError = void | void | void
+
+    /**
+ * @summary Delete a category
+ */
+export const useDeleteApiCategoriesId = <TError = void | void | void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiCategoriesId>>, TError,{id: Uuid}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof deleteApiCategoriesId>>,
+        TError,
+        {id: Uuid},
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteApiCategoriesIdMutationOptions(options);
+
+      return useMutation(mutationOptions, queryClient);
+    }
+    

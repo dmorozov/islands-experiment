@@ -23,13 +23,14 @@ import Layout from '@/components/Layout.astro';
 import TaskList from '@/islands/TaskList';
 import TaskFilter from '@/islands/TaskFilter';
 import ThemeToggle from '@/islands/ThemeToggle';
+import NewTaskButton from '@/islands/NewTaskButton';
 ---
 
 <Layout title="Task Manager">
   <!-- Main container with responsive padding -->
   <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
 
-    <!-- Page Header with Title and Theme Toggle -->
+    <!-- Page Header with Title, New Task Button, and Theme Toggle -->
     <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h1 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
@@ -40,8 +41,9 @@ import ThemeToggle from '@/islands/ThemeToggle';
         </p>
       </div>
 
-      <!-- Theme Toggle Island - Hydrated with client:load -->
+      <!-- New Task Button and Theme Toggle - Hydrated islands -->
       <div class="flex items-center gap-4">
+        <NewTaskButton client:only="preact" />
         <ThemeToggle client:load />
       </div>
     </div>

@@ -6,10 +6,14 @@
  * OpenAPI spec version: 1.0.0
  */
 
+export * from './categoryCreateDTO';
 export * from './categoryResponseDTO';
+export * from './categoryUpdateDTO';
 export * from './getApiTasksParams';
 export * from './getApiTasksStatus';
 export * from './localDateTime';
 export * from './priority';
+export * from './taskCreateDTO';
 export * from './taskResponseDTO';
+export * from './taskUpdateDTO';
 export * from './uuid';

@@ -68,6 +68,11 @@ public class GlobalExceptionMapper implements ExceptionMapper<Exception> {
       return handleValidationException((ValidationException) exception);
     }
 
+    // Handle ConflictException → 409
+    if (exception instanceof ConflictException) {
+      return handleConflictException((ConflictException) exception);
+    }
+
     // Handle UnauthorizedException → 401
     if (exception instanceof UnauthorizedException) {
       return handleUnauthorizedException((UnauthorizedException) exception);
@@ -110,6 +115,20 @@ public class GlobalExceptionMapper implements ExceptionMapper<Exception> {
     }
 
     return Response.status(Response.Status.BAD_REQUEST).entity(errorDTO).build();
+  }
+
+  /**
+   * Handles ConflictException by returning a 409 response.
+   *
+   * @param exception the ConflictException
+   * @return HTTP 409 response with ErrorDTO
+   */
+  private Response handleConflictException(final ConflictException exception) {
+    LOG.debugf("Resource conflict: %s", exception.getMessage());
+
+    ErrorDTO errorDTO = ErrorDTO.of(exception.getMessage(), "CONFLICT");
+
+    return Response.status(Response.Status.CONFLICT).entity(errorDTO).build();
   }
 
   /**

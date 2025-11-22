@@ -6,23 +6,29 @@
  * OpenAPI spec version: 1.0.0
  */
 import {
+  useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
+  MutationFunction,
   QueryClient,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query';
 
 import type {
   GetApiTasksParams,
-  TaskResponseDTO
+  TaskCreateDTO,
+  TaskResponseDTO,
+  TaskUpdateDTO
 } from '../../model';
 
 import { customInstance } from '../../../../api/mutator';
@@ -123,3 +129,288 @@ export function useGetApiTasks<TData = Awaited<ReturnType<typeof getApiTasks>>, 
 
 
 
+/**
+ * Creates a new task for the authenticated user
+ * @summary Create a new task
+ */
+export const postApiTasks = (
+    taskCreateDTO: TaskCreateDTO,
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<TaskResponseDTO>(
+      {url: `http://localhost:7171/api/tasks`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: taskCreateDTO, signal
+    },
+      );
+    }
+  
+
+
+export const getPostApiTasksMutationOptions = <TError = void | void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiTasks>>, TError,{data: TaskCreateDTO}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postApiTasks>>, TError,{data: TaskCreateDTO}, TContext> => {
+
+const mutationKey = ['postApiTasks'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiTasks>>, {data: TaskCreateDTO}> = (props) => {
+          const {data} = props ?? {};
+
+          return  postApiTasks(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostApiTasksMutationResult = NonNullable<Awaited<ReturnType<typeof postApiTasks>>>
+    export type PostApiTasksMutationBody = TaskCreateDTO
+    export type PostApiTasksMutationError = void | void
+
+    /**
+ * @summary Create a new task
+ */
+export const usePostApiTasks = <TError = void | void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiTasks>>, TError,{data: TaskCreateDTO}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof postApiTasks>>,
+        TError,
+        {data: TaskCreateDTO},
+        TContext
+      > => {
+
+      const mutationOptions = getPostApiTasksMutationOptions(options);
+
+      return useMutation(mutationOptions, queryClient);
+    }
+    /**
+ * Updates an existing task. All fields in the request body are optional.
+ * @summary Update a task
+ */
+export const putApiTasksId = (
+    id: string,
+    taskUpdateDTO: TaskUpdateDTO,
+ ) => {
+      
+      
+      return customInstance<TaskResponseDTO>(
+      {url: `http://localhost:7171/api/tasks/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: taskUpdateDTO
+    },
+      );
+    }
+  
+
+
+export const getPutApiTasksIdMutationOptions = <TError = void | void | void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putApiTasksId>>, TError,{id: string;data: TaskUpdateDTO}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof putApiTasksId>>, TError,{id: string;data: TaskUpdateDTO}, TContext> => {
+
+const mutationKey = ['putApiTasksId'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putApiTasksId>>, {id: string;data: TaskUpdateDTO}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  putApiTasksId(id,data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PutApiTasksIdMutationResult = NonNullable<Awaited<ReturnType<typeof putApiTasksId>>>
+    export type PutApiTasksIdMutationBody = TaskUpdateDTO
+    export type PutApiTasksIdMutationError = void | void | void
+
+    /**
+ * @summary Update a task
+ */
+export const usePutApiTasksId = <TError = void | void | void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putApiTasksId>>, TError,{id: string;data: TaskUpdateDTO}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof putApiTasksId>>,
+        TError,
+        {id: string;data: TaskUpdateDTO},
+        TContext
+      > => {
+
+      const mutationOptions = getPutApiTasksIdMutationOptions(options);
+
+      return useMutation(mutationOptions, queryClient);
+    }
+    /**
+ * Retrieves a single task by its unique identifier
+ * @summary Get task by ID
+ */
+export const getApiTasksId = (
+    id: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<TaskResponseDTO>(
+      {url: `http://localhost:7171/api/tasks/${id}`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+
+
+export const getGetApiTasksIdQueryKey = (id?: string,) => {
+    return [
+    `http://localhost:7171/api/tasks/${id}`
+    ] as const;
+    }
+
+    
+export const getGetApiTasksIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiTasksId>>, TError = void | void>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiTasksId>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetApiTasksIdQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiTasksId>>> = ({ signal }) => getApiTasksId(id, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiTasksId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetApiTasksIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiTasksId>>>
+export type GetApiTasksIdQueryError = void | void
+
+
+export function useGetApiTasksId<TData = Awaited<ReturnType<typeof getApiTasksId>>, TError = void | void>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiTasksId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiTasksId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiTasksId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiTasksId<TData = Awaited<ReturnType<typeof getApiTasksId>>, TError = void | void>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiTasksId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiTasksId>>,
+          TError,
+          Awaited<ReturnType<typeof getApiTasksId>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetApiTasksId<TData = Awaited<ReturnType<typeof getApiTasksId>>, TError = void | void>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiTasksId>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get task by ID
+ */
+
+export function useGetApiTasksId<TData = Awaited<ReturnType<typeof getApiTasksId>>, TError = void | void>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiTasksId>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetApiTasksIdQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+/**
+ * Deletes an existing task
+ * @summary Delete a task
+ */
+export const deleteApiTasksId = (
+    id: string,
+ ) => {
+      
+      
+      return customInstance<void>(
+      {url: `http://localhost:7171/api/tasks/${id}`, method: 'DELETE'
+    },
+      );
+    }
+  
+
+
+export const getDeleteApiTasksIdMutationOptions = <TError = void | void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiTasksId>>, TError,{id: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deleteApiTasksId>>, TError,{id: string}, TContext> => {
+
+const mutationKey = ['deleteApiTasksId'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteApiTasksId>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteApiTasksId(id,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteApiTasksIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteApiTasksId>>>
+    
+    export type DeleteApiTasksIdMutationError = void | void
+
+    /**
+ * @summary Delete a task
+ */
+export const useDeleteApiTasksId = <TError = void | void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiTasksId>>, TError,{id: string}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof deleteApiTasksId>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteApiTasksIdMutationOptions(options);
+
+      return useMutation(mutationOptions, queryClient);
+    }
+    

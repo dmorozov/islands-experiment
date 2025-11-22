@@ -1,319 +1,496 @@
-# Resume Checklist - New Computer Setup
+# Resume Checklist - Task Manager Application
 
-Use this checklist when opening the project on a new computer.
-
----
-
-## ✅ Prerequisites Check
-
-- [ ] Java 21 JDK installed (`java -version`)
-- [ ] Node.js 20.17.0+ installed (`node --version`)
-- [ ] npm 10.8.2+ installed (`npm --version`)
-- [ ] Maven installed or use `./mvnw`
-- [ ] Git installed and configured
-- [ ] VS Code installed (recommended)
+**Last Updated**: 2025-11-22 06:30 UTC
+**Current State**: Phase 5 Complete (US2), Ready for Phase 6 (US3)
+**Progress**: 338/694 tasks complete (49%)
 
 ---
 
-## ✅ Project Setup
+## Quick Status Check
 
-### 1. Clone & Verify
-```bash
-# Clone repository
-git clone <repository-url>
-cd <project-directory>
+### ✅ Application is Running
+- [ ] Quarkus dev server running on http://localhost:7171
+- [ ] Astro dev server running on http://localhost:3000 (via Quinoa)
+- [ ] Swagger UI accessible at http://localhost:7171/swagger-ui
+- [ ] Main app accessible at http://localhost:7171/
 
-# Verify branch
-git branch  # Should show: 001-task-manager-app
-git status  # Check for uncommitted Phase 3 files
-```
+### ✅ Last Completed Phase
+**Phase 5: User Story 2 - Create and Edit Tasks (T265-T338)**
+- Backend CRUD operations for tasks
+- TaskForm island (create/edit modes)
+- NewTaskButton with modal dialog
+- TaskList with inline editing and deletion
+- Contract tests for all CRUD operations
+- All 74 implementation tasks completed
 
-### 2. Install Backend Dependencies
-```bash
-cd quarkus-astro-app
-./mvnw clean install
-
-# Should complete without errors
-# Downloads all Maven dependencies
-```
-
-### 3. Install Frontend Dependencies
-```bash
-cd src/main/webui
-npm install
-
-# Should complete without errors
-# Creates node_modules/ directory
-```
+### 🎯 Next Phase to Implement
+**Phase 6: User Story 3 - Organize with Categories and Priorities (T350-T432)**
+- Contract tests for category CRUD
+- Category create/update/delete DTOs
+- Category service enhancements
+- Category REST endpoints
+- CategoryManager island
+- Visual indicators for categories and priorities
 
 ---
 
-## ✅ Verify Configuration
+## Step-by-Step Resume Process
 
-### 4. Check Husky Installation
+### Step 1: Verify Environment (5 minutes)
+
 ```bash
-# From repository root (/workspaces)
-ls -la .husky/
-# Should show: pre-commit file (executable)
+# Check if services are running
+ps aux | grep "quarkus dev"
+ps aux | grep "astro dev"
 
-# Verify pre-commit hook content
-cat .husky/pre-commit
-# Should contain: cd quarkus-astro-app/src/main/webui && npx lint-staged
+# If not running, start from repository root:
+cd /workspaces
+quarkus dev
+
+# This will start both Quarkus (7171) and Astro (3000)
 ```
 
-### 5. Verify File Structure
+**Expected Results**:
+- Quarkus banner shows "Listening on: http://localhost:7171"
+- Astro shows "ready in XXXms" on port 3000
+- No compilation errors
+
+### Step 2: Verify Application State (5 minutes)
+
+**Open these URLs in browser**:
+1. http://localhost:7171/ - Should show Task Manager homepage
+2. http://localhost:7171/swagger-ui - Should show API documentation with:
+   - Categories endpoints (GET)
+   - Tasks endpoints (GET, POST, PUT, DELETE)
+3. Check console - No JavaScript errors
+
+**Test Basic Functionality**:
+1. Click "New Task" button - Modal should open
+2. Fill form (title, category, priority) - Dropdowns should populate
+3. Submit - Task should appear in list (if categories exist)
+4. Click "Edit" on a task - Inline form should appear
+5. Click "Delete" - Confirmation dialog should appear
+
+### Step 3: Review Current Code State (10 minutes)
+
+**Check Git Status**:
 ```bash
-# Backend files (Phase 3)
-ls -la quarkus-astro-app/src/main/java/org/acme/taskmanager/
-# Should show: dto/ exception/ model/ session/ service/ resource/
-
-# Frontend files (Phase 2)
-ls -la quarkus-astro-app/src/main/webui/
-# Should show: eslint.config.js, .prettierrc.json, orval.config.ts, etc.
+cd /workspaces
+git status
+git diff --stat
 ```
 
----
+**Expected Uncommitted Changes (Phase 5)**:
+- Modified: `TaskService.java`, `TaskResource.java`, `TaskResourceTest.java`
+- Modified: `TaskList.tsx`, `index.astro`, `tasks.md`
+- New: `TaskCreateDTO.java`, `TaskUpdateDTO.java`
+- New: `TaskForm.tsx`, `NewTaskButton.tsx`
+- New: 6 Shadcn UI components (input, textarea, select, label, dialog, alert-dialog)
+- Updated: `SESSION_MEMORY.md`, `RESUME_CHECKLIST.md`
 
-## ✅ Start Development Environment
-
-### 6. Start Backend (Terminal 1)
+**Review Key Files**:
 ```bash
-cd quarkus-astro-app
-./mvnw quarkus:dev
+# Check task list progress
+cat /workspaces/specs/001-task-manager-app/tasks.md | grep -A 5 "Phase 6"
+
+# Check backend service
+cat /workspaces/quarkus-astro-app/src/main/java/org/acme/taskmanager/service/TaskService.java | head -50
+
+# Check frontend island
+ls -la /workspaces/quarkus-astro-app/src/main/webui/src/islands/
 ```
 
-**Expected Output**:
-```
-__  ____  __  _____   ___  __ ____  ______
- --/ __ \/ / / / _ | / _ \/ //_/ / / / __/
- -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \
---\___\_\____/_/ |_/_/|_/_/|_|\____/___/
-INFO  [io.quarkus] (Quarkus Main Thread) quarkus-astro-app 1.0.0-SNAPSHOT on JVM started in X.XXXs. Listening on: http://localhost:7171
-```
+### Step 4: Run Tests to Verify Integrity (5 minutes)
 
-**Verify**:
-- [ ] Backend starts without errors
-- [ ] Listening on port 7171
-- [ ] No compilation errors
-
-### 7. Test Backend Endpoints
+**Backend Tests**:
 ```bash
-# In new terminal
-curl http://localhost:7171/q/health
-# Should return: {"status": "UP", ...}
+cd /workspaces/quarkus-astro-app
+./mvnw test -Dtest=TaskResourceTest
 
-# Open browser
-open http://localhost:7171/swagger-ui
-# Should show Swagger UI (may be empty - that's OK)
+# Expected: 12 tests passing
+# - 5 tests for GET /api/tasks (filtering)
+# - 7 tests for CRUD operations
 ```
 
-### 8. Start Frontend (Terminal 2)
+**Frontend Linting**:
 ```bash
-cd quarkus-astro-app/src/main/webui
-npm run dev
-```
-
-**Expected Output**:
-```
-astro  v5.x.x ready in XXX ms
-
-┃ Local    http://localhost:3000/
-┃ Network  use --host to expose
-```
-
-**Verify**:
-- [ ] Astro starts without errors
-- [ ] Listening on port 3000
-- [ ] No TypeScript errors
-
-### 9. Test Frontend
-```bash
-# Open browser
-open http://localhost:3000
-# Should show default Astro page or blank page (no content yet - that's OK)
-```
-
----
-
-## ✅ Verify Quality Tools
-
-### 10. Test ESLint
-```bash
-cd quarkus-astro-app/src/main/webui
+cd /workspaces/quarkus-astro-app/src/main/webui
 npm run lint
-# Should complete without errors (or show no violations)
-```
-
-### 11. Test Prettier
-```bash
 npm run format:check
-# Should show all files are formatted correctly
+
+# Expected: No errors, all files passing
 ```
 
-### 12. Test Pre-commit Hook
+### Step 5: Review Documentation (5 minutes)
+
+**Read Session Memory**:
 ```bash
-# Create a test file with bad formatting
-echo "const x=1" > test-file.ts
-git add test-file.ts
-
-# Try to commit
-git commit -m "test"
-# Should auto-format the file or block commit if ESLint fails
-
-# Clean up
-git reset HEAD test-file.ts
-rm test-file.ts
+cat /workspaces/SESSION_MEMORY.md | less
+# Focus on:
+# - "Phase 5 Completion Details"
+# - "Current Application State"
+# - "Next Steps - Phase 6 Roadmap"
 ```
 
-### 13. Test Vitest
+**Read Task List for Next Phase**:
 ```bash
-npm run test
-# Should run (may show 0 tests - that's OK, no tests written yet)
+cat /workspaces/specs/001-task-manager-app/tasks.md | grep -A 100 "Phase 6"
+# Understand T350-T432 requirements
 ```
 
 ---
 
-## ✅ Verify VS Code Setup (Optional)
+## Critical Information to Remember
 
-### 14. Install VS Code Extensions
-```bash
-# Open project in VS Code
-code .
+### Phase 5 Implementation Highlights
 
-# VS Code should prompt to install recommended extensions
-# Check .vscode/extensions.json for full list
+**Backend Changes**:
+- `TaskService` now has 4 new methods: `createTask()`, `getTaskById()`, `updateTask()`, `deleteTask()`
+- `TaskResource` now has 4 new endpoints: POST, GET/{id}, PUT/{id}, DELETE/{id}
+- All methods include category ownership validation
+- All endpoints have OpenAPI annotations
+
+**Frontend Changes**:
+- `TaskForm.tsx` - Universal form component (create/edit modes)
+  - Mode switching via `mode` prop
+  - Pre-fills data in edit mode via `initialTask` prop
+  - Category and priority dropdowns
+  - Form validation (title required, max lengths)
+- `NewTaskButton.tsx` - Modal button with TaskForm
+  - Opens Shadcn Dialog
+  - Auto-closes on success
+- `TaskList.tsx` - Enhanced with editing/deletion
+  - Inline editing (renders TaskForm when editing)
+  - Delete confirmation (Shadcn AlertDialog)
+  - Optimistic updates
+
+**API Client**:
+- Regenerated with new hooks: `usePostApiTasks`, `useGetApiTasksId`, `usePutApiTasksId`, `useDeleteApiTasksId`
+- All hooks auto-generated by Orval from OpenAPI schema
+- Location: `src/lib/api/endpoints/tasks/tasks.ts`
+
+### Checkstyle Fix Pattern (Important for Future DTOs)
+
+When creating DTOs, avoid checkstyle violations:
+```java
+// ❌ BAD - Magic numbers, missing Javadoc
+public record TaskCreateDTO(
+    @Size(max = 200) String title,  // Magic number!
+    @Size(max = 2000) String description  // Magic number!
+) {}
+
+// ✅ GOOD - Constants, proper Javadoc
+/**
+ * DTO for creating tasks.
+ * @param title the task title
+ * @param description the task description
+ */
+public record TaskCreateDTO(
+    @Size(max = TaskValidationConstants.MAX_TITLE_LENGTH) String title,
+    @Size(max = TaskValidationConstants.MAX_DESCRIPTION_LENGTH) String description
+) {
+    static final class TaskValidationConstants {
+        static final int MAX_TITLE_LENGTH = 200;
+        static final int MAX_DESCRIPTION_LENGTH = 2000;
+        private TaskValidationConstants() {}
+    }
+}
 ```
 
-**Key Extensions**:
-- [ ] Astro (astro-build.astro-vscode)
-- [ ] Prettier (esbenp.prettier-vscode)
-- [ ] ESLint (dbaeumer.vscode-eslint)
-- [ ] Tailwind CSS IntelliSense (bradlc.vscode-tailwindcss)
-- [ ] Java Extension Pack (redhat.java)
-- [ ] Quarkus (redhat.vscode-quarkus)
+### Key Patterns Established
 
-### 15. Verify VS Code Settings
-Open any `.ts` file and verify:
-- [ ] Format on save works (Prettier)
-- [ ] ESLint errors show in "Problems" panel
-- [ ] TypeScript type checking works
-- [ ] Tailwind IntelliSense provides autocomplete
+**Backend Service Pattern**:
+```java
+@Transactional
+public TaskResponseDTO createTask(String userId, TaskCreateDTO dto) {
+    // 1. Validate userId
+    if (userId == null || userId.isBlank()) {
+        throw new IllegalArgumentException("User ID cannot be null or blank");
+    }
+
+    // 2. Validate related entities (category ownership)
+    Category category = categoryRepository.findByIdOptional(dto.categoryId())
+        .orElseThrow(() -> new ValidationException("Category not found"));
+
+    if (!category.getUserId().equals(userId)) {
+        throw new ValidationException("Category does not belong to user");
+    }
+
+    // 3. Create entity, set userId
+    Task task = new Task();
+    task.setTitle(dto.title());
+    task.setUserId(userId);
+    // ... set other fields
+
+    // 4. Persist
+    taskRepository.persist(task);
+
+    // 5. Return DTO
+    return TaskResponseDTO.from(task);
+}
+```
+
+**Frontend Island Pattern**:
+```tsx
+// Island with QueryProvider wrapper
+export default function MyIsland() {
+  return (
+    <QueryProvider>
+      <MyIslandContent />
+    </QueryProvider>
+  );
+}
+
+// Actual component logic
+function MyIslandContent() {
+  const queryClient = useQueryClient();
+  const mutation = usePostApiTasks();
+
+  const handleSubmit = async () => {
+    await mutation.mutateAsync({ data: {...} });
+    queryClient.invalidateQueries({ queryKey: getGetApiTasksQueryKey() });
+  };
+
+  return <form onSubmit={handleSubmit}>...</form>;
+}
+```
 
 ---
 
-## ✅ Review Uncommitted Work
+## Known Issues & Workarounds
 
-### 16. Check Git Status
+### Issue 1: Checkstyle Warnings (Non-blocking)
+**Symptom**: Warnings shown during `quarkus dev` startup
+**Status**: Configured to warn only, not fail build
+**Action**: Fix violations when creating new code
+
+### Issue 2: H2 Database Resets on Restart
+**Symptom**: All data lost when Quarkus restarts
+**Status**: Expected behavior (in-memory database)
+**Workaround**: Use seed data or import.sql for testing
+
+### Issue 3: No Authentication Yet
+**Symptom**: Endpoints expect session but no login UI
+**Status**: Authentication is Phase 9
+**Workaround**: For now, endpoints will throw 401 (expected)
+
+### Issue 4: Background Processes May Be Running
+**Symptom**: Port 7171 or 3000 already in use
+**Status**: Previous `quarkus dev` may still be running
+**Action**: Kill processes:
 ```bash
-git status
-```
-
-**Expected Uncommitted Files (Phase 3)**:
-- `quarkus-astro-app/src/main/resources/application.properties` (modified)
-- `specs/001-task-manager-app/tasks.md` (modified)
-- `quarkus-astro-app/src/main/java/org/acme/taskmanager/model/Priority.java` (new)
-- `quarkus-astro-app/src/main/java/org/acme/taskmanager/dto/ErrorDTO.java` (new)
-- `quarkus-astro-app/src/main/java/org/acme/taskmanager/exception/*.java` (4 new files)
-- `quarkus-astro-app/src/main/java/org/acme/taskmanager/session/SessionUtils.java` (new)
-
-### 17. Review Changes
-```bash
-# Review application.properties changes
-git diff quarkus-astro-app/src/main/resources/application.properties
-
-# Review new Java files
-cat quarkus-astro-app/src/main/java/org/acme/taskmanager/session/SessionUtils.java
-cat quarkus-astro-app/src/main/java/org/acme/taskmanager/exception/GlobalExceptionMapper.java
-```
-
----
-
-## ✅ Read Documentation
-
-### 18. Review Session Memory
-```bash
-# Read full session context
-cat SESSION_MEMORY.md
-
-# Read quick reference
-cat QUICK_REFERENCE.md
-```
-
-### 19. Review Task List
-```bash
-# Open task list to see what's next
-cat specs/001-task-manager-app/tasks.md | grep -A 20 "Phase 4"
-```
-
-**Next Task**: T146 - Create TaskResourceTest for contract testing
-
----
-
-## ✅ Optional: Commit Phase 3 Work
-
-### 20. Review and Commit (Optional)
-```bash
-# Review all changes
-git status
-git diff
-
-# Stage Phase 3 files
-git add quarkus-astro-app/src/main/java/org/acme/taskmanager/
-git add quarkus-astro-app/src/main/resources/application.properties
-git add specs/001-task-manager-app/tasks.md
-
-# Commit
-git commit -m "feat: implement backend core infrastructure (Phase 3)
-
-- Configure Quarkus application.properties with H2, CORS, OpenAPI
-- Create Priority enum (HIGH, MEDIUM, LOW)
-- Implement session management with SessionUtils
-- Create ErrorDTO for standardized API responses
-- Implement custom exceptions (ResourceNotFound, Validation, Unauthorized)
-- Create GlobalExceptionMapper for centralized error handling
-- Update tasks.md to mark T126-T145 as completed
-
-Phase 3 complete: Backend infrastructure ready for API endpoint implementations"
+pkill -f "quarkus dev"
+pkill -f "astro dev"
+# Then restart
 ```
 
 ---
 
-## 🎯 Ready to Resume!
+## Next Steps - Starting Phase 6
 
-If all checkboxes above are checked, you're ready to continue with **Phase 4: User Story 1**.
+### Task T350: Write Contract Test for POST /api/categories
 
-**Start with**: Task T146 - Create contract tests for TaskResource
+**File**: `src/test/java/org/acme/taskmanager/contract/CategoryResourceTest.java`
 
-**Reference**:
-- Full details: `SESSION_MEMORY.md`
-- Quick lookup: `QUICK_REFERENCE.md`
-- Task list: `specs/001-task-manager-app/tasks.md`
+**Requirements**:
+- Test POST /api/categories with valid data → expect 201 Created
+- Verify response contains: id, name, colorCode, isDefault, createdAt
+- Use `@QuarkusTest` annotation
+- Follow pattern from `TaskResourceTest.java`
+
+**Example Structure**:
+```java
+@QuarkusTest
+@DisplayName("CategoryResource Contract Tests")
+class CategoryResourceTest {
+
+    private static final String API_BASE_PATH = "/api/categories";
+
+    @Test
+    @DisplayName("POST /api/categories - should return 201 and created category")
+    void testCreateCategory() {
+        String requestBody = """
+            {
+                "name": "Work",
+                "colorCode": "#FF5733"
+            }
+            """;
+
+        given()
+            .contentType(ContentType.JSON)
+            .body(requestBody)
+            .when()
+            .post(API_BASE_PATH)
+            .then()
+            .statusCode(201)
+            .contentType(ContentType.JSON)
+            .body("id", notNullValue())
+            .body("name", equalTo("Work"))
+            .body("colorCode", equalTo("#FF5733"))
+            .body("isDefault", equalTo(false));
+    }
+}
+```
+
+### Commit Phase 5 Before Starting Phase 6 (Recommended)
+
+**Why**: Clean separation between phases makes rollback easier
+
+**Commands**:
+```bash
+cd /workspaces
+git add .
+git status  # Review changes
+git commit -m "feat: implement US2 - Create and Edit Tasks
+
+Implemented full CRUD operations for tasks with optimistic UI updates.
+
+Backend:
+- Added TaskCreateDTO and TaskUpdateDTO with validation
+- Enhanced TaskService with create, getById, update, delete methods
+- Added 4 new REST endpoints to TaskResource (POST, GET/{id}, PUT/{id}, DELETE/{id})
+- Added 7 contract tests covering all CRUD operations
+
+Frontend:
+- Created TaskForm island (supports create/edit modes)
+- Created NewTaskButton with modal dialog
+- Enhanced TaskList with inline editing and deletion
+- Installed Shadcn components: input, textarea, select, label, dialog, alert-dialog
+- Generated new API hooks for task CRUD
+
+Success Criteria (SC-001, SC-007, SC-013):
+✅ Task creation < 3 seconds
+✅ Inline editing with instant feedback
+✅ Optimistic UI updates for delete
+
+Tasks: T265-T338 (74 tasks)
+Phase: 5/10 complete (US2)"
+```
 
 ---
 
-## 🆘 Troubleshooting
+## Helpful Commands Reference
 
-**Backend won't start**:
-- Check Java version: `java -version` (must be 21+)
-- Clean build: `./mvnw clean install`
-- Check port 7171 not in use: `lsof -i :7171`
+### Development
+```bash
+# Start everything (from /workspaces/)
+quarkus dev
 
-**Frontend won't start**:
-- Check Node version: `node --version` (must be 20.17.0+)
-- Delete node_modules: `rm -rf node_modules package-lock.json`
-- Reinstall: `npm install`
-- Check port 3000 not in use: `lsof -i :3000`
+# Stop everything
+pkill -f "quarkus dev"
+pkill -f "astro dev"
 
-**Pre-commit hooks not working**:
-- Verify Husky location: `ls -la /workspaces/.husky/`
-- Verify executable: `ls -la /workspaces/.husky/pre-commit`
-- Make executable: `chmod +x /workspaces/.husky/pre-commit`
+# View logs
+# Quarkus logs appear in terminal where you ran `quarkus dev`
+# Astro logs appear in same terminal (Quinoa manages it)
+```
 
-**ESLint/Prettier errors**:
-- Run format: `npm run format`
-- Run lint fix: `npm run lint:fix`
-- Check config: `cat eslint.config.js`
+### Testing
+```bash
+# Backend tests
+cd /workspaces/quarkus-astro-app
+./mvnw test                              # All tests
+./mvnw test -Dtest=TaskResourceTest      # Specific test
+./mvnw verify                            # Tests + quality checks
+
+# Frontend tests
+cd /workspaces/quarkus-astro-app/src/main/webui
+npm run test                             # Run tests
+npm run lint                             # Check linting
+npm run format                           # Auto-fix formatting
+```
+
+### API Client Generation
+```bash
+# After adding/modifying backend endpoints:
+cd /workspaces/quarkus-astro-app/src/main/webui
+
+# 1. Ensure Quarkus dev is running (generates OpenAPI schema)
+# 2. Generate TypeScript client
+npm run generate:api
+
+# 3. Verify new hooks were generated
+ls -la src/lib/api/endpoints/
+```
+
+### Database
+```bash
+# View H2 console (if enabled)
+# Add to application.properties:
+# quarkus.datasource.jdbc.url=jdbc:h2:mem:taskmanager;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+# quarkus.h2.console.enabled=true
+
+# Then access: http://localhost:7171/h2-console
+# JDBC URL: jdbc:h2:mem:taskmanager
+# Username: sa
+# Password: (leave blank)
+```
 
 ---
 
-**End of Checklist**
+## Emergency Recovery
+
+### If Application Won't Start
+1. Check ports are free: `lsof -i :7171` and `lsof -i :3000`
+2. Kill processes: `pkill -f "quarkus dev"`
+3. Clear Maven cache: `rm -rf ~/.m2/repository/org/acme`
+4. Reinstall frontend deps: `cd webui && rm -rf node_modules && npm install`
+5. Clean build: `./mvnw clean install`
+6. Restart: `quarkus dev`
+
+### If Tests Fail
+1. Check H2 database is clean (restart Quarkus)
+2. Review test output for specific failure
+3. Run single failing test: `./mvnw test -Dtest=ClassName#methodName`
+4. Check for order-dependent tests (should be isolated)
+
+### If Frontend Build Fails
+1. Check for TypeScript errors: `npm run type-check` (if configured)
+2. Check for lint errors: `npm run lint`
+3. Regenerate API client: `npm run generate:api`
+4. Clear build cache: `rm -rf dist/ .astro/`
+
+### If Git State is Unclear
+1. Review changes: `git status` and `git diff`
+2. See what's staged: `git diff --staged`
+3. Discard all changes: `git reset --hard HEAD` (⚠️ DANGEROUS - loses work!)
+4. Discard specific file: `git checkout -- path/to/file`
+
+---
+
+## Success Indicators
+
+You're ready to continue if:
+- ✅ Application loads at http://localhost:7171
+- ✅ "New Task" button opens modal with form
+- ✅ Tasks can be edited inline by clicking them
+- ✅ Delete confirmation appears when clicking delete
+- ✅ Contract tests pass (12/12 in TaskResourceTest)
+- ✅ No console errors in browser or terminal
+- ✅ OpenAPI schema shows all endpoints (GET, POST, PUT, DELETE for tasks)
+- ✅ You understand Phase 6 requirements from tasks.md
+
+---
+
+## Contact & Support
+
+**Documentation Locations**:
+- Session state: `/workspaces/SESSION_MEMORY.md`
+- Task list: `/workspaces/specs/001-task-manager-app/tasks.md`
+- Architecture: `/workspaces/specs/001-task-manager-app/plan.md`
+- Spec: `/workspaces/specs/001-task-manager-app/spec.md`
+
+**Key Files to Review**:
+1. `SESSION_MEMORY.md` - Complete session context
+2. `tasks.md` - Next tasks to implement
+3. `plan.md` - Architecture decisions
+4. `TaskService.java` - Backend service pattern
+5. `TaskForm.tsx` - Frontend island pattern
+
+---
+
+**Last Updated**: 2025-11-22 06:30 UTC
+**Next Task**: T350 - Write contract test for POST /api/categories
+**Estimated Time to Resume**: 30 minutes (if all checks pass)
+
+**Good luck! 🚀**

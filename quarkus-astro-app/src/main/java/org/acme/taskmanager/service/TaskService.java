@@ -2,8 +2,16 @@ package org.acme.taskmanager.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import org.acme.taskmanager.dto.TaskCreateDTO;
+import org.acme.taskmanager.dto.TaskResponseDTO;
+import org.acme.taskmanager.dto.TaskUpdateDTO;
+import org.acme.taskmanager.exception.ResourceNotFoundException;
+import org.acme.taskmanager.exception.ValidationException;
+import org.acme.taskmanager.model.Category;
 import org.acme.taskmanager.model.Priority;
 import org.acme.taskmanager.model.Task;
+import org.acme.taskmanager.repository.CategoryRepository;
 import org.acme.taskmanager.repository.TaskRepository;
 import org.jboss.logging.Logger;
 
@@ -50,6 +58,7 @@ public class TaskService {
   private static final int MAX_PAGE_SIZE = 100;
 
   @Inject private TaskRepository taskRepository;
+  @Inject private CategoryRepository categoryRepository;
 
   /**
    * Retrieves all tasks for a user with optional filtering and pagination.
@@ -131,5 +140,200 @@ public class TaskService {
     LOG.debugf("Found %d tasks matching criteria", tasks.size());
 
     return tasks;
+  }
+
+  /**
+   * Creates a new task for a user.
+   *
+   * <p>T276-T279: Validates category exists and belongs to user, creates Task entity from DTO,
+   * sets userId, and persists to repository.
+   *
+   * @param userId the user's unique identifier (required)
+   * @param dto the task creation data transfer object containing title, description, categoryId, and priority
+   * @return TaskResponseDTO containing the created task details
+   * @throws IllegalArgumentException if userId is null or blank
+   * @throws ValidationException if category doesn't exist or doesn't belong to user
+   */
+  @Transactional
+  public TaskResponseDTO createTask(final String userId, final TaskCreateDTO dto) {
+    // Validate required parameters
+    if (userId == null || userId.isBlank()) {
+      throw new IllegalArgumentException("User ID cannot be null or blank");
+    }
+
+    LOG.debugf("Creating task for user=%s with title=%s", userId, dto.title());
+
+    // T277: Validate category exists and belongs to user
+    Category category = categoryRepository.findByIdOptional(dto.categoryId())
+        .orElseThrow(() -> new ValidationException(
+            "Category not found with ID: " + dto.categoryId()));
+
+    if (!category.getUserId().equals(userId)) {
+      throw new ValidationException(
+          "Category does not belong to user");
+    }
+
+    // T278: Create Task entity from DTO, set userId, persist
+    Task task = new Task();
+    task.setTitle(dto.title());
+    task.setDescription(dto.description());
+    task.setCategory(category);
+    task.setPriority(dto.priority());
+    task.setCompleted(false);
+    task.setUserId(userId);
+
+    taskRepository.persist(task);
+
+    LOG.debugf("Created task with ID=%s", task.getId());
+
+    // T279: Return TaskResponseDTO
+    return TaskResponseDTO.from(task);
+  }
+
+  /**
+   * Retrieves a single task by ID.
+   *
+   * <p>T280-T281: Validates task exists and belongs to user.
+   *
+   * @param userId the user's unique identifier (required)
+   * @param taskId the task's unique identifier (required)
+   * @return TaskResponseDTO containing the task details
+   * @throws IllegalArgumentException if userId or taskId is null
+   * @throws ResourceNotFoundException if task not found or doesn't belong to user
+   */
+  public TaskResponseDTO getTaskById(final String userId, final UUID taskId) {
+    // Validate required parameters
+    if (userId == null || userId.isBlank()) {
+      throw new IllegalArgumentException("User ID cannot be null or blank");
+    }
+    if (taskId == null) {
+      throw new IllegalArgumentException("Task ID cannot be null");
+    }
+
+    LOG.debugf("Fetching task with ID=%s for user=%s", taskId, userId);
+
+    // T281: Throw ResourceNotFoundException if task not found or doesn't belong to user
+    Task task = taskRepository.findByIdOptional(taskId)
+        .orElseThrow(() -> new ResourceNotFoundException(
+            "Task not found with ID: " + taskId));
+
+    if (!task.getUserId().equals(userId)) {
+      throw new ResourceNotFoundException(
+          "Task not found with ID: " + taskId);
+    }
+
+    return TaskResponseDTO.from(task);
+  }
+
+  /**
+   * Updates an existing task.
+   *
+   * <p>T282-T286: Validates task exists and belongs to user, updates only non-null fields from DTO,
+   * validates category if provided, and returns updated TaskResponseDTO.
+   *
+   * @param userId the user's unique identifier (required)
+   * @param taskId the task's unique identifier (required)
+   * @param dto the task update data transfer object with optional fields
+   * @return TaskResponseDTO containing the updated task details
+   * @throws IllegalArgumentException if userId or taskId is null
+   * @throws ResourceNotFoundException if task not found or doesn't belong to user
+   * @throws ValidationException if category doesn't exist or doesn't belong to user
+   */
+  @Transactional
+  public TaskResponseDTO updateTask(
+      final String userId,
+      final UUID taskId,
+      final TaskUpdateDTO dto) {
+
+    // Validate required parameters
+    if (userId == null || userId.isBlank()) {
+      throw new IllegalArgumentException("User ID cannot be null or blank");
+    }
+    if (taskId == null) {
+      throw new IllegalArgumentException("Task ID cannot be null");
+    }
+
+    LOG.debugf("Updating task with ID=%s for user=%s", taskId, userId);
+
+    // T283: Validate task exists and belongs to user
+    Task task = taskRepository.findByIdOptional(taskId)
+        .orElseThrow(() -> new ResourceNotFoundException(
+            "Task not found with ID: " + taskId));
+
+    if (!task.getUserId().equals(userId)) {
+      throw new ResourceNotFoundException(
+          "Task not found with ID: " + taskId);
+    }
+
+    // T284: Update only non-null fields from DTO
+    if (dto.title() != null) {
+      task.setTitle(dto.title());
+    }
+
+    if (dto.description() != null) {
+      task.setDescription(dto.description());
+    }
+
+    // T285: Validate category if categoryId provided
+    if (dto.categoryId() != null) {
+      Category category = categoryRepository.findByIdOptional(dto.categoryId())
+          .orElseThrow(() -> new ValidationException(
+              "Category not found with ID: " + dto.categoryId()));
+
+      if (!category.getUserId().equals(userId)) {
+        throw new ValidationException(
+            "Category does not belong to user");
+      }
+
+      task.setCategory(category);
+    }
+
+    if (dto.priority() != null) {
+      task.setPriority(dto.priority());
+    }
+
+    taskRepository.persist(task);
+
+    LOG.debugf("Updated task with ID=%s", taskId);
+
+    // T286: Return updated TaskResponseDTO
+    return TaskResponseDTO.from(task);
+  }
+
+  /**
+   * Deletes a task.
+   *
+   * <p>T287-T288: Validates task exists and belongs to user before deletion.
+   *
+   * @param userId the user's unique identifier (required)
+   * @param taskId the task's unique identifier (required)
+   * @throws IllegalArgumentException if userId or taskId is null
+   * @throws ResourceNotFoundException if task not found or doesn't belong to user
+   */
+  @Transactional
+  public void deleteTask(final String userId, final UUID taskId) {
+    // Validate required parameters
+    if (userId == null || userId.isBlank()) {
+      throw new IllegalArgumentException("User ID cannot be null or blank");
+    }
+    if (taskId == null) {
+      throw new IllegalArgumentException("Task ID cannot be null");
+    }
+
+    LOG.debugf("Deleting task with ID=%s for user=%s", taskId, userId);
+
+    // T288: Validate task exists and belongs to user before deletion
+    Task task = taskRepository.findByIdOptional(taskId)
+        .orElseThrow(() -> new ResourceNotFoundException(
+            "Task not found with ID: " + taskId));
+
+    if (!task.getUserId().equals(userId)) {
+      throw new ResourceNotFoundException(
+          "Task not found with ID: " + taskId);
+    }
+
+    taskRepository.delete(task);
+
+    LOG.debugf("Deleted task with ID=%s", taskId);
   }
 }
