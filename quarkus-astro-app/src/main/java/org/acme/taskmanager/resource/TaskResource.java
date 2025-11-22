@@ -1,41 +1,182 @@
 package org.acme.taskmanager.resource;
 
+import io.vertx.ext.web.RoutingContext;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import org.acme.taskmanager.dto.TaskResponseDTO;
+import org.acme.taskmanager.model.Priority;
+import org.acme.taskmanager.model.Task;
+import org.acme.taskmanager.service.TaskService;
+import org.acme.taskmanager.session.SessionUtils;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.ParameterIn;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * REST resource for task management operations.
- * Handles CRUD operations and filtering for tasks.
+ *
+ * <p>
+ * This resource provides RESTful endpoints for managing tasks, including retrieval with flexible
+ * filtering and pagination. All operations require an authenticated user session.
+ *
+ * <p>
+ * <b>Endpoints:</b>
+ *
+ * <ul>
+ * <li>GET /api/tasks - List tasks with optional filtering
+ * </ul>
+ *
+ * <p>
+ * <b>Authentication:</b> All endpoints require a valid user session. Unauthenticated requests
+ * will receive a 401 Unauthorized response.
  */
 @Path("/api/tasks")
 @Produces(MediaType.APPLICATION_JSON)
+@Tag(name = "Tasks", description = "Task CRUD operations")
 public class TaskResource {
 
-    /**
-     * Get all tasks with optional filtering.
-     *
-     * @param status filter by status (active/completed)
-     * @param category filter by category ID
-     * @param priority filter by priority level
-     * @param page page number for pagination
-     * @param size page size for pagination
-     * @return list of tasks (currently empty as implementation is pending)
-     */
-    @GET
-    public List<Object> getAllTasks(
-            @QueryParam("status") final String status,
-            @QueryParam("category") final String category,
-            @QueryParam("priority") final String priority,
-            @QueryParam("page") final Integer page,
-            @QueryParam("size") final Integer size) {
-        // Minimal implementation to pass contract tests
-        // TODO: Implement actual task retrieval logic
-        return Collections.emptyList();
+  @Inject
+  private TaskService taskService;
+
+  @Context
+  private RoutingContext routingContext;
+
+  private static final int MAX_PAGE_SIZE = 100;
+
+  /**
+   * Retrieves tasks for the authenticated user with optional filtering and pagination.
+   *
+   * <p>
+   * This endpoint returns a list of tasks matching the provided filter criteria. All filters
+   * are optional - omitting a filter parameter means that filter is not applied.
+   *
+   * <p>
+   * <b>Query Parameters:</b>
+   *
+   * <ul>
+   * <li><code>category</code> - Filter by category UUID (optional)
+   * <li><code>priority</code> - Filter by priority level: HIGH, MEDIUM, or LOW (optional)
+   * <li><code>status</code> - Filter by completion status: "active" or "completed" (optional)
+   * <li><code>page</code> - Page number for pagination (0-based, default: 0)
+   * <li><code>size</code> - Number of items per page (1-100, default: 20)
+   * </ul>
+   *
+   * <p>
+   * <b>Example Requests:</b>
+   *
+   * <pre>
+   * GET /api/tasks                              - All tasks (first page)
+   * GET /api/tasks?status=active                - Only active tasks
+   * GET /api/tasks?priority=HIGH&status=active  - High priority active tasks
+   * GET /api/tasks?page=1&size=50               - Second page with 50 items
+   * </pre>
+   *
+   * @param category filter by category UUID (optional)
+   * @param priority filter by priority level: HIGH, MEDIUM, or LOW (optional)
+   * @param status filter by completion status: "active" or "completed" (optional)
+   * @param page page number for pagination (0-based, default: 0)
+   * @param size number of items per page (1-100, default: 20)
+   * @return Response with 200 OK and list of TaskResponseDTO, ordered by creation date descending
+   */
+  @GET
+  @Operation(
+      summary = "List user's tasks",
+      description = "Retrieve tasks with optional filtering by category, priority, and status")
+  @APIResponse(
+      responseCode = "200",
+      description = "List of tasks",
+      content = @Content(
+          mediaType = MediaType.APPLICATION_JSON,
+          schema = @Schema(implementation = TaskResponseDTO.class, type = SchemaType.ARRAY)))
+  @APIResponse(responseCode = "401", description = "Not authenticated")
+  public Response getAllTasks(
+      @Parameter(
+          description = "Filter by category UUID",
+          in = ParameterIn.QUERY,
+          schema = @Schema(type = SchemaType.STRING,
+              format = "uuid")) @QueryParam("category") final String category,
+      @Parameter(
+          description = "Filter by priority level",
+          in = ParameterIn.QUERY,
+          schema = @Schema(
+              implementation = Priority.class)) @QueryParam("priority") final String priority,
+      @Parameter(
+          description = "Filter by completion status",
+          in = ParameterIn.QUERY,
+          schema = @Schema(type = SchemaType.STRING,
+              enumeration = {"active", "completed"})) @QueryParam("status") final String status,
+      @Parameter(
+          description = "Page number (0-based)",
+          in = ParameterIn.QUERY,
+          schema = @Schema(type = SchemaType.INTEGER, minimum = "0",
+              defaultValue = "0")) @QueryParam("page") @DefaultValue("0") final int page,
+      @Parameter(
+          description = "Page size",
+          in = ParameterIn.QUERY,
+          schema = @Schema(
+              type = SchemaType.INTEGER,
+              minimum = "1",
+              maximum = "100",
+              defaultValue = "20")) @QueryParam("size") @DefaultValue("20") final int size) {
+
+    // Extract authenticated user ID from session
+    String userId = SessionUtils.getCurrentUserId(routingContext);
+
+    // Validate pagination parameters
+    if (page < 0) {
+      throw new IllegalArgumentException("Page number must be >= 0");
     }
+
+    if (size < 1 || size > MAX_PAGE_SIZE) {
+      throw new IllegalArgumentException("Page size must be between 1 and " + MAX_PAGE_SIZE);
+    }
+
+    // Parse priority if provided
+    Priority priorityEnum = null;
+    if (priority != null && !priority.isBlank()) {
+      try {
+        priorityEnum = Priority.valueOf(priority.toUpperCase());
+      } catch (IllegalArgumentException e) {
+        throw new IllegalArgumentException(
+            "Invalid priority value. Must be HIGH, MEDIUM, or LOW", e);
+      }
+    }
+
+    // Parse status to boolean if provided
+    Boolean completed = null;
+    if (status != null && !status.isBlank()) {
+      if ("active".equalsIgnoreCase(status)) {
+        completed = false;
+      } else if ("completed".equalsIgnoreCase(status)) {
+        completed = true;
+      } else {
+        throw new IllegalArgumentException("Invalid status value. Must be 'active' or 'completed'");
+      }
+    }
+
+    // Retrieve tasks from service
+    List<Task> tasks =
+        taskService.getAllTasks(userId, category, priorityEnum, completed, page, size);
+
+    // Convert entities to DTOs
+    List<TaskResponseDTO> response =
+        tasks.stream().map(TaskResponseDTO::from).collect(Collectors.toList());
+
+    return Response.ok(response).build();
+  }
 }

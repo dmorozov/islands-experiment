@@ -1,11 +1,59 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+/**
+ * Homepage - Task Manager
+ *
+ * Main landing page for the Task Manager application.
+ * Demonstrates Islands Architecture by composing interactive Preact islands
+ * (TaskList, TaskFilter, ThemeToggle) within an Astro page.
+ *
+ * Features:
+ * - Task list with filtering capabilities
+ * - Filter controls for category, priority, and status
+ * - Theme toggle for dark/light mode
+ * - Responsive layout with Tailwind CSS
+ * - SEO-optimized with Layout component
+ *
+ * Islands Architecture:
+ * - Only interactive components are hydrated (client:load)
+ * - Static content remains as lightweight HTML
+ * - Better performance and reduced JavaScript payload
+ */
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from '@/components/Layout.astro';
+import TaskList from '@/islands/TaskList';
+import TaskFilter from '@/islands/TaskFilter';
+import ThemeToggle from '@/islands/ThemeToggle';
 ---
 
-<Layout>
-  <Welcome />
+<Layout title="Task Manager">
+  <!-- Main container with responsive padding -->
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+
+    <!-- Page Header with Title and Theme Toggle -->
+    <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h1 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          Task Manager
+        </h1>
+        <p class="mt-2 text-base text-muted-foreground">
+          Organize and manage your tasks efficiently
+        </p>
+      </div>
+
+      <!-- Theme Toggle Island - Hydrated with client:load -->
+      <div class="flex items-center gap-4">
+        <ThemeToggle client:load />
+      </div>
+    </div>
+
+    <!-- Task Filter Island - Hydrated with client:load -->
+    <div class="mb-6">
+      <TaskFilter client:load />
+    </div>
+
+    <!-- Task List Island - Hydrated with client:load -->
+    <div>
+      <TaskList client:load />
+    </div>
+  </div>
 </Layout>

@@ -1,0 +1,184 @@
+---
+/**
+ * Layout Component
+ *
+ * Main layout wrapper for all pages in the Task Manager application.
+ * Provides consistent structure, styling, and navigation across the entire app.
+ *
+ * Features:
+ * - Global CSS and Tailwind imports
+ * - Responsive design
+ * - Dark mode support via Tailwind theme classes
+ * - Navigation header
+ * - Accessible HTML5 structure
+ * - SEO-friendly meta tags
+ *
+ * Usage:
+ * ```astro
+ * ---
+ * import Layout from '@/components/Layout.astro';
+ * ---
+ * <Layout title="Tasks">
+ *   <h1>My Tasks</h1>
+ *   <!-- Your page content here -->
+ * </Layout>
+ * ```
+ */
+
+import '../styles/globals.css';
+import Navigation from './Navigation.astro';
+
+export interface Props {
+  /**
+   * Page title - will be appended to "Task Manager"
+   * @example "Tasks" becomes "Tasks | Task Manager"
+   */
+  title?: string;
+
+  /**
+   * Meta description for SEO
+   */
+  description?: string;
+
+  /**
+   * Additional CSS classes for the main content area
+   */
+  class?: string;
+}
+
+const {
+  title = 'Task Manager',
+  description = 'A modern task management application demonstrating Islands Architecture with Quarkus and Astro',
+  class: className,
+} = Astro.props;
+
+const fullTitle = title === 'Task Manager' ? title : `${title} | Task Manager`;
+---
+
+<!doctype html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Primary Meta Tags -->
+    <title>{fullTitle}</title>
+    <meta name="title" content={fullTitle} />
+    <meta name="description" content={description} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content={fullTitle} />
+    <meta property="twitter:description" content={description} />
+
+    <!-- Preconnect to API server for faster requests -->
+    <link rel="preconnect" href="http://localhost:7171" />
+  </head>
+
+  <body class="h-full bg-background text-foreground antialiased">
+    <!-- Skip to main content link for accessibility -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-4 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+    >
+      Skip to main content
+    </a>
+
+    <!-- Navigation Header -->
+    <Navigation />
+
+    <!-- Main Content Area -->
+    <main
+      id="main-content"
+      class:list={['min-h-[calc(100vh-4rem)]', className]}
+    >
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t bg-muted/50">
+      <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
+          <!-- Copyright -->
+          <p class="text-sm text-muted-foreground">
+            &copy; {new Date().getFullYear()} Task Manager. Built with
+            <a
+              href="https://astro.build"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-medium text-primary hover:underline"
+            >
+              Astro
+            </a>
+            and
+            <a
+              href="https://quarkus.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-medium text-primary hover:underline"
+            >
+              Quarkus
+            </a>.
+          </p>
+
+          <!-- Footer Links -->
+          <nav class="flex gap-4">
+            <a
+              href="/about"
+              class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              About
+            </a>
+            <a
+              href="/privacy"
+              class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Privacy
+            </a>
+            <a
+              href="/terms"
+              class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Terms
+            </a>
+            <a
+              href="https://github.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              aria-label="GitHub Repository"
+            >
+              GitHub
+            </a>
+          </nav>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Theme initialization script -->
+    <script is:inline>
+      /**
+       * Initialize theme from localStorage before page renders
+       * Prevents flash of unstyled content (FOUC) on page load
+       */
+      (function () {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
+  </body>
+</html>

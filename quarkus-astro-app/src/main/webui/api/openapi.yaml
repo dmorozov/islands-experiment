@@ -1,42 +1,135 @@
 ---
 openapi: 3.1.0
+tags:
+- name: Categories
+  description: Category management
+- name: Tasks
+  description: Task CRUD operations
+components:
+  schemas:
+    CategoryResponseDTO:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        name:
+          type: string
+        colorCode:
+          type: string
+        isDefault:
+          type: boolean
+        createdAt:
+          $ref: "#/components/schemas/LocalDateTime"
+        taskCount:
+          type: integer
+          format: int64
+    LocalDateTime:
+      type: string
+      format: date-time
+      examples:
+      - 2022-03-10T12:15:50
+    Priority:
+      type: string
+      enum:
+      - HIGH
+      - MEDIUM
+      - LOW
+    TaskResponseDTO:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          $ref: "#/components/schemas/CategoryResponseDTO"
+        priority:
+          $ref: "#/components/schemas/Priority"
+        completed:
+          type: boolean
+        completedAt:
+          $ref: "#/components/schemas/LocalDateTime"
+        createdAt:
+          $ref: "#/components/schemas/LocalDateTime"
+        updatedAt:
+          $ref: "#/components/schemas/LocalDateTime"
+    UUID:
+      type: string
+      format: uuid
+      pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"
 paths:
-  /api/tasks:
+  /api/categories:
     get:
-      parameters:
-      - name: category
-        in: query
-        schema:
-          type: string
-      - name: page
-        in: query
-        schema:
-          type: integer
-          format: int32
-      - name: priority
-        in: query
-        schema:
-          type: string
-      - name: size
-        in: query
-        schema:
-          type: integer
-          format: int32
-      - name: status
-        in: query
-        schema:
-          type: string
+      summary: List user's categories
+      description: Retrieve all categories for the authenticated user
+      tags:
+      - Categories
       responses:
         "200":
-          description: OK
+          description: List of categories
           content:
             application/json:
               schema:
                 type: array
-                items: {}
-      summary: Get All Tasks
+                items:
+                  $ref: "#/components/schemas/CategoryResponseDTO"
+        "401":
+          description: Not authenticated
+  /api/tasks:
+    get:
+      summary: List user's tasks
+      description: "Retrieve tasks with optional filtering by category, priority,\
+        \ and status"
       tags:
-      - Task Resource
+      - Tasks
+      parameters:
+      - description: Filter by category UUID
+        in: query
+        schema:
+          format: uuid
+          type: string
+        name: category
+      - description: Page number (0-based)
+        in: query
+        schema:
+          minimum: 0
+          type: integer
+          default: 0
+        name: page
+      - description: Filter by priority level
+        in: query
+        schema:
+          $ref: "#/components/schemas/Priority"
+        name: priority
+      - description: Page size
+        in: query
+        schema:
+          maximum: 100
+          minimum: 1
+          type: integer
+          default: 20
+        name: size
+      - description: Filter by completion status
+        in: query
+        schema:
+          type: string
+          enum:
+          - active
+          - completed
+        name: status
+      responses:
+        "200":
+          description: List of tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TaskResponseDTO"
+        "401":
+          description: Not authenticated
 info:
   title: Task Manager API
   version: 1.0.0

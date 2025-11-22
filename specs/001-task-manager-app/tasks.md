@@ -309,103 +309,103 @@ This is a web application with the following structure:
 
 ### Backend API Endpoints for US1
 
-- [ ] T181 [US1] Create TaskResource in quarkus-astro-app/src/main/java/org/acme/taskmanager/resource/TaskResource.java with @Path("/api/tasks")
-- [ ] T182 [US1] Inject TaskService and HttpSession into TaskResource
-- [ ] T183 [US1] Implement GET /api/tasks endpoint in TaskResource with query params: category, priority, status, page, size
-- [ ] T184 [US1] Add OpenAPI annotations to GET /api/tasks: @Operation, @Parameter, @APIResponse descriptions matching api.yaml
-- [ ] T185 [US1] Validate query parameters in GET /api/tasks (page >= 0, size between 1-100)
-- [ ] T186 [US1] Extract userId from session and pass to TaskService
-- [ ] T187 [US1] Return List<TaskResponseDTO> from GET /api/tasks
-- [ ] T188 [US1] Create CategoryResource in quarkus-astro-app/src/main/java/org/acme/taskmanager/resource/CategoryResource.java with @Path("/api/categories")
-- [ ] T189 [US1] Inject CategoryService and HttpSession into CategoryResource
-- [ ] T190 [US1] Implement GET /api/categories endpoint in CategoryResource
-- [ ] T191 [US1] Add OpenAPI annotations to GET /api/categories matching api.yaml
-- [ ] T192 [US1] Return List<CategoryResponseDTO> from GET /api/categories
-- [ ] T193 [US1] Run `quarkus dev` and verify OpenAPI schema generates to src/main/webui/api/openapi.json
+- [x] T181 [US1] Create TaskResource in quarkus-astro-app/src/main/java/org/acme/taskmanager/resource/TaskResource.java with @Path("/api/tasks")
+- [x] T182 [US1] Inject TaskService and HttpSession into TaskResource
+- [x] T183 [US1] Implement GET /api/tasks endpoint in TaskResource with query params: category, priority, status, page, size
+- [x] T184 [US1] Add OpenAPI annotations to GET /api/tasks: @Operation, @Parameter, @APIResponse descriptions matching api.yaml
+- [x] T185 [US1] Validate query parameters in GET /api/tasks (page >= 0, size between 1-100)
+- [x] T186 [US1] Extract userId from session and pass to TaskService
+- [x] T187 [US1] Return List<TaskResponseDTO> from GET /api/tasks
+- [x] T188 [US1] Create CategoryResource in quarkus-astro-app/src/main/java/org/acme/taskmanager/resource/CategoryResource.java with @Path("/api/categories")
+- [x] T189 [US1] Inject CategoryService and HttpSession into CategoryResource
+- [x] T190 [US1] Implement GET /api/categories endpoint in CategoryResource
+- [x] T191 [US1] Add OpenAPI annotations to GET /api/categories matching api.yaml
+- [x] T192 [US1] Return List<CategoryResponseDTO> from GET /api/categories
+- [x] T193 [US1] Run `quarkus dev` and verify OpenAPI schema generates to src/main/webui/api/openapi.json
 
 ### Frontend API Client Generation for US1
 
-- [ ] T194 [US1] Verify OpenAPI schema exists at quarkus-astro-app/src/main/webui/api/openapi.json
-- [ ] T195 [US1] Run `npm run generate:api` in src/main/webui to generate TypeScript client
-- [ ] T196 [US1] Verify generated client exists at src/lib/api/ with TanStack Query hooks
-- [ ] T197 [US1] Verify useGetTasks hook generated with proper TypeScript types
-- [ ] T198 [US1] Verify useGetCategories hook generated with proper TypeScript types
+- [x] T194 [US1] Verify OpenAPI schema exists at quarkus-astro-app/src/main/webui/api/openapi.json
+- [x] T195 [US1] Run `npm run generate:api` in src/main/webui to generate TypeScript client
+- [x] T196 [US1] Verify generated client exists at src/lib/api/ with TanStack Query hooks
+- [x] T197 [US1] Verify useGetTasks hook generated with proper TypeScript types
+- [x] T198 [US1] Verify useGetCategories hook generated with proper TypeScript types
 
 ### Frontend Client-Side Storage for US1
 
-- [ ] T199 [P] [US1] Create UserPreferences TypeScript interface in quarkus-astro-app/src/main/webui/src/types/preferences.ts
-- [ ] T200 [P] [US1] Add fields to UserPreferences: theme ('light' | 'dark'), lastViewedPage, activeFilters, tasksPerPage
-- [ ] T201 [P] [US1] Export defaultPreferences constant in preferences.ts
-- [ ] T202 [P] [US1] Create Zod schema for UserPreferences validation in preferences.ts
-- [ ] T203 [P] [US1] Create storage utility in quarkus-astro-app/src/main/webui/src/lib/storage.ts
-- [ ] T204 [P] [US1] Implement preferences.get(userId) method in storage.ts with try-catch for localStorage errors
-- [ ] T205 [P] [US1] Implement preferences.set(userId, prefs) method in storage.ts with try-catch
-- [ ] T206 [P] [US1] Implement preferences.clear(userId) method in storage.ts
+- [x] T199 [P] [US1] Create UserPreferences TypeScript interface in quarkus-astro-app/src/main/webui/src/types/preferences.ts
+- [x] T200 [P] [US1] Add fields to UserPreferences: theme ('light' | 'dark'), lastViewedPage, activeFilters, tasksPerPage
+- [x] T201 [P] [US1] Export defaultPreferences constant in preferences.ts
+- [x] T202 [P] [US1] Create Zod schema for UserPreferences validation in preferences.ts
+- [x] T203 [P] [US1] Create storage utility in quarkus-astro-app/src/main/webui/src/lib/storage.ts
+- [x] T204 [P] [US1] Implement preferences.get(userId) method in storage.ts with try-catch for localStorage errors
+- [x] T205 [P] [US1] Implement preferences.set(userId, prefs) method in storage.ts with try-catch
+- [x] T206 [P] [US1] Implement preferences.clear(userId) method in storage.ts
 
 ### Frontend State Management for US1
 
-- [ ] T207 [P] [US1] Create Nano Stores atoms in quarkus-astro-app/src/main/webui/src/lib/state.ts
-- [ ] T208 [P] [US1] Create taskFilter atom with type: { category?: string, priority?: string, status?: string }
-- [ ] T209 [P] [US1] Create userTheme persistent atom with persistentAtom('theme', 'light')
-- [ ] T210 [P] [US1] Export atoms from state.ts for use in islands
+- [x] T207 [P] [US1] Create Nano Stores atoms in quarkus-astro-app/src/main/webui/src/lib/state.ts
+- [x] T208 [P] [US1] Create taskFilter atom with type: { category?: string, priority?: string, status?: string }
+- [x] T209 [P] [US1] Create userTheme persistent atom with persistentAtom('theme', 'light')
+- [x] T210 [P] [US1] Export atoms from state.ts for use in islands
 
 ### Frontend Layout & Navigation for US1
 
-- [ ] T211 [P] [US1] Create Layout.astro component in quarkus-astro-app/src/main/webui/src/components/Layout.astro
-- [ ] T212 [P] [US1] Import globals.css in Layout.astro: `import '../styles/globals.css'`
-- [ ] T213 [P] [US1] Add HTML boilerplate to Layout.astro with Tailwind theme classes
-- [ ] T214 [P] [US1] Add <slot /> for page content in Layout.astro
-- [ ] T215 [P] [US1] Create Navigation.astro component in quarkus-astro-app/src/main/webui/src/components/Navigation.astro
-- [ ] T216 [P] [US1] Add navigation links in Navigation.astro: Tasks, Categories, Dashboard, Performance
-- [ ] T217 [P] [US1] Style Navigation.astro with Tailwind classes for responsive menu
-- [ ] T218 [P] [US1] Include Navigation in Layout.astro
+- [x] T211 [P] [US1] Create Layout.astro component in quarkus-astro-app/src/main/webui/src/components/Layout.astro
+- [x] T212 [P] [US1] Import globals.css in Layout.astro: `import '../styles/globals.css'`
+- [x] T213 [P] [US1] Add HTML boilerplate to Layout.astro with Tailwind theme classes
+- [x] T214 [P] [US1] Add <slot /> for page content in Layout.astro
+- [x] T215 [P] [US1] Create Navigation.astro component in quarkus-astro-app/src/main/webui/src/components/Navigation.astro
+- [x] T216 [P] [US1] Add navigation links in Navigation.astro: Tasks, Categories, Dashboard, Performance
+- [x] T217 [P] [US1] Style Navigation.astro with Tailwind classes for responsive menu
+- [x] T218 [P] [US1] Include Navigation in Layout.astro
 
 ### Frontend Task List Island for US1
 
-- [ ] T219 [US1] Create TaskList.tsx island in quarkus-astro-app/src/main/webui/src/islands/TaskList.tsx
-- [ ] T220 [US1] Import useGetTasks hook from generated API client in TaskList.tsx
-- [ ] T221 [US1] Import useStore from @nanostores/preact for taskFilter state in TaskList.tsx
-- [ ] T222 [US1] Use taskFilter atom to get current filter state in TaskList.tsx
-- [ ] T223 [US1] Call useGetTasks with filter parameters from taskFilter atom in TaskList.tsx
-- [ ] T224 [US1] Handle loading state in TaskList.tsx: show skeleton loaders
-- [ ] T225 [US1] Handle error state in TaskList.tsx: display user-friendly error message
-- [ ] T226 [US1] Render task list in TaskList.tsx: map over tasks, display title, category badge, priority badge, completion checkbox (read-only for US1)
-- [ ] T227 [US1] Add Tailwind styling to TaskList.tsx: grid layout, responsive, visual indicators for priority (colors)
-- [ ] T228 [US1] Handle empty state in TaskList.tsx: "Create your first task" message per edge cases
+- [x] T219 [US1] Create TaskList.tsx island in quarkus-astro-app/src/main/webui/src/islands/TaskList.tsx
+- [x] T220 [US1] Import useGetTasks hook from generated API client in TaskList.tsx
+- [x] T221 [US1] Import useStore from @nanostores/preact for taskFilter state in TaskList.tsx
+- [x] T222 [US1] Use taskFilter atom to get current filter state in TaskList.tsx
+- [x] T223 [US1] Call useGetTasks with filter parameters from taskFilter atom in TaskList.tsx
+- [x] T224 [US1] Handle loading state in TaskList.tsx: show skeleton loaders
+- [x] T225 [US1] Handle error state in TaskList.tsx: display user-friendly error message
+- [x] T226 [US1] Render task list in TaskList.tsx: map over tasks, display title, category badge, priority badge, completion checkbox (read-only for US1)
+- [x] T227 [US1] Add Tailwind styling to TaskList.tsx: grid layout, responsive, visual indicators for priority (colors)
+- [x] T228 [US1] Handle empty state in TaskList.tsx: "Create your first task" message per edge cases
 
 ### Frontend Filter Island for US1
 
-- [ ] T229 [US1] Create TaskFilter.tsx island in quarkus-astro-app/src/main/webui/src/islands/TaskFilter.tsx
-- [ ] T230 [US1] Import useGetCategories hook from generated API client in TaskFilter.tsx
-- [ ] T231 [US1] Import taskFilter atom and useStore in TaskFilter.tsx
-- [ ] T232 [US1] Create dropdowns for: Category, Priority, Status (Active/Completed) in TaskFilter.tsx
-- [ ] T233 [US1] Populate category dropdown from useGetCategories() data in TaskFilter.tsx
-- [ ] T234 [US1] Populate priority dropdown with HIGH/MEDIUM/LOW options in TaskFilter.tsx
-- [ ] T235 [US1] Handle filter changes: update taskFilter atom on dropdown change in TaskFilter.tsx
-- [ ] T236 [US1] Update URL query params when filters change in TaskFilter.tsx (cross-page state persistence)
-- [ ] T237 [US1] Load filters from URL query params on mount in TaskFilter.tsx
-- [ ] T238 [US1] Save filters to localStorage using preferences.set() in TaskFilter.tsx
+- [x] T229 [US1] Create TaskFilter.tsx island in quarkus-astro-app/src/main/webui/src/islands/TaskFilter.tsx
+- [x] T230 [US1] Import useGetCategories hook from generated API client in TaskFilter.tsx
+- [x] T231 [US1] Import taskFilter atom and useStore in TaskFilter.tsx
+- [x] T232 [US1] Create dropdowns for: Category, Priority, Status (Active/Completed) in TaskFilter.tsx
+- [x] T233 [US1] Populate category dropdown from useGetCategories() data in TaskFilter.tsx
+- [x] T234 [US1] Populate priority dropdown with HIGH/MEDIUM/LOW options in TaskFilter.tsx
+- [x] T235 [US1] Handle filter changes: update taskFilter atom on dropdown change in TaskFilter.tsx
+- [x] T236 [US1] Update URL query params when filters change in TaskFilter.tsx (cross-page state persistence)
+- [x] T237 [US1] Load filters from URL query params on mount in TaskFilter.tsx
+- [x] T238 [US1] Save filters to localStorage using preferences.set() in TaskFilter.tsx
 
 ### Frontend Theme Toggle Island for US1
 
-- [ ] T239 [US1] Install Shadcn Button component if not already: `npx shadcn-ui@latest add button`
-- [ ] T240 [US1] Create ThemeToggle.tsx island in quarkus-astro-app/src/main/webui/src/islands/ThemeToggle.tsx
-- [ ] T241 [US1] Import userTheme persistent atom in ThemeToggle.tsx
-- [ ] T242 [US1] Create toggle button using Shadcn Button component in ThemeToggle.tsx
-- [ ] T243 [US1] Handle theme toggle: update userTheme atom and apply 'dark' class to document.documentElement in ThemeToggle.tsx
-- [ ] T244 [US1] Add moon/sun icon from lucide-preact based on current theme in ThemeToggle.tsx
-- [ ] T245 [US1] Apply theme on initial load from userTheme atom in ThemeToggle.tsx
+- [x] T239 [US1] Install Shadcn Button component if not already: `npx shadcn-ui@latest add button`
+- [x] T240 [US1] Create ThemeToggle.tsx island in quarkus-astro-app/src/main/webui/src/islands/ThemeToggle.tsx
+- [x] T241 [US1] Import userTheme persistent atom in ThemeToggle.tsx
+- [x] T242 [US1] Create toggle button using Shadcn Button component in ThemeToggle.tsx
+- [x] T243 [US1] Handle theme toggle: update userTheme atom and apply 'dark' class to document.documentElement in ThemeToggle.tsx
+- [x] T244 [US1] Add moon/sun icon from lucide-preact based on current theme in ThemeToggle.tsx
+- [x] T245 [US1] Apply theme on initial load from userTheme atom in ThemeToggle.tsx
 
 ### Frontend Homepage (index.astro) for US1
 
-- [ ] T246 [US1] Create index.astro page in quarkus-astro-app/src/main/webui/src/pages/index.astro
-- [ ] T247 [US1] Import Layout component in index.astro
-- [ ] T248 [US1] Import TaskList island with client:load directive in index.astro
-- [ ] T249 [US1] Import TaskFilter island with client:load directive in index.astro
-- [ ] T250 [US1] Import ThemeToggle island with client:load directive in index.astro
-- [ ] T251 [US1] Add page title "Task Manager" in index.astro
-- [ ] T252 [US1] Layout components: header with ThemeToggle, main content area with TaskFilter and TaskList
-- [ ] T253 [US1] Add responsive grid layout using Tailwind in index.astro
+- [x] T246 [US1] Create index.astro page in quarkus-astro-app/src/main/webui/src/pages/index.astro
+- [x] T247 [US1] Import Layout component in index.astro
+- [x] T248 [US1] Import TaskList island with client:load directive in index.astro
+- [x] T249 [US1] Import TaskFilter island with client:load directive in index.astro
+- [x] T250 [US1] Import ThemeToggle island with client:load directive in index.astro
+- [x] T251 [US1] Add page title "Task Manager" in index.astro
+- [x] T252 [US1] Layout components: header with ThemeToggle, main content area with TaskFilter and TaskList
+- [x] T253 [US1] Add responsive grid layout using Tailwind in index.astro
 
 ### Testing US1
 
