@@ -46,14 +46,14 @@ import ThemeToggle from '@/islands/ThemeToggle';
       </div>
     </div>
 
-    <!-- Task Filter Island - Hydrated with client:load -->
+    <!-- Task Filter Island - Client-only (requires React Query context) -->
     <div class="mb-6">
-      <TaskFilter client:load />
+      <TaskFilter client:only="preact" />
     </div>
 
-    <!-- Task List Island - Hydrated with client:load -->
+    <!-- Task List Island - Client-only (requires React Query context) -->
     <div>
-      <TaskList client:load />
+      <TaskList client:only="preact" />
     </div>
   </div>
 </Layout>

@@ -29,6 +29,7 @@ import { useStore } from '@nanostores/preact';
 import { taskFilter, currentPage, tasksPerPage } from '@/lib/state';
 import { useGetApiTasks } from '@/lib/api/endpoints/tasks/tasks';
 import type { TaskResponseDTO } from '@/lib/api/model';
+import { QueryProvider } from '@/components/providers/QueryProvider';
 
 /**
  * Priority badge component
@@ -256,11 +257,11 @@ function ErrorState({ error }: { error: Error }) {
 }
 
 /**
- * Main TaskList component
+ * Internal TaskList component
  *
  * Fetches and displays tasks with filtering, loading, and error states.
  */
-export default function TaskList() {
+function TaskListContent() {
   // Subscribe to Nano Stores atoms for reactive state
   const filter = useStore(taskFilter);
   const page = useStore(currentPage);
@@ -318,5 +319,18 @@ export default function TaskList() {
         ))}
       </div>
     </div>
+  );
+}
+
+/**
+ * Main TaskList component wrapped with QueryProvider
+ *
+ * This wrapper ensures React Query context is available for all hooks
+ */
+export default function TaskList() {
+  return (
+    <QueryProvider>
+      <TaskListContent />
+    </QueryProvider>
   );
 }

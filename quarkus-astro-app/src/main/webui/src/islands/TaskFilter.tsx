@@ -27,6 +27,7 @@ import { useEffect } from 'preact/hooks';
 import { taskFilter, updateFilter, resetFilters } from '@/lib/state';
 import { useGetApiCategories } from '@/lib/api/endpoints/categories/categories';
 import { preferences } from '@/lib/storage';
+import { QueryProvider } from '@/components/providers/QueryProvider';
 
 /**
  * Priority options for the dropdown
@@ -80,11 +81,11 @@ function Select({ label, value, onChange, options, isLoading }: SelectProps) {
 }
 
 /**
- * Main TaskFilter component
+ * Internal TaskFilter component
  *
  * Manages filter state with persistence to URL and localStorage
  */
-export default function TaskFilter() {
+function TaskFilterContent() {
   // Subscribe to filter state from Nano Stores
   const filter = useStore(taskFilter);
 
@@ -323,5 +324,18 @@ export default function TaskFilter() {
         </div>
       )}
     </div>
+  );
+}
+
+/**
+ * Main TaskFilter component wrapped with QueryProvider
+ *
+ * This wrapper ensures React Query context is available for all hooks
+ */
+export default function TaskFilter() {
+  return (
+    <QueryProvider>
+      <TaskFilterContent />
+    </QueryProvider>
   );
 }
