@@ -1,6 +1,10 @@
 {
-  "cSpell.words": ["Cacheable", "Flyway", "Ingestor", "jdbc", "quarkus"],
+  // Spell Checker
+  "cSpell.words": ["Cacheable", "Flyway", "Ingestor", "jdbc", "quarkus", "astro", "preact", "nanostores", "orval", "shadcn", "tanstack"],
+
+  // Editor Configuration
   "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
@@ -10,14 +14,59 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.bracketPairColorization.enabled": true,
   "editor.guides.bracketPairs": "active",
-  "eslint.workingDirectories": ["./app/src/main/webui"],
+
+  // File Associations
+  "files.associations": {
+    "*.astro": "astro"
+  },
+
+  // ESLint Configuration
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "astro"
+  ],
+  "eslint.workingDirectories": [
+    "./quarkus-astro-app/src/main/webui"
+  ],
+
+  // Language-Specific Formatters
   "[java]": {
     "editor.defaultFormatter": "redhat.java"
   },
-  "typescript.format.enable": false,
-  "[typescript]": {
-    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml"
   },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[astro]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // TypeScript Configuration
+  "typescript.format.enable": false,
+
+  // Tailwind CSS IntelliSense
+  "tailwindCSS.experimental.classRegex": [
+    ["cn\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+  ],
+
+  // Java Configuration
   "java.configuration.updateBuildConfiguration": "automatic",
   "java.format.settings.url": "./build-tools/src/main/resources/product/eclipse-java-google-style.xml",
   "java.format.settings.profile": "GoogleStyle",
@@ -25,19 +74,10 @@
   "javaPMD.rulesets": [
     "./build-tools/src/main/resources/product/pmd-ruleset.xml"
   ],
-  "telemetry.enableTelemetry": false,
-  "telemetry.telemetryLevel": "off",
   "java.format.enabled": true,
-  "editor.formatOnPaste": true,
   "java.checkstyle.configuration": "${workspaceFolder}/build-tools/src/main/resources/product/checkstyle.xml",
   "java.checkstyle.version": "10.19.0",
   "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx2G -Xms100m -Xlog:disable",
-  "[xml]": {
-    "editor.defaultFormatter": "redhat.vscode-xml"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
-  },
   "java.test.config": [
     {
       "name": "MyCustomTestConfig",
@@ -45,5 +85,27 @@
       "args": ["--enable-preview"]
     }
   ],
-  "java.test.defaultConfig": "MyCustomTestConfig"
+  "java.test.defaultConfig": "MyCustomTestConfig",
+
+  // Telemetry
+  "telemetry.enableTelemetry": false,
+  "telemetry.telemetryLevel": "off",
+
+  // File Exclusions
+  "files.exclude": {
+    "**/.git": true,
+    "**/node_modules": true,
+    "**/target": true,
+    "**/.astro": true,
+    "**/dist": true
+  },
+
+  // Search Exclusions
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/target": true,
+    "**/.astro": true,
+    "**/dist": true,
+    "**/package-lock.json": true
+  }
 }

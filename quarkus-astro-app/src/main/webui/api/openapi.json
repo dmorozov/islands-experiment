@@ -1,0 +1,20 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "Experiment API",
+    "version" : "\"1.0\"",
+    "description" : "This API allows CRUD operations on a Experiment",
+    "contact" : {
+      "name" : "Experiment",
+      "url" : "https://superbia.com/Experiment"
+    }
+  },
+  "paths" : { },
+  "servers" : [ {
+    "url" : "http://localhost:7171",
+    "description" : "Auto generated value"
+  }, {
+    "url" : "http://0.0.0.0:7171",
+    "description" : "Auto generated value"
+  } ]
+}

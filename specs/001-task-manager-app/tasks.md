@@ -23,19 +23,19 @@ This is a web application with the following structure:
 
 ---
 
-## Phase 1: Setup (Project Initialization)
+## Phase 1: Setup (Project Initialization) ✅
 
 **Purpose**: Initialize project structure and verify existing configuration
 
-- [ ] T001 Verify Quarkus project structure matches plan.md at quarkus-astro-app/
-- [ ] T002 Verify parent POM exists with Checkstyle/PMD configuration at parent/pom.xml
-- [ ] T003 Verify build-tools project exists with quality configs at build-tools/src/main/resources/product/
-- [ ] T004 Create package structure for backend: model/, resource/, service/, dto/, session/ in quarkus-astro-app/src/main/java/org/acme/taskmanager/
-- [ ] T005 Create test package structure: contract/, integration/, unit/ in quarkus-astro-app/src/test/java/org/acme/taskmanager/
+- [x] T001 Verify Quarkus project structure matches plan.md at quarkus-astro-app/
+- [x] T002 Verify parent POM exists with Checkstyle/PMD configuration at parent/pom.xml
+- [x] T003 Verify build-tools project exists with quality configs at build-tools/src/main/resources/product/
+- [x] T004 Create package structure for backend: model/, resource/, service/, dto/, session/ in quarkus-astro-app/src/main/java/org/acme/taskmanager/
+- [x] T005 Create test package structure: contract/, integration/, unit/ in quarkus-astro-app/src/test/java/org/acme/taskmanager/
 
 ---
 
-## Phase 2: Foundational - User Story 0 (Priority: P0) - Production-Ready Bootstrap Template 🎯
+## Phase 2: Foundational - User Story 0 (Priority: P0) - Production-Ready Bootstrap Template ✅
 
 **Goal**: Establish complete quality tooling infrastructure before any feature work
 
@@ -45,165 +45,165 @@ This is a web application with the following structure:
 
 ### Frontend Dependencies Installation
 
-- [ ] T006 [US0] Navigate to quarkus-astro-app/src/main/webui/ and verify package.json exists
-- [ ] T007 [US0] Install core dependencies: `npm install astro@latest @astrojs/preact preact`
-- [ ] T008 [US0] Install TypeScript and tooling: `npm install -D typescript@latest @types/node @preact/preset-vite`
-- [ ] T009 [US0] Install Tailwind CSS v4: `npm install -D tailwindcss@next @tailwindcss/vite`
-- [ ] T010 [US0] Install Shadcn/ui CLI and dependencies: `npm install -D shadcn-ui clsx tailwind-merge class-variance-authority lucide-preact`
-- [ ] T011 [US0] Install TanStack Query and Axios: `npm install @tanstack/react-query@latest axios zod`
-- [ ] T012 [US0] Install Orval for API generation: `npm install -D orval`
-- [ ] T013 [US0] Install Nano Stores for state management: `npm install nanostores @nanostores/preact @nanostores/persistent`
-- [ ] T014 [US0] Install ESLint core: `npm install -D eslint@latest @eslint/js typescript-eslint`
-- [ ] T015 [US0] Install ESLint plugins: `npm install -D eslint-plugin-astro eslint-plugin-preact eslint-config-airbnb-base eslint-config-airbnb-typescript @typescript-eslint/parser @typescript-eslint/eslint-plugin`
-- [ ] T016 [US0] Install ESLint-Prettier integration: `npm install -D eslint-config-prettier`
-- [ ] T017 [US0] Install Prettier and plugins: `npm install -D prettier prettier-plugin-astro prettier-plugin-tailwindcss`
-- [ ] T018 [US0] Install Husky and lint-staged: `npm install -D husky lint-staged`
-- [ ] T019 [US0] Install Vitest for testing: `npm install -D vitest jsdom @testing-library/preact @testing-library/user-event`
-- [ ] T020 [US0] Run `npm install` to ensure all dependencies resolve correctly
+- [x] T006 [US0] Navigate to quarkus-astro-app/src/main/webui/ and verify package.json exists
+- [x] T007 [US0] Install core dependencies: `npm install astro@latest @astrojs/preact preact`
+- [x] T008 [US0] Install TypeScript and tooling: `npm install -D typescript@latest @types/node @preact/preset-vite`
+- [x] T009 [US0] Install Tailwind CSS v4: `npm install -D tailwindcss@next @tailwindcss/vite`
+- [x] T010 [US0] Install Shadcn/ui CLI and dependencies: `npm install -D shadcn-ui clsx tailwind-merge class-variance-authority lucide-preact`
+- [x] T011 [US0] Install TanStack Query and Axios: `npm install @tanstack/react-query@latest axios zod`
+- [x] T012 [US0] Install Orval for API generation: `npm install -D orval`
+- [x] T013 [US0] Install Nano Stores for state management: `npm install nanostores @nanostores/preact @nanostores/persistent`
+- [x] T014 [US0] Install ESLint core: `npm install -D eslint@latest @eslint/js typescript-eslint`
+- [x] T015 [US0] Install ESLint plugins: `npm install -D eslint-plugin-astro eslint-plugin-preact eslint-config-airbnb-base eslint-config-airbnb-typescript @typescript-eslint/parser @typescript-eslint/eslint-plugin`
+- [x] T016 [US0] Install ESLint-Prettier integration: `npm install -D eslint-config-prettier`
+- [x] T017 [US0] Install Prettier and plugins: `npm install -D prettier prettier-plugin-astro prettier-plugin-tailwindcss`
+- [x] T018 [US0] Install Husky and lint-staged: `npm install -D husky lint-staged`
+- [x] T019 [US0] Install Vitest for testing: `npm install -D vitest jsdom @testing-library/preact @testing-library/user-event`
+- [x] T020 [US0] Run `npm install` to ensure all dependencies resolve correctly
 
 ### ESLint Configuration
 
-- [ ] T021 [US0] Create eslint.config.js in quarkus-astro-app/src/main/webui/ with flat config format
-- [ ] T022 [US0] Add TypeScript ESLint parser and plugin configuration to eslint.config.js
-- [ ] T023 [US0] Add Airbnb TypeScript style guide rules to eslint.config.js
-- [ ] T024 [US0] Add eslint-plugin-astro configuration for .astro files to eslint.config.js
-- [ ] T025 [US0] Add eslint-plugin-preact configuration for .tsx files to eslint.config.js
-- [ ] T026 [US0] Add eslint-config-prettier as last config to disable conflicting rules in eslint.config.js
-- [ ] T027 [US0] Add detailed comments explaining each section of eslint.config.js (production-ready documentation)
-- [ ] T028 [US0] Create .eslintignore in quarkus-astro-app/src/main/webui/ with: dist/, node_modules/, .astro/, api/
-- [ ] T029 [US0] Add npm script "lint" to package.json: "eslint . --ext .js,.ts,.tsx,.astro"
-- [ ] T030 [US0] Add npm script "lint:fix" to package.json: "eslint . --ext .js,.ts,.tsx,.astro --fix"
-- [ ] T031 [US0] Test ESLint: create temporary file with violation, run `npm run lint`, verify it fails with clear error
+- [x] T021 [US0] Create eslint.config.js in quarkus-astro-app/src/main/webui/ with flat config format
+- [x] T022 [US0] Add TypeScript ESLint parser and plugin configuration to eslint.config.js
+- [x] T023 [US0] Add Airbnb TypeScript style guide rules to eslint.config.js
+- [x] T024 [US0] Add eslint-plugin-astro configuration for .astro files to eslint.config.js
+- [x] T025 [US0] Add eslint-plugin-preact configuration for .tsx files to eslint.config.js
+- [x] T026 [US0] Add eslint-config-prettier as last config to disable conflicting rules in eslint.config.js
+- [x] T027 [US0] Add detailed comments explaining each section of eslint.config.js (production-ready documentation)
+- [x] T028 [US0] Create .eslintignore in quarkus-astro-app/src/main/webui/ with: dist/, node_modules/, .astro/, api/
+- [x] T029 [US0] Add npm script "lint" to package.json: "eslint . --ext .js,.ts,.tsx,.astro"
+- [x] T030 [US0] Add npm script "lint:fix" to package.json: "eslint . --ext .js,.ts,.tsx,.astro --fix"
+- [x] T031 [US0] Test ESLint: create temporary file with violation, run `npm run lint`, verify it fails with clear error
 
 ### Prettier Configuration
 
-- [ ] T032 [US0] Create .prettierrc.json in quarkus-astro-app/src/main/webui/ with: semi, singleQuote, tabWidth, trailingComma, printWidth, plugins
-- [ ] T033 [US0] Add prettier-plugin-astro to plugins array in .prettierrc.json
-- [ ] T034 [US0] Add prettier-plugin-tailwindcss to plugins array in .prettierrc.json
-- [ ] T035 [US0] Create .prettierignore in quarkus-astro-app/src/main/webui/ with: dist/, node_modules/, .astro/, api/, pnpm-lock.yaml, package-lock.json
-- [ ] T036 [US0] Add npm script "format" to package.json: "prettier --write ."
-- [ ] T037 [US0] Add npm script "format:check" to package.json: "prettier --check ."
-- [ ] T038 [US0] Test Prettier: create temporary file with bad formatting, run `npm run format`, verify it formats correctly
+- [x] T032 [US0] Create .prettierrc.json in quarkus-astro-app/src/main/webui/ with: semi, singleQuote, tabWidth, trailingComma, printWidth, plugins
+- [x] T033 [US0] Add prettier-plugin-astro to plugins array in .prettierrc.json
+- [x] T034 [US0] Add prettier-plugin-tailwindcss to plugins array in .prettierrc.json
+- [x] T035 [US0] Create .prettierignore in quarkus-astro-app/src/main/webui/ with: dist/, node_modules/, .astro/, api/, pnpm-lock.yaml, package-lock.json
+- [x] T036 [US0] Add npm script "format" to package.json: "prettier --write ."
+- [x] T037 [US0] Add npm script "format:check" to package.json: "prettier --check ."
+- [x] T038 [US0] Test Prettier: create temporary file with bad formatting, run `npm run format`, verify it formats correctly
 
 ### Pre-commit Hooks Configuration
 
-- [ ] T039 [US0] Initialize Husky: run `npx husky init` in quarkus-astro-app/src/main/webui/
-- [ ] T040 [US0] Create .husky directory if not exists in quarkus-astro-app/src/main/webui/
-- [ ] T041 [US0] Create .husky/pre-commit file with: `#!/usr/bin/env sh\n. "$(dirname -- "$0")/_/husky.sh"\nnpx lint-staged`
-- [ ] T042 [US0] Make .husky/pre-commit executable: `chmod +x .husky/pre-commit`
-- [ ] T043 [US0] Create .lintstagedrc.json in quarkus-astro-app/src/main/webui/ with file-type specific commands
-- [ ] T044 [US0] Configure .lintstagedrc.json to run Prettier first, then ESLint with --fix for *.ts, *.tsx files
-- [ ] T045 [US0] Configure .lintstagedrc.json to run Prettier for *.astro files
-- [ ] T046 [US0] Add npm script "prepare" to package.json: "husky install" (for team setup)
-- [ ] T047 [US0] Test pre-commit hooks: create file with violation, attempt commit, verify it's blocked or auto-fixed
+- [x] T039 [US0] Initialize Husky: run `npx husky init` in quarkus-astro-app/src/main/webui/
+- [x] T040 [US0] Create .husky directory if not exists in quarkus-astro-app/src/main/webui/
+- [x] T041 [US0] Create .husky/pre-commit file with: `#!/usr/bin/env sh\n. "$(dirname -- "$0")/_/husky.sh"\nnpx lint-staged`
+- [x] T042 [US0] Make .husky/pre-commit executable: `chmod +x .husky/pre-commit`
+- [x] T043 [US0] Create .lintstagedrc.json in quarkus-astro-app/src/main/webui/ with file-type specific commands
+- [x] T044 [US0] Configure .lintstagedrc.json to run Prettier first, then ESLint with --fix for *.ts, *.tsx files
+- [x] T045 [US0] Configure .lintstagedrc.json to run Prettier for *.astro files
+- [x] T046 [US0] Add npm script "prepare" to package.json: "husky install" (for team setup)
+- [x] T047 [US0] Test pre-commit hooks: create file with violation, attempt commit, verify it's blocked or auto-fixed
 
 ### TypeScript Configuration
 
-- [ ] T048 [US0] Create tsconfig.json in quarkus-astro-app/src/main/webui/ with strict mode enabled
-- [ ] T049 [US0] Add path aliases to tsconfig.json: "@/*" maps to "./src/*"
-- [ ] T050 [US0] Add compiler options: target ES2020, module ESNext, jsx preserve, lib ES2020/DOM
-- [ ] T051 [US0] Add include/exclude patterns: include src/, exclude node_modules/, dist/
-- [ ] T052 [US0] Configure baseUrl and paths for absolute imports in tsconfig.json
-- [ ] T053 [US0] Test TypeScript: create .ts file with type error, run `npx tsc --noEmit`, verify it fails
+- [x] T048 [US0] Create tsconfig.json in quarkus-astro-app/src/main/webui/ with strict mode enabled
+- [x] T049 [US0] Add path aliases to tsconfig.json: "@/*" maps to "./src/*"
+- [x] T050 [US0] Add compiler options: target ES2020, module ESNext, jsx preserve, lib ES2020/DOM
+- [x] T051 [US0] Add include/exclude patterns: include src/, exclude node_modules/, dist/
+- [x] T052 [US0] Configure baseUrl and paths for absolute imports in tsconfig.json
+- [x] T053 [US0] Test TypeScript: create .ts file with type error, run `npx tsc --noEmit`, verify it fails
 
 ### Tailwind CSS Configuration
 
-- [ ] T054 [US0] Create tailwind.config.mjs in quarkus-astro-app/src/main/webui/ with content paths
-- [ ] T055 [US0] Add content globs to tailwind.config.mjs: './src/**/*.{astro,html,js,jsx,md,mdx,tsx}'
-- [ ] T056 [US0] Configure theme extension in tailwind.config.mjs for custom colors/spacing if needed
-- [ ] T057 [US0] Add darkMode: 'class' to tailwind.config.mjs for theme toggle support
-- [ ] T058 [US0] Create src/styles/globals.css in quarkus-astro-app/src/main/webui/src/styles/
-- [ ] T059 [US0] Add Tailwind directives to globals.css: @tailwind base; @tailwind components; @tailwind utilities;
-- [ ] T060 [US0] Add custom CSS for Shadcn/ui theme variables to globals.css (CSS variables for colors)
+- [x] T054 [US0] Create tailwind.config.mjs in quarkus-astro-app/src/main/webui/ with content paths
+- [x] T055 [US0] Add content globs to tailwind.config.mjs: './src/**/*.{astro,html,js,jsx,md,mdx,tsx}'
+- [x] T056 [US0] Configure theme extension in tailwind.config.mjs for custom colors/spacing if needed
+- [x] T057 [US0] Add darkMode: 'class' to tailwind.config.mjs for theme toggle support
+- [x] T058 [US0] Create src/styles/globals.css in quarkus-astro-app/src/main/webui/src/styles/
+- [x] T059 [US0] Add Tailwind directives to globals.css: @tailwind base; @tailwind components; @tailwind utilities;
+- [x] T060 [US0] Add custom CSS for Shadcn/ui theme variables to globals.css (CSS variables for colors)
 
 ### Shadcn/ui Configuration
 
-- [ ] T061 [US0] Create components.json in quarkus-astro-app/src/main/webui/ for Shadcn/ui config
-- [ ] T062 [US0] Configure components.json with: style: "default", rsc: false, tsx: true, aliases for @/components, @/lib
-- [ ] T063 [US0] Create src/lib/utils.ts in quarkus-astro-app/src/main/webui/src/lib/ with cn() utility function
-- [ ] T064 [US0] Implement cn() function using clsx and tailwind-merge: `export function cn(...inputs: ClassValue[]) { return twMerge(clsx(inputs)) }`
-- [ ] T065 [US0] Create src/components/ui/ directory in quarkus-astro-app/src/main/webui/src/components/ui/
-- [ ] T066 [US0] Install first Shadcn component as test: `npx shadcn-ui@latest add button`
-- [ ] T067 [US0] Verify button component created at src/components/ui/button.tsx
+- [x] T061 [US0] Create components.json in quarkus-astro-app/src/main/webui/ for Shadcn/ui config
+- [x] T062 [US0] Configure components.json with: style: "default", rsc: false, tsx: true, aliases for @/components, @/lib
+- [x] T063 [US0] Create src/lib/utils.ts in quarkus-astro-app/src/main/webui/src/lib/ with cn() utility function
+- [x] T064 [US0] Implement cn() function using clsx and tailwind-merge: `export function cn(...inputs: ClassValue[]) { return twMerge(clsx(inputs)) }`
+- [x] T065 [US0] Create src/components/ui/ directory in quarkus-astro-app/src/main/webui/src/components/ui/
+- [x] T066 [US0] Install first Shadcn component as test: `npx shadcn-ui@latest add button`
+- [x] T067 [US0] Verify button component created at src/components/ui/button.tsx
 
 ### Orval Configuration
 
-- [ ] T068 [US0] Create orval.config.ts in quarkus-astro-app/src/main/webui/ for API client generation
-- [ ] T069 [US0] Configure orval.config.ts input: './api/openapi.json' (generated by Quarkus)
-- [ ] T070 [US0] Configure orval.config.ts output: './src/lib/api/' with TanStack Query v5 client
-- [ ] T071 [US0] Configure orval.config.ts to use Axios with custom mutator at './src/api/mutator.ts'
-- [ ] T072 [US0] Create src/api/ directory in quarkus-astro-app/src/main/webui/src/api/
-- [ ] T073 [US0] Create src/api/mutator.ts with Axios instance configured for baseURL, auth headers, error handling
-- [ ] T074 [US0] Add TypeScript types for error responses in src/api/mutator.ts
-- [ ] T075 [US0] Add npm script "generate:api" to package.json: "orval --config orval.config.ts"
-- [ ] T076 [US0] Create api/ directory in quarkus-astro-app/src/main/webui/api/ for OpenAPI schema (will be generated by Quarkus)
+- [x] T068 [US0] Create orval.config.ts in quarkus-astro-app/src/main/webui/ for API client generation
+- [x] T069 [US0] Configure orval.config.ts input: './api/openapi.json' (generated by Quarkus)
+- [x] T070 [US0] Configure orval.config.ts output: './src/lib/api/' with TanStack Query v5 client
+- [x] T071 [US0] Configure orval.config.ts to use Axios with custom mutator at './src/api/mutator.ts'
+- [x] T072 [US0] Create src/api/ directory in quarkus-astro-app/src/main/webui/src/api/
+- [x] T073 [US0] Create src/api/mutator.ts with Axios instance configured for baseURL, auth headers, error handling
+- [x] T074 [US0] Add TypeScript types for error responses in src/api/mutator.ts
+- [x] T075 [US0] Add npm script "generate:api" to package.json: "orval --config orval.config.ts"
+- [x] T076 [US0] Create api/ directory in quarkus-astro-app/src/main/webui/api/ for OpenAPI schema (will be generated by Quarkus)
 
 ### Astro Configuration
 
-- [ ] T077 [US0] Create astro.config.mjs in quarkus-astro-app/src/main/webui/ with Preact integration
-- [ ] T078 [US0] Add @astrojs/preact integration to astro.config.mjs
-- [ ] T079 [US0] Add Tailwind integration (@tailwindcss/vite) to astro.config.mjs
-- [ ] T080 [US0] Configure output: 'static' in astro.config.mjs (static site generation)
-- [ ] T081 [US0] Configure build.outDir: './dist' in astro.config.mjs
-- [ ] T082 [US0] Add Vite configuration for path aliases matching tsconfig.json in astro.config.mjs
-- [ ] T083 [US0] Configure server.port: 3000 for Astro dev server in astro.config.mjs
+- [x] T077 [US0] Create astro.config.mjs in quarkus-astro-app/src/main/webui/ with Preact integration
+- [x] T078 [US0] Add @astrojs/preact integration to astro.config.mjs
+- [x] T079 [US0] Add Tailwind integration (@tailwindcss/vite) to astro.config.mjs
+- [x] T080 [US0] Configure output: 'static' in astro.config.mjs (static site generation)
+- [x] T081 [US0] Configure build.outDir: './dist' in astro.config.mjs
+- [x] T082 [US0] Add Vite configuration for path aliases matching tsconfig.json in astro.config.mjs
+- [x] T083 [US0] Configure server.port: 3000 for Astro dev server in astro.config.mjs
 
 ### Vitest Configuration
 
-- [ ] T084 [US0] Create vitest.config.ts in quarkus-astro-app/src/main/webui/ for testing framework
-- [ ] T085 [US0] Configure Vitest with @preact/preset-vite plugin in vitest.config.ts
-- [ ] T086 [US0] Configure test environment: 'jsdom' in vitest.config.ts
-- [ ] T087 [US0] Configure globals: true for global test functions in vitest.config.ts
-- [ ] T088 [US0] Add npm script "test" to package.json: "vitest"
-- [ ] T089 [US0] Add npm script "test:coverage" to package.json: "vitest --coverage"
+- [x] T084 [US0] Create vitest.config.ts in quarkus-astro-app/src/main/webui/ for testing framework
+- [x] T085 [US0] Configure Vitest with @preact/preset-vite plugin in vitest.config.ts
+- [x] T086 [US0] Configure test environment: 'jsdom' in vitest.config.ts
+- [x] T087 [US0] Configure globals: true for global test functions in vitest.config.ts
+- [x] T088 [US0] Add npm script "test" to package.json: "vitest"
+- [x] T089 [US0] Add npm script "test:coverage" to package.json: "vitest --coverage"
 
 ### Documentation & README
 
-- [ ] T090 [US0] Create comprehensive README.md at repository root (quarkus-astro-app/README.md)
-- [ ] T091 [US0] Add Prerequisites section to README.md: Java 21, Maven 3.9+, Node 20.17+
-- [ ] T092 [US0] Add Quick Start section to README.md with 3-command setup from quickstart.md
-- [ ] T093 [US0] Add Development Workflow section to README.md: how to develop backend/frontend
-- [ ] T094 [US0] Add Quality Tools section to README.md: Checkstyle, PMD, ESLint, Prettier, pre-commit hooks
-- [ ] T095 [US0] Add Testing section to README.md: how to run backend tests, frontend tests
-- [ ] T096 [US0] Add API Documentation section to README.md: link to Swagger UI at http://localhost:7171/swagger-ui
-- [ ] T097 [US0] Add Troubleshooting section to README.md with common issues from quickstart.md
-- [ ] T098 [US0] Add Architecture section to README.md: Islands Architecture explanation, state management patterns
-- [ ] T099 [US0] Add Contributing section to README.md: how to add features, run quality checks, commit guidelines
+- [x] T090 [US0] Create comprehensive README.md at repository root (quarkus-astro-app/README.md)
+- [x] T091 [US0] Add Prerequisites section to README.md: Java 21, Maven 3.9+, Node 20.17+
+- [x] T092 [US0] Add Quick Start section to README.md with 3-command setup from quickstart.md
+- [x] T093 [US0] Add Development Workflow section to README.md: how to develop backend/frontend
+- [x] T094 [US0] Add Quality Tools section to README.md: Checkstyle, PMD, ESLint, Prettier, pre-commit hooks
+- [x] T095 [US0] Add Testing section to README.md: how to run backend tests, frontend tests
+- [x] T096 [US0] Add API Documentation section to README.md: link to Swagger UI at http://localhost:7171/swagger-ui
+- [x] T097 [US0] Add Troubleshooting section to README.md with common issues from quickstart.md
+- [x] T098 [US0] Add Architecture section to README.md: Islands Architecture explanation, state management patterns
+- [x] T099 [US0] Add Contributing section to README.md: how to add features, run quality checks, commit guidelines
 
 ### CI/CD Configuration Examples
 
-- [ ] T100 [US0] Create .github/workflows/ directory at repository root
-- [ ] T101 [US0] Create .github/workflows/ci.yml with GitHub Actions workflow for quality checks
-- [ ] T102 [US0] Add Maven build job to ci.yml: runs `./mvnw clean verify` on Java 21
-- [ ] T103 [US0] Add frontend build job to ci.yml: runs `npm run build` and `npm run lint` in webui/
-- [ ] T104 [US0] Add test job to ci.yml: runs `./mvnw test` and `npm test` if tests exist
-- [ ] T105 [US0] Configure ci.yml to fail on any Checkstyle/PMD/ESLint violation
-- [ ] T106 [US0] Add comments to ci.yml explaining each step (production-ready documentation)
-- [ ] T107 [US0] Create .gitlab-ci.yml as alternative CI/CD example for GitLab users
+- [x] T100 [US0] Create .github/workflows/ directory at repository root
+- [x] T101 [US0] Create .github/workflows/ci.yml with GitHub Actions workflow for quality checks
+- [x] T102 [US0] Add Maven build job to ci.yml: runs `./mvnw clean verify` on Java 21
+- [x] T103 [US0] Add frontend build job to ci.yml: runs `npm run build` and `npm run lint` in webui/
+- [x] T104 [US0] Add test job to ci.yml: runs `./mvnw test` and `npm test` if tests exist
+- [x] T105 [US0] Configure ci.yml to fail on any Checkstyle/PMD/ESLint violation
+- [x] T106 [US0] Add comments to ci.yml explaining each step (production-ready documentation)
+- [x] T107 [US0] Create .gitlab-ci.yml as alternative CI/CD example for GitLab users
 
 ### VS Code Configuration (Optional but Recommended)
 
-- [ ] T108 [US0] Create .vscode/settings.json at repository root with recommended settings
-- [ ] T109 [US0] Add ESLint integration to .vscode/settings.json: "eslint.validate" for .astro, .ts, .tsx
-- [ ] T110 [US0] Add Prettier integration to .vscode/settings.json: "editor.defaultFormatter": "esbenp.prettier-vscode"
-- [ ] T111 [US0] Add format on save to .vscode/settings.json: "editor.formatOnSave": true
-- [ ] T112 [US0] Create .vscode/extensions.json with recommended extensions: Astro, Prettier, ESLint, Tailwind CSS IntelliSense
-- [ ] T113 [US0] Create .vscode/tasks.json with tasks for "Run Quarkus Dev", "Run Frontend Build", "Run Tests"
+- [x] T108 [US0] Create .vscode/settings.json at repository root with recommended settings
+- [x] T109 [US0] Add ESLint integration to .vscode/settings.json: "eslint.validate" for .astro, .ts, .tsx
+- [x] T110 [US0] Add Prettier integration to .vscode/settings.json: "editor.defaultFormatter": "esbenp.prettier-vscode"
+- [x] T111 [US0] Add format on save to .vscode/settings.json: "editor.formatOnSave": true
+- [x] T112 [US0] Create .vscode/extensions.json with recommended extensions: Astro, Prettier, ESLint, Tailwind CSS IntelliSense
+- [x] T113 [US0] Create .vscode/tasks.json with tasks for "Run Quarkus Dev", "Run Frontend Build", "Run Tests"
 
 ### Final Verification & Testing
 
-- [ ] T114 [US0] Run full Maven build: `./mvnw clean package` from quarkus-astro-app/ - verify 0 Checkstyle violations
-- [ ] T115 [US0] Run full Maven build: `./mvnw clean package` from quarkus-astro-app/ - verify 0 PMD violations
-- [ ] T116 [US0] Run frontend build: `cd src/main/webui && npm run build` - verify 0 ESLint errors
-- [ ] T117 [US0] Run frontend lint: `cd src/main/webui && npm run lint` - verify passes
-- [ ] T118 [US0] Run frontend format check: `cd src/main/webui && npm run format:check` - verify passes
-- [ ] T119 [US0] Test pre-commit hooks: create file with intentional formatting issue, stage it, attempt commit, verify Prettier auto-fixes
-- [ ] T120 [US0] Test pre-commit hooks: create file with intentional ESLint violation, stage it, attempt commit, verify commit is blocked
-- [ ] T121 [US0] Start Quarkus dev mode: `quarkus dev` - verify starts without errors on http://localhost:7171
-- [ ] T122 [US0] Verify Swagger UI loads: http://localhost:7171/swagger-ui (may be empty, just verify page loads)
-- [ ] T123 [US0] Verify Astro hot reload works: modify a file in src/main/webui/src/, verify browser updates
-- [ ] T124 [US0] Measure setup time: verify a new developer can complete setup in <10 minutes per SC-016
-- [ ] T125 [US0] Update CLAUDE.md with new technologies: ESLint flat config, Prettier plugins, Husky, Orval, Tailwind v4, Shadcn/ui, Nano Stores, Vitest
+- [x] T114 [US0] Run full Maven build: `./mvnw clean package` from quarkus-astro-app/ - verify 0 Checkstyle violations
+- [x] T115 [US0] Run full Maven build: `./mvnw clean package` from quarkus-astro-app/ - verify 0 PMD violations
+- [x] T116 [US0] Run frontend build: `cd src/main/webui && npm run build` - verify 0 ESLint errors
+- [x] T117 [US0] Run frontend lint: `cd src/main/webui && npm run lint` - verify passes
+- [x] T118 [US0] Run frontend format check: `cd src/main/webui && npm run format:check` - verify passes
+- [x] T119 [US0] Test pre-commit hooks: create file with intentional formatting issue, stage it, attempt commit, verify Prettier auto-fixes
+- [x] T120 [US0] Test pre-commit hooks: create file with intentional ESLint violation, stage it, attempt commit, verify commit is blocked
+- [x] T121 [US0] Start Quarkus dev mode: `quarkus dev` - verify starts without errors on http://localhost:7171
+- [x] T122 [US0] Verify Swagger UI loads: http://localhost:7171/swagger-ui (may be empty, just verify page loads)
+- [x] T123 [US0] Verify Astro hot reload works: modify a file in src/main/webui/src/, verify browser updates
+- [x] T124 [US0] Measure setup time: verify a new developer can complete setup in <10 minutes per SC-016
+- [x] T125 [US0] Update CLAUDE.md with new technologies: ESLint flat config, Prettier plugins, Husky, Orval, Tailwind v4, Shadcn/ui, Nano Stores, Vitest
 
 **Checkpoint US0**: At this point, the project has a production-ready bootstrap template with all quality tools enforced. Zero violations across 100% of codebase. Pre-commit hooks prevent bad commits. README documentation complete. SC-013, SC-014, SC-015, SC-016, SC-017 are satisfied.
 

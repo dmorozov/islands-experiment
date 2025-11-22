@@ -53,7 +53,9 @@
         "wix.vscode-import-cost", // JavaScript library import cost
         "vunguyentuan.vscode-postcss", // PostCSS Intellisense and Highlighting
         "redhat.vscode-xml", // XML document formatter
-        "redhat.vscode-microprofile" // YAML editor
+        "redhat.vscode-microprofile", // YAML editor
+        "astro-build.astro-vscode", // Astro support
+        "bradlc.vscode-tailwindcss" // Tailwind support
       ]
     }
   },

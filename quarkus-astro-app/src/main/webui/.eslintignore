@@ -1,0 +1,20 @@
+# ESLint Ignore Patterns
+# Exclude generated and build artifacts from linting
+
+# Build output
+dist/
+.astro/
+
+# Dependencies
+node_modules/
+
+# Generated API client (from Orval)
+api/
+
+# Husky git hooks
+.husky/
+
+# Lock files
+package-lock.json
+pnpm-lock.yaml
+yarn.lock

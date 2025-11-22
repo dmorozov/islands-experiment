@@ -1,0 +1,24 @@
+# Prettier Ignore Patterns
+# Exclude generated and build artifacts from formatting
+
+# Build output
+dist/
+.astro/
+
+# Dependencies
+node_modules/
+
+# Generated API client (from Orval)
+api/
+
+# Lock files
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Coverage reports
+coverage/
+.nyc_output/
+
+# Logs
+*.log

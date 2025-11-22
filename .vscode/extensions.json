@@ -1,0 +1,25 @@
+{
+  "recommendations": [
+    // Frontend Development
+    "astro-build.astro-vscode",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss",
+    // Backend Development (Java)
+    "redhat.java",
+    "vscjava.vscode-java-debug",
+    "vscjava.vscode-java-test",
+    "vscjava.vscode-maven",
+    "vscjava.vscode-java-dependency",
+    "shengchen.vscode-checkstyle",
+    "jebbs.pmd",
+    "redhat.vscode-xml",
+    // Quarkus
+    "redhat.vscode-quarkus",
+    // General Development
+    "streetsidesoftware.code-spell-checker",
+    "eamodio.gitlens",
+    "tamasfe.even-better-toml"
+  ],
+  "unwantedRecommendations": []
+}
