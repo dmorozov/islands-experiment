@@ -209,7 +209,7 @@ This is a web application with the following structure:
 
 ---
 
-## Phase 3: Foundational (Backend Core Infrastructure)
+## Phase 3: Foundational (Backend Core Infrastructure) ✅
 
 **Purpose**: Core backend infrastructure that MUST be complete before user story implementations
 
@@ -217,38 +217,38 @@ This is a web application with the following structure:
 
 ### Backend Configuration
 
-- [ ] T126 Update quarkus-astro-app/src/main/resources/application.properties with HTTP port 7171
-- [ ] T127 Configure H2 database connection in application.properties
-- [ ] T128 Configure Hibernate DDL generation: `quarkus.hibernate-orm.database.generation=drop-and-create` for development
-- [ ] T129 Configure Quinoa settings in application.properties: UI directory, build directory, API path prefix /api
-- [ ] T130 Configure OpenAPI schema export location in application.properties: quarkus.smallrye-openapi.store-schema-directory=src/main/webui/api
-- [ ] T131 Configure CORS settings in application.properties for local development
+- [x] T126 Update quarkus-astro-app/src/main/resources/application.properties with HTTP port 7171
+- [x] T127 Configure H2 database connection in application.properties
+- [x] T128 Configure Hibernate DDL generation: `quarkus.hibernate-orm.database.generation=drop-and-create` for development
+- [x] T129 Configure Quinoa settings in application.properties: UI directory, build directory, API path prefix /api
+- [x] T130 Configure OpenAPI schema export location in application.properties: quarkus.smallrye-openapi.store-schema-directory=src/main/webui/api
+- [x] T131 Configure CORS settings in application.properties for local development
 
 ### Priority Enum (Shared)
 
-- [ ] T132 [P] Create Priority enum in quarkus-astro-app/src/main/java/org/acme/taskmanager/model/Priority.java with values: HIGH, MEDIUM, LOW
+- [x] T132 [P] Create Priority enum in quarkus-astro-app/src/main/java/org/acme/taskmanager/model/Priority.java with values: HIGH, MEDIUM, LOW
 
 ### Session Management Infrastructure
 
-- [ ] T133 [P] Create SessionUtils class in quarkus-astro-app/src/main/java/org/acme/taskmanager/session/SessionUtils.java
-- [ ] T134 [P] Implement getCurrentUserId(HttpSession) method in SessionUtils to extract user ID from session
-- [ ] T135 [P] Implement setCurrentUser(HttpSession, String userId) method in SessionUtils
-- [ ] T136 [P] Add validation: throw UnauthorizedException if session user is null in SessionUtils
+- [x] T133 [P] Create SessionUtils class in quarkus-astro-app/src/main/java/org/acme/taskmanager/session/SessionUtils.java
+- [x] T134 [P] Implement getCurrentUserId(HttpSession) method in SessionUtils to extract user ID from session
+- [x] T135 [P] Implement setCurrentUser(HttpSession, String userId) method in SessionUtils
+- [x] T136 [P] Add validation: throw UnauthorizedException if session user is null in SessionUtils
 
 ### Base DTOs (Shared)
 
-- [ ] T137 [P] Create ErrorDTO record in quarkus-astro-app/src/main/java/org/acme/taskmanager/dto/ErrorDTO.java with: message, field, code
+- [x] T137 [P] Create ErrorDTO record in quarkus-astro-app/src/main/java/org/acme/taskmanager/dto/ErrorDTO.java with: message, field, code
 
 ### Exception Handling Infrastructure
 
-- [ ] T138 [P] Create custom exception ResourceNotFoundException in quarkus-astro-app/src/main/java/org/acme/taskmanager/exception/ResourceNotFoundException.java
-- [ ] T139 [P] Create custom exception ValidationException in quarkus-astro-app/src/main/java/org/acme/taskmanager/exception/ValidationException.java
-- [ ] T140 [P] Create custom exception UnauthorizedException in quarkus-astro-app/src/main/java/org/acme/taskmanager/exception/UnauthorizedException.java
-- [ ] T141 [P] Create GlobalExceptionMapper in quarkus-astro-app/src/main/java/org/acme/taskmanager/exception/GlobalExceptionMapper.java
-- [ ] T142 [P] Implement ExceptionMapper for ResourceNotFoundException → 404 with ErrorDTO response
-- [ ] T143 [P] Implement ExceptionMapper for ValidationException → 400 with ErrorDTO response
-- [ ] T144 [P] Implement ExceptionMapper for UnauthorizedException → 401 with ErrorDTO response
-- [ ] T145 [P] Implement ExceptionMapper for generic Exception → 500 with ErrorDTO response
+- [x] T138 [P] Create custom exception ResourceNotFoundException in quarkus-astro-app/src/main/java/org/acme/taskmanager/exception/ResourceNotFoundException.java
+- [x] T139 [P] Create custom exception ValidationException in quarkus-astro-app/src/main/java/org/acme/taskmanager/exception/ValidationException.java
+- [x] T140 [P] Create custom exception UnauthorizedException in quarkus-astro-app/src/main/java/org/acme/taskmanager/exception/UnauthorizedException.java
+- [x] T141 [P] Create GlobalExceptionMapper in quarkus-astro-app/src/main/java/org/acme/taskmanager/exception/GlobalExceptionMapper.java
+- [x] T142 [P] Implement ExceptionMapper for ResourceNotFoundException → 404 with ErrorDTO response
+- [x] T143 [P] Implement ExceptionMapper for ValidationException → 400 with ErrorDTO response
+- [x] T144 [P] Implement ExceptionMapper for UnauthorizedException → 401 with ErrorDTO response
+- [x] T145 [P] Implement ExceptionMapper for generic Exception → 500 with ErrorDTO response
 
 **Checkpoint Foundation**: Backend infrastructure ready - API endpoints can now be implemented
 
