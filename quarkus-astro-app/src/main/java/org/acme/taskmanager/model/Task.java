@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * Task entity representing a user's task/todo item.
+ * Task entity representing a user's task or to-do item.
  * Each task belongs to a specific user and category.
  */
 @Entity
@@ -43,18 +43,23 @@ import java.util.UUID;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Task {
 
+    private static final int TITLE_MAX_LENGTH = 200;
+    private static final int DESCRIPTION_MAX_LENGTH = 2000;
+    private static final int PRIORITY_MAX_LENGTH = 10;
+    private static final int USER_ID_MAX_LENGTH = 100;
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @EqualsAndHashCode.Include
     private UUID id;
 
     @NotNull
-    @Size(min = 1, max = 200)
-    @Column(nullable = false, length = 200)
+    @Size(min = 1, max = TITLE_MAX_LENGTH)
+    @Column(nullable = false, length = TITLE_MAX_LENGTH)
     private String title;
 
-    @Size(max = 2000)
-    @Column(length = 2000)
+    @Size(max = DESCRIPTION_MAX_LENGTH)
+    @Column(length = DESCRIPTION_MAX_LENGTH)
     private String description;
 
     @NotNull
@@ -64,7 +69,7 @@ public class Task {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = PRIORITY_MAX_LENGTH)
     private Priority priority = Priority.MEDIUM;
 
     @Column(nullable = false)
@@ -74,7 +79,7 @@ public class Task {
     private LocalDateTime completedAt;
 
     @NotNull
-    @Column(name = "user_id", nullable = false, length = 100)
+    @Column(name = "user_id", nullable = false, length = USER_ID_MAX_LENGTH)
     private String userId;
 
     @CreationTimestamp
@@ -94,7 +99,8 @@ public class Task {
      * @param priority the priority level
      * @param userId the user ID who owns this task
      */
-    public Task(String title, String description, Category category, Priority priority, String userId) {
+    public Task(final String title, final String description, final Category category,
+               final Priority priority, final String userId) {
         this.title = title;
         this.description = description;
         this.category = category;

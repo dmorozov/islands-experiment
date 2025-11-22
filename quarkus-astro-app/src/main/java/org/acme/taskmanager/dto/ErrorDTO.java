@@ -54,7 +54,7 @@ public record ErrorDTO(String message, String field, String code) {
    * @param code the error code
    * @return a new ErrorDTO with field set to null
    */
-  public static ErrorDTO of(String message, String code) {
+  public static ErrorDTO of(final String message, final String code) {
     return new ErrorDTO(message, null, code);
   }
 
@@ -66,7 +66,7 @@ public record ErrorDTO(String message, String field, String code) {
    * @param code the error code
    * @return a new ErrorDTO with all fields populated
    */
-  public static ErrorDTO fieldError(String message, String field, String code) {
+  public static ErrorDTO fieldError(final String message, final String field, final String code) {
     return new ErrorDTO(message, field, code);
   }
 }

@@ -28,7 +28,7 @@ public class UnauthorizedException extends RuntimeException {
    *
    * @param message the detail message explaining why authentication failed
    */
-  public UnauthorizedException(String message) {
+  public UnauthorizedException(final String message) {
     super(message);
   }
 
@@ -38,7 +38,7 @@ public class UnauthorizedException extends RuntimeException {
    * @param message the detail message explaining why authentication failed
    * @param cause the underlying cause of the authentication failure
    */
-  public UnauthorizedException(String message, Throwable cause) {
+  public UnauthorizedException(final String message, final Throwable cause) {
     super(message, cause);
   }
 }

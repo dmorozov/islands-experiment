@@ -43,7 +43,7 @@ public class ValidationException extends RuntimeException {
    *
    * @param message the detail message explaining why validation failed
    */
-  public ValidationException(String message) {
+  public ValidationException(final String message) {
     super(message);
   }
 
@@ -53,7 +53,7 @@ public class ValidationException extends RuntimeException {
    * @param message the detail message explaining why validation failed
    * @param field the name of the field that failed validation
    */
-  public ValidationException(String message, String field) {
+  public ValidationException(final String message, final String field) {
     super(message);
     this.field = field;
   }
@@ -64,7 +64,7 @@ public class ValidationException extends RuntimeException {
    * @param message the detail message explaining why validation failed
    * @param cause the underlying cause of the validation failure
    */
-  public ValidationException(String message, Throwable cause) {
+  public ValidationException(final String message, final Throwable cause) {
     super(message, cause);
   }
 

@@ -42,25 +42,29 @@ import java.util.UUID;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Category {
 
+    private static final int NAME_MAX_LENGTH = 50;
+    private static final int COLOR_CODE_MAX_LENGTH = 7;
+    private static final int USER_ID_MAX_LENGTH = 100;
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @EqualsAndHashCode.Include
     private UUID id;
 
     @NotNull
-    @Size(min = 1, max = 50)
-    @Column(nullable = false, length = 50)
+    @Size(min = 1, max = NAME_MAX_LENGTH)
+    @Column(nullable = false, length = NAME_MAX_LENGTH)
     private String name;
 
-    @Size(max = 7)
-    @Column(name = "color_code", length = 7)
+    @Size(max = COLOR_CODE_MAX_LENGTH)
+    @Column(name = "color_code", length = COLOR_CODE_MAX_LENGTH)
     private String colorCode;
 
     @Column(name = "is_default", nullable = false)
     private boolean isDefault = false;
 
     @NotNull
-    @Column(name = "user_id", nullable = false, length = 100)
+    @Column(name = "user_id", nullable = false, length = USER_ID_MAX_LENGTH)
     private String userId;
 
     @CreationTimestamp
@@ -78,7 +82,8 @@ public class Category {
      * @param isDefault whether this is a default category
      * @param userId the user ID who owns this category
      */
-    public Category(String name, String colorCode, boolean isDefault, String userId) {
+    public Category(final String name, final String colorCode,
+                   final boolean isDefault, final String userId) {
         this.name = name;
         this.colorCode = colorCode;
         this.isDefault = isDefault;

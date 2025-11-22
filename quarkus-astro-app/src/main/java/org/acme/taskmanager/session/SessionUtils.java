@@ -56,7 +56,7 @@ public final class SessionUtils {
    * @throws UnauthorizedException if no user is authenticated in the current session
    * @throws IllegalArgumentException if context is null
    */
-  public static String getCurrentUserId(RoutingContext context) {
+  public static String getCurrentUserId(final RoutingContext context) {
     if (context == null) {
       throw new IllegalArgumentException("RoutingContext cannot be null");
     }
@@ -80,7 +80,7 @@ public final class SessionUtils {
    * @param userId the user's unique identifier to store in the session
    * @throws IllegalArgumentException if context or userId is null/blank
    */
-  public static void setCurrentUser(RoutingContext context, String userId) {
+  public static void setCurrentUser(final RoutingContext context, final String userId) {
     if (context == null) {
       throw new IllegalArgumentException("RoutingContext cannot be null");
     }
@@ -101,7 +101,7 @@ public final class SessionUtils {
    * @param context the Vert.x routing context containing the session
    * @throws IllegalArgumentException if context is null
    */
-  public static void clearCurrentUser(RoutingContext context) {
+  public static void clearCurrentUser(final RoutingContext context) {
     if (context == null) {
       throw new IllegalArgumentException("RoutingContext cannot be null");
     }
@@ -118,7 +118,7 @@ public final class SessionUtils {
    * @return true if a user is authenticated, false otherwise
    * @throws IllegalArgumentException if context is null
    */
-  public static boolean isAuthenticated(RoutingContext context) {
+  public static boolean isAuthenticated(final RoutingContext context) {
     if (context == null) {
       throw new IllegalArgumentException("RoutingContext cannot be null");
     }

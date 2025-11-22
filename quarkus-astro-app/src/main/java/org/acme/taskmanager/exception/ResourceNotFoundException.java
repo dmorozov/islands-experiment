@@ -32,7 +32,7 @@ public class ResourceNotFoundException extends RuntimeException {
    *
    * @param message the detail message explaining which resource was not found
    */
-  public ResourceNotFoundException(String message) {
+  public ResourceNotFoundException(final String message) {
     super(message);
   }
 
@@ -42,7 +42,7 @@ public class ResourceNotFoundException extends RuntimeException {
    * @param message the detail message explaining which resource was not found
    * @param cause the underlying cause of the failure
    */
-  public ResourceNotFoundException(String message, Throwable cause) {
+  public ResourceNotFoundException(final String message, final Throwable cause) {
     super(message, cause);
   }
 }

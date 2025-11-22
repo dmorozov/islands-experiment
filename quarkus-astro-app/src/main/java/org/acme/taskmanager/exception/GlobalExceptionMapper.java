@@ -54,7 +54,7 @@ public class GlobalExceptionMapper implements ExceptionMapper<Exception> {
    * @return HTTP response with status code and ErrorDTO body
    */
   @Override
-  public Response toResponse(Exception exception) {
+  public Response toResponse(final Exception exception) {
     // Log all exceptions for debugging
     LOG.error("Exception occurred during request processing", exception);
 
@@ -83,7 +83,7 @@ public class GlobalExceptionMapper implements ExceptionMapper<Exception> {
    * @param exception the ResourceNotFoundException
    * @return HTTP 404 response with ErrorDTO
    */
-  private Response handleResourceNotFoundException(ResourceNotFoundException exception) {
+  private Response handleResourceNotFoundException(final ResourceNotFoundException exception) {
     LOG.debugf("Resource not found: %s", exception.getMessage());
 
     ErrorDTO errorDTO = ErrorDTO.of(exception.getMessage(), "NOT_FOUND");
@@ -97,7 +97,7 @@ public class GlobalExceptionMapper implements ExceptionMapper<Exception> {
    * @param exception the ValidationException
    * @return HTTP 400 response with ErrorDTO
    */
-  private Response handleValidationException(ValidationException exception) {
+  private Response handleValidationException(final ValidationException exception) {
     LOG.debugf("Validation failed: %s", exception.getMessage());
 
     ErrorDTO errorDTO;
@@ -118,7 +118,7 @@ public class GlobalExceptionMapper implements ExceptionMapper<Exception> {
    * @param exception the UnauthorizedException
    * @return HTTP 401 response with ErrorDTO
    */
-  private Response handleUnauthorizedException(UnauthorizedException exception) {
+  private Response handleUnauthorizedException(final UnauthorizedException exception) {
     LOG.debugf("Unauthorized access attempt: %s", exception.getMessage());
 
     ErrorDTO errorDTO = ErrorDTO.of(exception.getMessage(), "UNAUTHORIZED");
@@ -135,7 +135,7 @@ public class GlobalExceptionMapper implements ExceptionMapper<Exception> {
    * @param exception the generic exception
    * @return HTTP 500 response with ErrorDTO
    */
-  private Response handleGenericException(Exception exception) {
+  private Response handleGenericException(final Exception exception) {
     // Don't expose internal error details to clients
     LOG.error("Unexpected error occurred", exception);
 
