@@ -286,26 +286,26 @@ This is a web application with the following structure:
 
 ### Backend DTOs for US1
 
-- [ ] T164 [P] [US1] Create CategoryResponseDTO record in quarkus-astro-app/src/main/java/org/acme/taskmanager/dto/CategoryResponseDTO.java
-- [ ] T165 [P] [US1] Add fields to CategoryResponseDTO: id, name, colorCode, isDefault, createdAt, taskCount
-- [ ] T166 [P] [US1] Add static from(Category) method to CategoryResponseDTO
-- [ ] T167 [P] [US1] Create TaskResponseDTO record in quarkus-astro-app/src/main/java/org/acme/taskmanager/dto/TaskResponseDTO.java
-- [ ] T168 [P] [US1] Add fields to TaskResponseDTO: id, title, description, category (CategoryResponseDTO), priority, completed, completedAt, createdAt, updatedAt
-- [ ] T169 [P] [US1] Add static from(Task) method to TaskResponseDTO
+- [x] T164 [P] [US1] Create CategoryResponseDTO record in quarkus-astro-app/src/main/java/org/acme/taskmanager/dto/CategoryResponseDTO.java
+- [x] T165 [P] [US1] Add fields to CategoryResponseDTO: id, name, colorCode, isDefault, createdAt, taskCount
+- [x] T166 [P] [US1] Add static from(Category) method to CategoryResponseDTO
+- [x] T167 [P] [US1] Create TaskResponseDTO record in quarkus-astro-app/src/main/java/org/acme/taskmanager/dto/TaskResponseDTO.java
+- [x] T168 [P] [US1] Add fields to TaskResponseDTO: id, title, description, category (CategoryResponseDTO), priority, completed, completedAt, createdAt, updatedAt
+- [x] T169 [P] [US1] Add static from(Task) method to TaskResponseDTO
 
 ### Backend Services for US1
 
-- [ ] T170 [US1] Create CategoryRepository interface in quarkus-astro-app/src/main/java/org/acme/taskmanager/repository/CategoryRepository.java extends PanacheRepositoryBase<Category, UUID>
-- [ ] T171 [US1] Add query methods to CategoryRepository: findByUserId(String userId), countByUserId(String userId)
-- [ ] T172 [US1] Create CategoryService in quarkus-astro-app/src/main/java/org/acme/taskmanager/service/CategoryService.java
-- [ ] T173 [US1] Implement ensureDefaultCategories(String userId) method in CategoryService to seed Work, Personal, Shopping categories
-- [ ] T174 [US1] Implement getAllCategoriesByUser(String userId) method in CategoryService
-- [ ] T175 [US1] Create TaskRepository interface in quarkus-astro-app/src/main/java/org/acme/taskmanager/repository/TaskRepository.java extends PanacheRepositoryBase<Task, UUID>
-- [ ] T176 [US1] Add query methods to TaskRepository: findByUserId, findByUserIdAndCompleted, findByUserIdAndCategoryId, findByUserIdAndPriority
-- [ ] T177 [US1] Add pagination support to TaskRepository query methods using PanacheQuery
-- [ ] T178 [US1] Create TaskService in quarkus-astro-app/src/main/java/org/acme/taskmanager/service/TaskService.java
-- [ ] T179 [US1] Implement getAllTasks(String userId, String categoryId, Priority priority, Boolean completed, int page, int size) in TaskService
-- [ ] T180 [US1] Add proper null checks and filtering logic in TaskService.getAllTasks()
+- [x] T170 [US1] Create CategoryRepository interface in quarkus-astro-app/src/main/java/org/acme/taskmanager/repository/CategoryRepository.java extends PanacheRepositoryBase<Category, UUID>
+- [x] T171 [US1] Add query methods to CategoryRepository: findByUserId(String userId), countByUserId(String userId)
+- [x] T172 [US1] Create CategoryService in quarkus-astro-app/src/main/java/org/acme/taskmanager/service/CategoryService.java
+- [x] T173 [US1] Implement ensureDefaultCategories(String userId) method in CategoryService to seed Work, Personal, Shopping categories
+- [x] T174 [US1] Implement getAllCategoriesByUser(String userId) method in CategoryService
+- [x] T175 [US1] Create TaskRepository interface in quarkus-astro-app/src/main/java/org/acme/taskmanager/repository/TaskRepository.java extends PanacheRepositoryBase<Task, UUID>
+- [x] T176 [US1] Add query methods to TaskRepository: findByUserId, findByUserIdAndCompleted, findByUserIdAndCategoryId, findByUserIdAndPriority
+- [x] T177 [US1] Add pagination support to TaskRepository query methods using PanacheQuery
+- [x] T178 [US1] Create TaskService in quarkus-astro-app/src/main/java/org/acme/taskmanager/service/TaskService.java
+- [x] T179 [US1] Implement getAllTasks(String userId, String categoryId, Priority priority, Boolean completed, int page, int size) in TaskService
+- [x] T180 [US1] Add proper null checks and filtering logic in TaskService.getAllTasks()
 
 ### Backend API Endpoints for US1
 
