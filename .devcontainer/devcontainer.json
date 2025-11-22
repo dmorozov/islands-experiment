@@ -14,7 +14,7 @@
       "jdkVersion": "21"
     },
     // Installs a set of common command line utilities, Oh My Zsh!, and sets up a non-root user.
-    "ghcr.io/devcontainers/features/common-utils:2.0.11": {
+    "ghcr.io/devcontainers/features/common-utils:2.5.5": {
       "installZsh": true,
       "configureZshAsDefaultShell": true,
       "installOhMyZsh": true,
@@ -69,10 +69,7 @@
     }
   },
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [
-    7171,
-    3000
-  ],
+  "forwardPorts": [7171, 3000],
   "mounts": [
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" // Binding the host docker socket to the containerit
   ],
