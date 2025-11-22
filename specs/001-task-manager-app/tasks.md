@@ -16,6 +16,7 @@
 ## Path Conventions
 
 This is a web application with the following structure:
+
 - **Backend**: `quarkus-astro-app/src/main/java/org/acme/taskmanager/`
 - **Frontend**: `quarkus-astro-app/src/main/webui/src/`
 - **Tests**: `quarkus-astro-app/src/test/java/`
@@ -92,15 +93,15 @@ This is a web application with the following structure:
 - [x] T041 [US0] Create .husky/pre-commit file with: `#!/usr/bin/env sh\n. "$(dirname -- "$0")/_/husky.sh"\nnpx lint-staged`
 - [x] T042 [US0] Make .husky/pre-commit executable: `chmod +x .husky/pre-commit`
 - [x] T043 [US0] Create .lintstagedrc.json in quarkus-astro-app/src/main/webui/ with file-type specific commands
-- [x] T044 [US0] Configure .lintstagedrc.json to run Prettier first, then ESLint with --fix for *.ts, *.tsx files
-- [x] T045 [US0] Configure .lintstagedrc.json to run Prettier for *.astro files
+- [x] T044 [US0] Configure .lintstagedrc.json to run Prettier first, then ESLint with --fix for _.ts, _.tsx files
+- [x] T045 [US0] Configure .lintstagedrc.json to run Prettier for \*.astro files
 - [x] T046 [US0] Add npm script "prepare" to package.json: "husky install" (for team setup)
 - [x] T047 [US0] Test pre-commit hooks: create file with violation, attempt commit, verify it's blocked or auto-fixed
 
 ### TypeScript Configuration
 
 - [x] T048 [US0] Create tsconfig.json in quarkus-astro-app/src/main/webui/ with strict mode enabled
-- [x] T049 [US0] Add path aliases to tsconfig.json: "@/*" maps to "./src/*"
+- [x] T049 [US0] Add path aliases to tsconfig.json: "@/_" maps to "./src/_"
 - [x] T050 [US0] Add compiler options: target ES2020, module ESNext, jsx preserve, lib ES2020/DOM
 - [x] T051 [US0] Add include/exclude patterns: include src/, exclude node_modules/, dist/
 - [x] T052 [US0] Configure baseUrl and paths for absolute imports in tsconfig.json
@@ -109,7 +110,7 @@ This is a web application with the following structure:
 ### Tailwind CSS Configuration
 
 - [x] T054 [US0] Create tailwind.config.mjs in quarkus-astro-app/src/main/webui/ with content paths
-- [x] T055 [US0] Add content globs to tailwind.config.mjs: './src/**/*.{astro,html,js,jsx,md,mdx,tsx}'
+- [x] T055 [US0] Add content globs to tailwind.config.mjs: './src/\*_/_.{astro,html,js,jsx,md,mdx,tsx}'
 - [x] T056 [US0] Configure theme extension in tailwind.config.mjs for custom colors/spacing if needed
 - [x] T057 [US0] Add darkMode: 'class' to tailwind.config.mjs for theme toggle support
 - [x] T058 [US0] Create src/styles/globals.css in quarkus-astro-app/src/main/webui/src/styles/
@@ -409,8 +410,8 @@ This is a web application with the following structure:
 
 ### Testing US1
 
-- [ ] T254 [US1] Manually test: start `quarkus dev`, navigate to http://localhost:7171, verify homepage loads
-- [ ] T255 [US1] Manually test: verify empty state shows "Create your first task" message
+- [x] T254 [US1] Manually test: start `quarkus dev`, navigate to http://localhost:7171, verify homepage loads
+- [x] T255 [US1] Manually test: verify empty state shows "Create your first task" message
 - [ ] T256 [US1] Manually test: use Swagger UI to POST a test task via /api/tasks (will be implemented in US2, or use curl)
 - [ ] T257 [US1] Manually test: verify task appears in TaskList after refresh
 - [ ] T258 [US1] Manually test: select "Completed" filter, verify only completed tasks show (or empty if none)
@@ -697,7 +698,7 @@ This is a web application with the following structure:
 - [ ] T449 [US4] Query tasks completed today (completedAt >= start of day) in StatsService.getCompletionStats()
 - [ ] T450 [US4] Query tasks completed this week (completedAt >= start of week) in StatsService.getCompletionStats()
 - [ ] T451 [US4] Query total completed tasks (completed = true) in StatsService.getCompletionStats()
-- [ ] T452 [US4] Calculate completion rate: (completed / total tasks) * 100 in StatsService.getCompletionStats()
+- [ ] T452 [US4] Calculate completion rate: (completed / total tasks) \* 100 in StatsService.getCompletionStats()
 - [ ] T453 [US4] Return CompletionStatsDTO from StatsService.getCompletionStats()
 - [ ] T454 [US4] Implement getCompletionHistory(String userId, int days) in StatsService
 - [ ] T455 [US4] Query tasks completed per day for last N days using GROUP BY date in StatsService.getCompletionHistory()
@@ -1086,6 +1087,7 @@ P0 (US0) → Foundation → US1
 ### Recommended MVP
 
 **MVP Scope** (US0 + Foundation + US1):
+
 - Production-ready tooling infrastructure
 - View and navigate tasks
 - Filter by category/priority/status
@@ -1096,6 +1098,7 @@ P0 (US0) → Foundation → US1
 ### Parallel Execution Opportunities
 
 **Phase 2 (US0) - High Parallelism**:
+
 - T007-T020: npm dependency installation can run in parallel
 - T021-T031: ESLint configuration independent
 - T032-T038: Prettier configuration independent
@@ -1105,12 +1108,14 @@ P0 (US0) → Foundation → US1
 - T100-T107: CI/CD configuration independent
 
 **Phase 4 (US1) - Moderate Parallelism**:
+
 - T146-T151: Contract tests can be written in parallel
 - T152-T163: Models can be created in parallel
 - T164-T169: DTOs can be created in parallel
 - T199-T210: Frontend state management independent from backend
 
 **Phases 5-8 (US2-US5) - Each user story is independent**:
+
 - After US1 complete, US2, US3, US4 can be implemented in parallel by different developers
 - US5 is completely independent and can be implemented anytime
 
@@ -1118,6 +1123,7 @@ P0 (US0) → Foundation → US1
 
 **Total Tasks**: 694
 **Tasks by Phase**:
+
 - Phase 1 (Setup): 5 tasks
 - Phase 2 (US0 Bootstrap): 120 tasks
 - Phase 3 (Foundation): 20 tasks
@@ -1130,6 +1136,7 @@ P0 (US0) → Foundation → US1
 - Phase 10 (Polish): 57 tasks
 
 **Estimated Effort**:
+
 - US0 Bootstrap: ~16-20 hours (critical foundation)
 - Foundation: ~4-6 hours
 - US1: ~20-24 hours
@@ -1142,6 +1149,7 @@ P0 (US0) → Foundation → US1
 - **Total**: ~120-150 hours (3-4 weeks for 1 developer)
 
 **Parallel Development** (3 developers):
+
 - Developer 1: US0 + Foundation + US1
 - Developer 2: US2 + US3
 - Developer 3: US4 + US5 + Session

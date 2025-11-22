@@ -63,15 +63,20 @@ public final class SessionUtils {
 
     // Handle test mode where session() may return null
     if (context.session() == null) {
-      // In test mode, try to use reflection to access TestSessionUtils
+      // Try to use TestSessionUtils if available (only in test mode)
       try {
         Class<?> testUtilsClass = Class.forName(
             "org.acme.taskmanager.session.TestSessionUtils");
         java.lang.reflect.Method method = testUtilsClass.getMethod("getCurrentUserId");
         return (String) method.invoke(null);
-      } catch (Exception e) {
+      } catch (ClassNotFoundException e) {
+        // TestSessionUtils not on classpath - we're in production mode
         throw new UnauthorizedException(
-            "No session available and not in test mode: " + e.getMessage());
+            "Session is not available. Please ensure HTTP sessions are enabled.");
+      } catch (Exception e) {
+        // TestSessionUtils exists but invocation failed
+        throw new UnauthorizedException(
+            "Test mode detected but TestSessionUtils invocation failed: " + e.getMessage());
       }
     }
 
