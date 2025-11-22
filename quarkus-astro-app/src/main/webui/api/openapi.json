@@ -1,12 +1,11 @@
 {
   "openapi" : "3.1.0",
   "info" : {
-    "title" : "Experiment API",
-    "version" : "\"1.0\"",
-    "description" : "This API allows CRUD operations on a Experiment",
+    "title" : "Task Manager API",
+    "version" : "1.0.0",
+    "description" : "RESTful API for Task Manager application demonstrating Islands Architecture",
     "contact" : {
-      "name" : "Experiment",
-      "url" : "https://superbia.com/Experiment"
+      "name" : "Task Manager Team"
     }
   },
   "paths" : { },

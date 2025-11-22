@@ -262,27 +262,27 @@ This is a web application with the following structure:
 
 ### Contract Tests for US1
 
-- [ ] T146 [P] [US1] Create TaskResourceTest in quarkus-astro-app/src/test/java/org/acme/taskmanager/contract/TaskResourceTest.java
-- [ ] T147 [P] [US1] Write contract test for GET /api/tasks (no filters) - expect 200, empty array initially
-- [ ] T148 [P] [US1] Write contract test for GET /api/tasks?status=active - expect 200, filtered results
-- [ ] T149 [P] [US1] Write contract test for GET /api/tasks?category={id} - expect 200, filtered results
-- [ ] T150 [P] [US1] Write contract test for GET /api/tasks?priority=HIGH - expect 200, filtered results
-- [ ] T151 [P] [US1] Write contract test for GET /api/tasks?page=0&size=20 - expect 200, paginated results
+- [x] T146 [P] [US1] Create TaskResourceTest in quarkus-astro-app/src/test/java/org/acme/taskmanager/contract/TaskResourceTest.java
+- [x] T147 [P] [US1] Write contract test for GET /api/tasks (no filters) - expect 200, empty array initially
+- [x] T148 [P] [US1] Write contract test for GET /api/tasks?status=active - expect 200, filtered results
+- [x] T149 [P] [US1] Write contract test for GET /api/tasks?category={id} - expect 200, filtered results
+- [x] T150 [P] [US1] Write contract test for GET /api/tasks?priority=HIGH - expect 200, filtered results
+- [x] T151 [P] [US1] Write contract test for GET /api/tasks?page=0&size=20 - expect 200, paginated results
 
 ### Backend Models for US1
 
-- [ ] T152 [P] [US1] Create Category entity in quarkus-astro-app/src/main/java/org/acme/taskmanager/model/Category.java per data-model.md
-- [ ] T153 [P] [US1] Add JPA annotations to Category: @Entity, @Table with indexes, unique constraint on (userId, name)
-- [ ] T154 [P] [US1] Add fields to Category: id (UUID), name, colorCode, isDefault, userId, createdAt, tasks (OneToMany)
-- [ ] T155 [P] [US1] Add validation annotations to Category: @NotNull, @Size constraints
-- [ ] T156 [P] [US1] Implement equals() and hashCode() for Category based on id
-- [ ] T157 [P] [US1] Add canDelete() method to Category: return !isDefault
-- [ ] T158 [P] [US1] Create Task entity in quarkus-astro-app/src/main/java/org/acme/taskmanager/model/Task.java per data-model.md
-- [ ] T159 [P] [US1] Add JPA annotations to Task: @Entity, @Table with indexes on userId, categoryId, completed, createdAt
-- [ ] T160 [P] [US1] Add fields to Task: id (UUID), title, description, category (ManyToOne), priority, completed, completedAt, userId, createdAt, updatedAt
-- [ ] T161 [P] [US1] Add validation annotations to Task: @NotNull, @Size constraints on title/description
-- [ ] T162 [P] [US1] Add @CreationTimestamp and @UpdateTimestamp annotations to Task
-- [ ] T163 [P] [US1] Implement equals() and hashCode() for Task based on id
+- [x] T152 [P] [US1] Create Category entity in quarkus-astro-app/src/main/java/org/acme/taskmanager/model/Category.java per data-model.md
+- [x] T153 [P] [US1] Add JPA annotations to Category: @Entity, @Table with indexes, unique constraint on (userId, name)
+- [x] T154 [P] [US1] Add fields to Category: id (UUID), name, colorCode, isDefault, userId, createdAt, tasks (OneToMany)
+- [x] T155 [P] [US1] Add validation annotations to Category: @NotNull, @Size constraints
+- [x] T156 [P] [US1] Implement equals() and hashCode() for Category based on id
+- [x] T157 [P] [US1] Add canDelete() method to Category: return !isDefault
+- [x] T158 [P] [US1] Create Task entity in quarkus-astro-app/src/main/java/org/acme/taskmanager/model/Task.java per data-model.md
+- [x] T159 [P] [US1] Add JPA annotations to Task: @Entity, @Table with indexes on userId, categoryId, completed, createdAt
+- [x] T160 [P] [US1] Add fields to Task: id (UUID), title, description, category (ManyToOne), priority, completed, completedAt, userId, createdAt, updatedAt
+- [x] T161 [P] [US1] Add validation annotations to Task: @NotNull, @Size constraints on title/description
+- [x] T162 [P] [US1] Add @CreationTimestamp and @UpdateTimestamp annotations to Task
+- [x] T163 [P] [US1] Implement equals() and hashCode() for Task based on id
 
 ### Backend DTOs for US1
 
