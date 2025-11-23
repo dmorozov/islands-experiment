@@ -15,13 +15,13 @@
  * - Hydrated components only where interactivity is needed
  */
 
-import Layout from '@/layouts/Layout.astro';
+import Layout from '@/components/Layout.astro';
 import CompletionStats from '@/islands/CompletionStats';
 import CompletionChart from '@/islands/CompletionChart';
 ---
 
 <Layout title="Dashboard | Task Manager">
-  <main class="container mx-auto px-4 py-8">
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
     {/* Page Header */}
     <div class="mb-8">
       <h1 class="text-4xl font-bold text-foreground mb-2">Dashboard</h1>
@@ -29,31 +29,6 @@ import CompletionChart from '@/islands/CompletionChart';
         Track your productivity and completion trends
       </p>
     </div>
-
-    {/* Navigation Links */}
-    <nav class="mb-6" aria-label="Main navigation">
-      <div class="flex flex-wrap gap-2">
-        <a
-          href="/"
-          class="inline-flex items-center rounded-md border border-input bg-background px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
-        >
-          Tasks
-        </a>
-        <a
-          href="/dashboard"
-          class="inline-flex items-center rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground shadow-sm transition-colors"
-          aria-current="page"
-        >
-          Dashboard
-        </a>
-        <a
-          href="/categories"
-          class="inline-flex items-center rounded-md border border-input bg-background px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
-        >
-          Categories
-        </a>
-      </div>
-    </nav>
 
     {/* T510-T511: Responsive layout with stats at top and chart below */}
     <div class="space-y-8">
@@ -88,12 +63,5 @@ import CompletionChart from '@/islands/CompletionChart';
         </div>
       </section>
     </div>
-  </main>
+  </div>
 </Layout>
-
-<style>
-  /* T513: Additional custom styling if needed */
-  main {
-    min-height: calc(100vh - 4rem);
-  }
-</style>

@@ -22,7 +22,6 @@
 import Layout from '@/components/Layout.astro';
 import TaskList from '@/islands/TaskList';
 import TaskFilter from '@/islands/TaskFilter';
-import ThemeToggle from '@/islands/ThemeToggle';
 import NewTaskButton from '@/islands/NewTaskButton';
 ---
 
@@ -30,7 +29,7 @@ import NewTaskButton from '@/islands/NewTaskButton';
   <!-- Main container with responsive padding -->
   <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
 
-    <!-- Page Header with Title, New Task Button, and Theme Toggle -->
+    <!-- Page Header with Title and New Task Button -->
     <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h1 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
@@ -41,37 +40,11 @@ import NewTaskButton from '@/islands/NewTaskButton';
         </p>
       </div>
 
-      <!-- New Task Button and Theme Toggle - Hydrated islands -->
+      <!-- New Task Button - Page specific action -->
       <div class="flex items-center gap-4">
         <NewTaskButton client:only="preact" />
-        <ThemeToggle client:only="preact" />
       </div>
     </div>
-
-    <!-- T512: Navigation Links -->
-    <nav class="mb-6" aria-label="Main navigation">
-      <div class="flex flex-wrap gap-2">
-        <a
-          href="/"
-          class="inline-flex items-center rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground shadow-sm transition-colors"
-          aria-current="page"
-        >
-          Tasks
-        </a>
-        <a
-          href="/dashboard"
-          class="inline-flex items-center rounded-md border border-input bg-background px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
-        >
-          Dashboard
-        </a>
-        <a
-          href="/categories"
-          class="inline-flex items-center rounded-md border border-input bg-background px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
-        >
-          Categories
-        </a>
-      </div>
-    </nav>
 
     <!-- Task Filter Island - Client-only (requires React Query context) -->
     <div class="mb-6">
