@@ -1,0 +1,202 @@
+---
+/**
+ * Navigation Component
+ *
+ * Responsive navigation bar with links to main sections of the application.
+ * Features:
+ * - Responsive design (mobile hamburger menu, desktop horizontal menu)
+ * - Active route highlighting
+ * - Theme toggle for dark/light mode
+ * - Accessible navigation with ARIA attributes
+ * - Tailwind CSS styling with Shadcn/ui theme
+ *
+ * Navigation Links:
+ * - Tasks: Main task list view
+ * - Categories: Manage task categories
+ * - Dashboard: Analytics and statistics
+ * - Performance: Performance metrics and insights
+ */
+
+import ThemeToggle from '@/islands/ThemeToggle';
+import UserMenu from '@/islands/UserMenu';
+
+const { pathname } = Astro.url;
+
+interface NavLink {
+  href: string;
+  label: string;
+  icon?: string;
+}
+
+const navLinks: NavLink[] = [
+  { href: '/', label: 'Tasks' },
+  { href: '/categories', label: 'Categories' },
+  { href: '/dashboard', label: 'Dashboard' },
+  { href: '/performance', label: 'Performance' },
+];
+
+/**
+ * Check if a link is active based on current pathname
+ */
+function isActive(href: string): boolean {
+  return pathname === href || pathname.startsWith(href + '/');
+}
+---
+
+<nav class="bg-background border-b">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-16 items-center justify-between">
+      <!-- Logo/Brand -->
+      <div class="flex items-center">
+        <a href="/" class="text-foreground flex items-center gap-2 text-xl font-bold">
+          <svg
+            class="text-primary h-8 w-8"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+            ></path>
+          </svg>
+          <span class="hidden sm:inline">Task Manager</span>
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:block">
+        <div class="ml-10 flex items-baseline gap-4">
+          {
+            navLinks.map((link) => (
+              <a
+                href={link.href}
+                class:list={[
+                  'rounded-md px-3 py-2 text-sm font-medium transition-colors',
+                  isActive(link.href)
+                    ? 'bg-primary text-primary-foreground'
+                    : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground',
+                ]}
+                aria-current={isActive(link.href) ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            ))
+          }
+          <!-- User Menu -->
+          <UserMenu client:only="preact" />
+          <!-- Theme Toggle -->
+          <ThemeToggle client:only="preact" />
+        </div>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden">
+        <button
+          type="button"
+          id="mobile-menu-button"
+          class="text-muted-foreground hover:bg-accent hover:text-accent-foreground focus:ring-primary inline-flex items-center justify-center rounded-md p-2 focus:ring-2 focus:outline-none focus:ring-inset"
+          aria-controls="mobile-menu"
+          aria-expanded="false"
+        >
+          <span class="sr-only">Open main menu</span>
+          <!-- Hamburger icon -->
+          <svg
+            class="block h-6 w-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+          <!-- Close icon (hidden by default) -->
+          <svg
+            class="hidden h-6 w-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="hidden md:hidden" id="mobile-menu">
+    <div class="space-y-1 px-2 pt-2 pb-3">
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              'block rounded-md px-3 py-2 text-base font-medium transition-colors',
+              isActive(link.href)
+                ? 'bg-primary text-primary-foreground'
+                : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground',
+            ]}
+            aria-current={isActive(link.href) ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <!-- User Menu for Mobile -->
+      <div class="px-3 py-2">
+        <UserMenu client:only="preact" />
+      </div>
+      <!-- Theme Toggle for Mobile -->
+      <div class="px-3 py-2">
+        <ThemeToggle client:only="preact" />
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  /**
+   * Mobile menu toggle functionality
+   * Handles opening/closing the mobile navigation menu
+   */
+  document.addEventListener('DOMContentLoaded', () => {
+    const button = document.getElementById('mobile-menu-button');
+    const menu = document.getElementById('mobile-menu');
+
+    if (button && menu) {
+      button.addEventListener('click', () => {
+        const expanded = button.getAttribute('aria-expanded') === 'true';
+        button.setAttribute('aria-expanded', String(!expanded));
+        menu.classList.toggle('hidden');
+
+        // Toggle icons
+        const icons = button.querySelectorAll('svg');
+        icons.forEach((icon) => icon.classList.toggle('hidden'));
+      });
+
+      // Close menu when clicking a link
+      const links = menu.querySelectorAll('a');
+      links.forEach((link) => {
+        link.addEventListener('click', () => {
+          menu.classList.add('hidden');
+          button.setAttribute('aria-expanded', 'false');
+          const icons = button.querySelectorAll('svg');
+          icons.forEach((icon) => icon.classList.toggle('hidden'));
+        });
+      });
+    }
+  });
+</script>

@@ -1,0 +1,63 @@
+---
+/**
+ * Dashboard Page (T507-T513)
+ *
+ * Displays task completion statistics and history visualizations.
+ *
+ * This page showcases:
+ * - Completion statistics (today, week, total, completion rate)
+ * - Completion history chart with customizable date range
+ * - Responsive layout optimized for all screen sizes
+ *
+ * Islands Architecture:
+ * - Uses CompletionStats and CompletionChart interactive islands
+ * - Static page shell for optimal performance
+ * - Hydrated components only where interactivity is needed
+ */
+
+import Layout from '@/components/Layout.astro';
+import CompletionStats from '@/islands/CompletionStats';
+import CompletionChart from '@/islands/CompletionChart';
+---
+
+<Layout title="Dashboard | Task Manager">
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    {/* Page Header */}
+    <div class="mb-8">
+      <h1 class="text-foreground mb-2 text-4xl font-bold">Dashboard</h1>
+      <p class="text-muted-foreground text-lg">Track your productivity and completion trends</p>
+    </div>
+
+    {/* T510-T511: Responsive layout with stats at top and chart below */}
+    <div class="space-y-8">
+      {/* T509: Completion Statistics */}
+      <section aria-labelledby="stats-heading">
+        <CompletionStats client:only="preact" />
+      </section>
+
+      {/* T509: Completion Chart */}
+      <section aria-labelledby="chart-heading">
+        <CompletionChart client:only="preact" days={30} />
+      </section>
+
+      {/* Quick Actions */}
+      <section aria-labelledby="actions-heading" class="bg-card rounded-lg border p-6 shadow-sm">
+        <h2 id="actions-heading" class="text-foreground mb-4 text-xl font-bold">Quick Actions</h2>
+        <div class="flex flex-wrap gap-4">
+          <a
+            href="/"
+            class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none"
+          >
+            View All Tasks
+          </a>
+          <a
+            href="/categories"
+            class="border-input bg-background hover:bg-accent hover:text-accent-foreground focus:ring-primary inline-flex items-center justify-center rounded-md border px-4 py-2 text-sm font-medium transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none"
+          >
+            Manage Categories
+          </a>
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>

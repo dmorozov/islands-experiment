@@ -1,11 +1,56 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+/**
+ * Homepage - Task Manager
+ *
+ * Main landing page for the Task Manager application.
+ * Demonstrates Islands Architecture by composing interactive Preact islands
+ * (TaskList, TaskFilter, ThemeToggle) within an Astro page.
+ *
+ * Features:
+ * - Task list with filtering capabilities
+ * - Filter controls for category, priority, and status
+ * - Theme toggle for dark/light mode
+ * - Responsive layout with Tailwind CSS
+ * - SEO-optimized with Layout component
+ *
+ * Islands Architecture:
+ * - Only interactive components are hydrated (client:load)
+ * - Static content remains as lightweight HTML
+ * - Better performance and reduced JavaScript payload
+ */
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from '@/components/Layout.astro';
+import TaskList from '@/islands/TaskList';
+import TaskFilter from '@/islands/TaskFilter';
+import NewTaskButton from '@/islands/NewTaskButton';
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Task Manager">
+  <!-- Main container with responsive padding -->
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <!-- Page Header with Title and New Task Button -->
+    <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h1 class="text-foreground text-3xl font-bold tracking-tight sm:text-4xl">Task Manager</h1>
+        <p class="text-muted-foreground mt-2 text-base">
+          Organize and manage your tasks efficiently
+        </p>
+      </div>
+
+      <!-- New Task Button - Page specific action -->
+      <div class="flex items-center gap-4">
+        <NewTaskButton client:only="preact" />
+      </div>
+    </div>
+
+    <!-- Task Filter Island - Client-only (requires React Query context) -->
+    <div class="mb-6">
+      <TaskFilter client:only="preact" />
+    </div>
+
+    <!-- Task List Island - Client-only (requires React Query context) -->
+    <div>
+      <TaskList client:only="preact" />
+    </div>
+  </div>
 </Layout>

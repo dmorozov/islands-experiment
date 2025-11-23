@@ -1,0 +1,326 @@
+---
+/**
+ * Performance Page (T568-T577)
+ *
+ * Demonstrates Islands Architecture performance benefits with real metrics
+ * and visualizations comparing Islands vs traditional SPA approaches.
+ *
+ * Features:
+ * - Real-time Web Vitals metrics (FCP, LCP, TTI)
+ * - Island-by-island hydration performance
+ * - Architecture comparison charts
+ * - Educational content about Islands Architecture
+ * - Export metrics functionality
+ */
+
+import Layout from '@/components/Layout.astro';
+import PerformanceMetrics from '@/islands/PerformanceMetrics';
+import PerformanceComparison from '@/islands/PerformanceComparison';
+import HydrationVisualizer from '@/islands/HydrationVisualizer';
+---
+
+<Layout title="Performance Insights - Task Manager">
+  <div class="mx-auto max-w-7xl space-y-8 px-4 py-8 sm:px-6 lg:px-8">
+    {/* Navigation */}
+    <nav class="flex items-center gap-2 text-sm">
+      <a
+        href="/"
+        class="text-foreground hover:bg-accent hover:text-accent-foreground rounded-md px-3 py-2 font-medium transition-colors"
+      >
+        Tasks
+      </a>
+      <a
+        href="/dashboard"
+        class="text-foreground hover:bg-accent hover:text-accent-foreground rounded-md px-3 py-2 font-medium transition-colors"
+      >
+        Dashboard
+      </a>
+      <a
+        href="/categories"
+        class="text-foreground hover:bg-accent hover:text-accent-foreground rounded-md px-3 py-2 font-medium transition-colors"
+      >
+        Categories
+      </a>
+      <a
+        href="/performance"
+        class="bg-primary text-primary-foreground rounded-md px-3 py-2 font-medium"
+      >
+        Performance
+      </a>
+    </nav>
+
+    {/* Page Header */}
+    <header class="space-y-2">
+      <h1 class="text-foreground text-4xl font-bold tracking-tight">Performance Insights</h1>
+      <p class="text-muted-foreground text-lg">
+        Demonstrating the performance benefits of Islands Architecture
+      </p>
+    </header>
+
+    {/* What is Islands Architecture */}
+    <section
+      class="rounded-lg border bg-gradient-to-br from-indigo-50 to-purple-50 p-6 dark:from-indigo-950/30 dark:to-purple-950/30"
+    >
+      <h2 class="text-foreground text-2xl font-bold">What is Islands Architecture?</h2>
+      <p class="text-foreground/90 mt-3">
+        Islands Architecture is a modern web development pattern that combines the best of static
+        site generation with selective hydration of interactive components. Instead of shipping a
+        massive JavaScript bundle for the entire page, only small "islands" of interactivity are
+        hydrated, while the rest of the page remains static HTML.
+      </p>
+
+      <div class="mt-6 grid gap-4 md:grid-cols-3">
+        <div class="rounded-lg bg-white/50 p-4 dark:bg-black/20">
+          <div class="mb-2 text-2xl">🏝️</div>
+          <h3 class="text-foreground font-semibold">Islands of Interactivity</h3>
+          <p class="text-foreground/80 mt-2 text-sm">
+            Only components that need JavaScript are hydrated. Static content stays as pure HTML.
+          </p>
+        </div>
+
+        <div class="rounded-lg bg-white/50 p-4 dark:bg-black/20">
+          <div class="mb-2 text-2xl">⚡</div>
+          <h3 class="text-foreground font-semibold">Instant Page Loads</h3>
+          <p class="text-foreground/80 mt-2 text-sm">
+            Content appears immediately as HTML. No waiting for JavaScript to download and parse.
+          </p>
+        </div>
+
+        <div class="rounded-lg bg-white/50 p-4 dark:bg-black/20">
+          <div class="mb-2 text-2xl">📦</div>
+          <h3 class="text-foreground font-semibold">Minimal JavaScript</h3>
+          <p class="text-foreground/80 mt-2 text-sm">
+            Ship only the JavaScript needed for interactive features. Dramatically smaller bundles.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    {/* Performance Metrics */}
+    <section>
+      <PerformanceMetrics client:only="preact" />
+    </section>
+
+    {/* Architecture Comparison */}
+    <section>
+      <PerformanceComparison client:only="preact" />
+    </section>
+
+    {/* Hydration Visualizer */}
+    <section>
+      <HydrationVisualizer client:only="preact" />
+    </section>
+
+    {/* Understanding the Metrics */}
+    <section class="space-y-4">
+      <h2 class="text-foreground text-2xl font-bold">Understanding the Metrics</h2>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <div class="bg-card rounded-lg border p-4">
+          <h3 class="text-foreground font-semibold">First Contentful Paint (FCP)</h3>
+          <p class="text-muted-foreground mt-2 text-sm">
+            The time from navigation to when the browser renders the first piece of DOM content.
+            Good FCP is under 1.5 seconds.
+          </p>
+          <div class="mt-3 flex items-center gap-2 text-xs">
+            <span
+              class="rounded bg-green-100 px-2 py-1 font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400"
+            >
+              &lt; 1.5s
+            </span>
+            <span class="text-muted-foreground">Good</span>
+          </div>
+        </div>
+
+        <div class="bg-card rounded-lg border p-4">
+          <h3 class="text-foreground font-semibold">Largest Contentful Paint (LCP)</h3>
+          <p class="text-muted-foreground mt-2 text-sm">
+            The time when the largest content element becomes visible. Measures perceived load
+            speed. Good LCP is under 2.5 seconds.
+          </p>
+          <div class="mt-3 flex items-center gap-2 text-xs">
+            <span
+              class="rounded bg-green-100 px-2 py-1 font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400"
+            >
+              &lt; 2.5s
+            </span>
+            <span class="text-muted-foreground">Good</span>
+          </div>
+        </div>
+
+        <div class="bg-card rounded-lg border p-4">
+          <h3 class="text-foreground font-semibold">Time to Interactive (TTI)</h3>
+          <p class="text-muted-foreground mt-2 text-sm">
+            The time when the page becomes fully interactive and can reliably respond to user input.
+            Good TTI is under 3.8 seconds.
+          </p>
+          <div class="mt-3 flex items-center gap-2 text-xs">
+            <span
+              class="rounded bg-green-100 px-2 py-1 font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400"
+            >
+              &lt; 3.8s
+            </span>
+            <span class="text-muted-foreground">Good</span>
+          </div>
+        </div>
+
+        <div class="bg-card rounded-lg border p-4">
+          <h3 class="text-foreground font-semibold">Island Hydration Time</h3>
+          <p class="text-muted-foreground mt-2 text-sm">
+            The time it takes for each interactive island to become functional after the page loads.
+            Individual islands should hydrate in under 200ms.
+          </p>
+          <div class="mt-3 flex items-center gap-2 text-xs">
+            <span
+              class="rounded bg-green-100 px-2 py-1 font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400"
+            >
+              &lt; 200ms
+            </span>
+            <span class="text-muted-foreground">Target per island</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Optimization Techniques */}
+    <section class="space-y-4">
+      <h2 class="text-foreground text-2xl font-bold">Optimization Techniques Used</h2>
+
+      <div class="bg-card rounded-lg border p-6">
+        <ul class="space-y-3">
+          <li class="flex items-start gap-3">
+            <div
+              class="bg-primary/10 text-primary mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-xs font-semibold"
+            >
+              1
+            </div>
+            <div>
+              <h4 class="text-foreground font-semibold">Selective Hydration</h4>
+              <p class="text-muted-foreground mt-1 text-sm">
+                Only interactive components (TaskList, TaskForm, etc.) are hydrated with JavaScript.
+                Static content like headers and footers remain as HTML.
+              </p>
+            </div>
+          </li>
+
+          <li class="flex items-start gap-3">
+            <div
+              class="bg-primary/10 text-primary mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-xs font-semibold"
+            >
+              2
+            </div>
+            <div>
+              <h4 class="text-foreground font-semibold">Lazy Loading</h4>
+              <p class="text-muted-foreground mt-1 text-sm">
+                Islands can be loaded on-demand with client:visible or client:idle directives,
+                further reducing initial JavaScript payload.
+              </p>
+            </div>
+          </li>
+
+          <li class="flex items-start gap-3">
+            <div
+              class="bg-primary/10 text-primary mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-xs font-semibold"
+            >
+              3
+            </div>
+            <div>
+              <h4 class="text-foreground font-semibold">Code Splitting</h4>
+              <p class="text-muted-foreground mt-1 text-sm">
+                Each island is bundled separately, so users only download the code for features they
+                actually use.
+              </p>
+            </div>
+          </li>
+
+          <li class="flex items-start gap-3">
+            <div
+              class="bg-primary/10 text-primary mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-xs font-semibold"
+            >
+              4
+            </div>
+            <div>
+              <h4 class="text-foreground font-semibold">Preact as Runtime</h4>
+              <p class="text-muted-foreground mt-1 text-sm">
+                Using Preact instead of React reduces the runtime overhead by ~70%, from 45KB to
+                just 4KB gzipped.
+              </p>
+            </div>
+          </li>
+
+          <li class="flex items-start gap-3">
+            <div
+              class="bg-primary/10 text-primary mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-xs font-semibold"
+            >
+              5
+            </div>
+            <div>
+              <h4 class="text-foreground font-semibold">Static Generation</h4>
+              <p class="text-muted-foreground mt-1 text-sm">
+                Pages are pre-rendered as HTML at build time, eliminating server-side rendering
+                overhead and providing instant content visibility.
+              </p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    {/* Learn More */}
+    <section class="bg-muted/50 rounded-lg border p-6 text-center">
+      <h3 class="text-foreground text-lg font-semibold">Want to Learn More?</h3>
+      <p class="text-muted-foreground mt-2 text-sm">
+        Explore the source code of this application to see how Islands Architecture is implemented
+        with Quarkus and Astro.
+      </p>
+      <div class="mt-4 flex items-center justify-center gap-4">
+        <a
+          href="https://docs.astro.build/en/concepts/islands/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium"
+        >
+          Astro Islands Docs
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </a>
+        <a
+          href="https://quarkus.io/guides/quinoa"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium"
+        >
+          Quarkus Quinoa Guide
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </a>
+      </div>
+    </section>
+  </div>
+</Layout>

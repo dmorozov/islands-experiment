@@ -1,0 +1,524 @@
+openapi: 3.0.3
+info:
+  title: Task Manager API
+  description: RESTful API for Task Manager application demonstrating Islands Architecture
+  version: 1.0.0
+  contact:
+    name: Task Manager Team
+servers:
+  - url: http://localhost:7171/api
+    description: Development server
+
+tags:
+  - name: Tasks
+    description: Task CRUD operations
+  - name: Categories
+    description: Category management
+  - name: Statistics
+    description: Completion statistics
+  - name: Session
+    description: User session management
+
+paths:
+  /tasks:
+    get:
+      tags: [Tasks]
+      summary: List user's tasks
+      description: Retrieve tasks with optional filtering by category, priority, and status
+      operationId: getTasks
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: priority
+          in: query
+          schema:
+            $ref: '#/components/schemas/Priority'
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [active, completed]
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: List of tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskResponse'
+    post:
+      tags: [Tasks]
+      summary: Create a new task
+      operationId: createTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskCreate'
+      responses:
+        '201':
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /tasks/{id}:
+    get:
+      tags: [Tasks]
+      summary: Get a single task
+      operationId: getTask
+      parameters:
+        - $ref: '#/components/parameters/TaskId'
+      responses:
+        '200':
+          description: Task details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags: [Tasks]
+      summary: Update a task
+      operationId: updateTask
+      parameters:
+        - $ref: '#/components/parameters/TaskId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskUpdate'
+      responses:
+        '200':
+          description: Task updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags: [Tasks]
+      summary: Delete a task
+      operationId: deleteTask
+      parameters:
+        - $ref: '#/components/parameters/TaskId'
+      responses:
+        '204':
+          description: Task deleted
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /tasks/{id}/complete:
+    patch:
+      tags: [Tasks]
+      summary: Toggle task completion status
+      operationId: toggleTaskCompletion
+      parameters:
+        - $ref: '#/components/parameters/TaskId'
+      responses:
+        '200':
+          description: Task completion status updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /categories:
+    get:
+      tags: [Categories]
+      summary: List user's categories
+      operationId: getCategories
+      responses:
+        '200':
+          description: List of categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CategoryResponse'
+    post:
+      tags: [Categories]
+      summary: Create a new category
+      operationId: createCategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryCreate'
+      responses:
+        '201':
+          description: Category created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          description: Category name already exists for this user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /categories/{id}:
+    get:
+      tags: [Categories]
+      summary: Get a single category
+      operationId: getCategory
+      parameters:
+        - $ref: '#/components/parameters/CategoryId'
+      responses:
+        '200':
+          description: Category details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags: [Categories]
+      summary: Update a category
+      operationId: updateCategory
+      parameters:
+        - $ref: '#/components/parameters/CategoryId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryUpdate'
+      responses:
+        '200':
+          description: Category updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags: [Categories]
+      summary: Delete a category
+      description: Cannot delete default categories (Work, Personal, Shopping)
+      operationId: deleteCategory
+      parameters:
+        - $ref: '#/components/parameters/CategoryId'
+      responses:
+        '204':
+          description: Category deleted
+        '400':
+          description: Cannot delete default category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /stats/summary:
+    get:
+      tags: [Statistics]
+      summary: Get completion statistics summary
+      operationId: getCompletionStats
+      responses:
+        '200':
+          description: Completion statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompletionStats'
+
+  /stats/history:
+    get:
+      tags: [Statistics]
+      summary: Get historical completion data
+      operationId: getCompletionHistory
+      parameters:
+        - name: days
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 365
+            default: 30
+      responses:
+        '200':
+          description: Historical completion data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CompletionHistory'
+
+  /session/user:
+    get:
+      tags: [Session]
+      summary: Get current user info
+      operationId: getCurrentUser
+      responses:
+        '200':
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Not authenticated
+
+  /session/login:
+    post:
+      tags: [Session]
+      summary: Simple login (username only, demo auth)
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username]
+              properties:
+                username:
+                  type: string
+                  minLength: 1
+                  maxLength: 100
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /session/logout:
+    post:
+      tags: [Session]
+      summary: Logout
+      operationId: logout
+      responses:
+        '204':
+          description: Logout successful
+
+components:
+  parameters:
+    TaskId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    CategoryId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  schemas:
+    Priority:
+      type: string
+      enum: [HIGH, MEDIUM, LOW]
+
+    TaskCreate:
+      type: object
+      required: [title, categoryId, priority]
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 2000
+        categoryId:
+          type: string
+          format: uuid
+        priority:
+          $ref: '#/components/schemas/Priority'
+
+    TaskUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 2000
+        categoryId:
+          type: string
+          format: uuid
+        priority:
+          $ref: '#/components/schemas/Priority'
+
+    TaskResponse:
+      type: object
+      required: [id, title, category, priority, completed, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          $ref: '#/components/schemas/CategoryResponse'
+        priority:
+          $ref: '#/components/schemas/Priority'
+        completed:
+          type: boolean
+        completedAt:
+          type: string
+          format: date-time
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CategoryCreate:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 50
+        colorCode:
+          type: string
+          pattern: '^#[0-9A-Fa-f]{6}$'
+          example: '#3B82F6'
+
+    CategoryUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 50
+        colorCode:
+          type: string
+          pattern: '^#[0-9A-Fa-f]{6}$'
+
+    CategoryResponse:
+      type: object
+      required: [id, name, isDefault, createdAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        colorCode:
+          type: string
+        isDefault:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        taskCount:
+          type: integer
+          format: int64
+
+    CompletionStats:
+      type: object
+      required: [todayCount, weekCount, totalCount, completionRate]
+      properties:
+        todayCount:
+          type: integer
+          format: int64
+        weekCount:
+          type: integer
+          format: int64
+        totalCount:
+          type: integer
+          format: int64
+        completionRate:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+
+    CompletionHistory:
+      type: object
+      required: [date, count]
+      properties:
+        date:
+          type: string
+          format: date
+        count:
+          type: integer
+          format: int64
+
+    User:
+      type: object
+      required: [username]
+      properties:
+        username:
+          type: string
+
+    Error:
+      type: object
+      required: [message]
+      properties:
+        message:
+          type: string
+        field:
+          type: string
+        code:
+          type: string
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

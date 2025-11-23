@@ -1,0 +1,771 @@
+{
+  "openapi" : "3.1.0",
+  "tags" : [ {
+    "name" : "Categories",
+    "description" : "Category management"
+  }, {
+    "name" : "Session",
+    "description" : "Session management and authentication endpoints"
+  }, {
+    "name" : "Statistics",
+    "description" : "Task completion statistics and history"
+  }, {
+    "name" : "Tasks",
+    "description" : "Task CRUD operations"
+  } ],
+  "components" : {
+    "schemas" : {
+      "CategoryCreateDTO" : {
+        "type" : "object",
+        "required" : [ "name", "colorCode" ],
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "minLength" : 1,
+            "maxLength" : 50
+          },
+          "colorCode" : {
+            "type" : "string",
+            "pattern" : "^#[0-9A-Fa-f]{6}$",
+            "minLength" : 7,
+            "maxLength" : 7
+          }
+        }
+      },
+      "CategoryResponseDTO" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "$ref" : "#/components/schemas/UUID"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "colorCode" : {
+            "type" : "string"
+          },
+          "isDefault" : {
+            "type" : "boolean"
+          },
+          "createdAt" : {
+            "$ref" : "#/components/schemas/LocalDateTime"
+          },
+          "taskCount" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      },
+      "CategoryUpdateDTO" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "minLength" : 1,
+            "maxLength" : 50
+          },
+          "colorCode" : {
+            "type" : "string",
+            "pattern" : "^#[0-9A-Fa-f]{6}$",
+            "minLength" : 7,
+            "maxLength" : 7
+          }
+        }
+      },
+      "CompletionHistoryDTO" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "$ref" : "#/components/schemas/LocalDate"
+          },
+          "count" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      },
+      "CompletionStatsDTO" : {
+        "type" : "object",
+        "properties" : {
+          "todayCount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "weekCount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalCount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "completionRate" : {
+            "type" : "number",
+            "format" : "double"
+          }
+        }
+      },
+      "LocalDate" : {
+        "type" : "string",
+        "format" : "date",
+        "examples" : [ "2022-03-10" ]
+      },
+      "LocalDateTime" : {
+        "type" : "string",
+        "format" : "date-time",
+        "examples" : [ "2022-03-10T12:15:50" ]
+      },
+      "Priority" : {
+        "type" : "string",
+        "enum" : [ "HIGH", "MEDIUM", "LOW" ]
+      },
+      "TaskCreateDTO" : {
+        "type" : "object",
+        "required" : [ "title", "categoryId", "priority" ],
+        "properties" : {
+          "title" : {
+            "type" : "string",
+            "minLength" : 1,
+            "maxLength" : 200
+          },
+          "description" : {
+            "type" : "string",
+            "maxLength" : 2000
+          },
+          "categoryId" : {
+            "$ref" : "#/components/schemas/UUID"
+          },
+          "priority" : {
+            "$ref" : "#/components/schemas/Priority"
+          }
+        }
+      },
+      "TaskResponseDTO" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "$ref" : "#/components/schemas/UUID"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "category" : {
+            "$ref" : "#/components/schemas/CategoryResponseDTO"
+          },
+          "priority" : {
+            "$ref" : "#/components/schemas/Priority"
+          },
+          "completed" : {
+            "type" : "boolean"
+          },
+          "completedAt" : {
+            "$ref" : "#/components/schemas/LocalDateTime"
+          },
+          "createdAt" : {
+            "$ref" : "#/components/schemas/LocalDateTime"
+          },
+          "updatedAt" : {
+            "$ref" : "#/components/schemas/LocalDateTime"
+          }
+        }
+      },
+      "TaskUpdateDTO" : {
+        "type" : "object",
+        "properties" : {
+          "title" : {
+            "type" : "string",
+            "minLength" : 1,
+            "maxLength" : 200
+          },
+          "description" : {
+            "type" : "string",
+            "maxLength" : 2000
+          },
+          "categoryId" : {
+            "$ref" : "#/components/schemas/UUID"
+          },
+          "priority" : {
+            "$ref" : "#/components/schemas/Priority"
+          }
+        }
+      },
+      "UUID" : {
+        "type" : "string",
+        "format" : "uuid",
+        "pattern" : "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"
+      },
+      "UserDTO" : {
+        "type" : "object",
+        "required" : [ "username" ],
+        "properties" : {
+          "username" : {
+            "type" : "string",
+            "minLength" : 1,
+            "maxLength" : 50
+          }
+        }
+      }
+    }
+  },
+  "paths" : {
+    "/api/categories" : {
+      "get" : {
+        "summary" : "List user's categories",
+        "description" : "Retrieve all categories for the authenticated user",
+        "tags" : [ "Categories" ],
+        "responses" : {
+          "200" : {
+            "description" : "List of categories",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/CategoryResponseDTO"
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Not authenticated"
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Create a new category",
+        "description" : "Create a custom category with a unique name and color code",
+        "tags" : [ "Categories" ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CategoryCreateDTO"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Category created successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CategoryResponseDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid input"
+          },
+          "401" : {
+            "description" : "Not authenticated"
+          },
+          "409" : {
+            "description" : "Category name already exists"
+          }
+        }
+      }
+    },
+    "/api/categories/{id}" : {
+      "put" : {
+        "summary" : "Update a category",
+        "description" : "Update a category's name and/or color code (PATCH semantics)",
+        "tags" : [ "Categories" ],
+        "parameters" : [ {
+          "description" : "Category UUID",
+          "name" : "id",
+          "required" : true,
+          "in" : "path",
+          "schema" : {
+            "$ref" : "#/components/schemas/UUID"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CategoryUpdateDTO"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Category updated successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CategoryResponseDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid input"
+          },
+          "401" : {
+            "description" : "Not authenticated"
+          },
+          "404" : {
+            "description" : "Category not found"
+          },
+          "409" : {
+            "description" : "Category name already exists"
+          }
+        }
+      },
+      "get" : {
+        "summary" : "Get category by ID",
+        "description" : "Retrieve a specific category belonging to the authenticated user",
+        "tags" : [ "Categories" ],
+        "parameters" : [ {
+          "description" : "Category UUID",
+          "name" : "id",
+          "required" : true,
+          "in" : "path",
+          "schema" : {
+            "$ref" : "#/components/schemas/UUID"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Category found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CategoryResponseDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Not authenticated"
+          },
+          "404" : {
+            "description" : "Category not found"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete a category",
+        "description" : "Delete a non-default category. Default categories cannot be deleted.",
+        "tags" : [ "Categories" ],
+        "parameters" : [ {
+          "description" : "Category UUID",
+          "name" : "id",
+          "required" : true,
+          "in" : "path",
+          "schema" : {
+            "$ref" : "#/components/schemas/UUID"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Category deleted successfully"
+          },
+          "400" : {
+            "description" : "Cannot delete default category"
+          },
+          "401" : {
+            "description" : "Not authenticated"
+          },
+          "404" : {
+            "description" : "Category not found"
+          }
+        }
+      }
+    },
+    "/api/session/login" : {
+      "post" : {
+        "summary" : "Login user",
+        "description" : "Authenticates user with username only (demo mode). Creates session and seeds default categories on first login.",
+        "tags" : [ "Session" ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UserDTO"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Login successful",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request - username required"
+          }
+        }
+      }
+    },
+    "/api/session/logout" : {
+      "post" : {
+        "summary" : "Logout user",
+        "description" : "Invalidates the current session and logs out the user",
+        "tags" : [ "Session" ],
+        "responses" : {
+          "204" : {
+            "description" : "Logout successful"
+          }
+        }
+      }
+    },
+    "/api/session/user" : {
+      "get" : {
+        "summary" : "Get current user",
+        "description" : "Returns the currently authenticated user from session",
+        "tags" : [ "Session" ],
+        "responses" : {
+          "200" : {
+            "description" : "User is authenticated",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "User is not authenticated"
+          }
+        }
+      }
+    },
+    "/api/stats/history" : {
+      "get" : {
+        "summary" : "Get completion history",
+        "description" : "Returns daily task completion counts for the specified number of days",
+        "tags" : [ "Statistics" ],
+        "parameters" : [ {
+          "description" : "Number of days to include in history (1-365, default 30)",
+          "schema" : {
+            "maximum" : 365,
+            "minimum" : 1,
+            "type" : "integer",
+            "default" : 30
+          },
+          "name" : "days",
+          "in" : "query"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "History retrieved successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/CompletionHistoryDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid days parameter"
+          },
+          "401" : {
+            "description" : "Not authenticated"
+          }
+        }
+      }
+    },
+    "/api/stats/summary" : {
+      "get" : {
+        "summary" : "Get completion statistics",
+        "description" : "Returns task completion statistics including today, week, total counts and completion rate",
+        "tags" : [ "Statistics" ],
+        "responses" : {
+          "200" : {
+            "description" : "Statistics retrieved successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CompletionStatsDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Not authenticated"
+          }
+        }
+      }
+    },
+    "/api/tasks" : {
+      "get" : {
+        "summary" : "List user's tasks",
+        "description" : "Retrieve tasks with optional filtering by category, priority, and status",
+        "tags" : [ "Tasks" ],
+        "parameters" : [ {
+          "description" : "Filter by category UUID",
+          "in" : "query",
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "name" : "category"
+        }, {
+          "description" : "Page number (0-based)",
+          "in" : "query",
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "default" : 0
+          },
+          "name" : "page"
+        }, {
+          "description" : "Filter by priority level",
+          "in" : "query",
+          "schema" : {
+            "$ref" : "#/components/schemas/Priority"
+          },
+          "name" : "priority"
+        }, {
+          "description" : "Page size",
+          "in" : "query",
+          "schema" : {
+            "maximum" : 100,
+            "minimum" : 1,
+            "type" : "integer",
+            "default" : 20
+          },
+          "name" : "size"
+        }, {
+          "description" : "Filter by completion status",
+          "in" : "query",
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "active", "completed" ]
+          },
+          "name" : "status"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "List of tasks",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/TaskResponseDTO"
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Not authenticated"
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Create a new task",
+        "description" : "Creates a new task for the authenticated user",
+        "tags" : [ "Tasks" ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/TaskCreateDTO"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Task created successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TaskResponseDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request body or validation error"
+          },
+          "401" : {
+            "description" : "Not authenticated"
+          }
+        }
+      }
+    },
+    "/api/tasks/{id}" : {
+      "put" : {
+        "summary" : "Update a task",
+        "description" : "Updates an existing task. All fields in the request body are optional.",
+        "tags" : [ "Tasks" ],
+        "parameters" : [ {
+          "description" : "Task UUID",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "name" : "id",
+          "in" : "path"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/TaskUpdateDTO"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Task updated successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TaskResponseDTO"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid request body or validation error"
+          },
+          "404" : {
+            "description" : "Task not found"
+          },
+          "401" : {
+            "description" : "Not authenticated"
+          }
+        }
+      },
+      "get" : {
+        "summary" : "Get task by ID",
+        "description" : "Retrieves a single task by its unique identifier",
+        "tags" : [ "Tasks" ],
+        "parameters" : [ {
+          "description" : "Task UUID",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "name" : "id",
+          "in" : "path"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Task found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TaskResponseDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Task not found"
+          },
+          "401" : {
+            "description" : "Not authenticated"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete a task",
+        "description" : "Deletes an existing task",
+        "tags" : [ "Tasks" ],
+        "parameters" : [ {
+          "description" : "Task UUID",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "name" : "id",
+          "in" : "path"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Task deleted successfully"
+          },
+          "404" : {
+            "description" : "Task not found"
+          },
+          "401" : {
+            "description" : "Not authenticated"
+          }
+        }
+      }
+    },
+    "/api/tasks/{id}/complete" : {
+      "patch" : {
+        "summary" : "Toggle task completion",
+        "description" : "Toggles a task between complete and incomplete. If incomplete, marks as complete with timestamp. If complete, marks as incomplete and clears timestamp.",
+        "tags" : [ "Tasks" ],
+        "parameters" : [ {
+          "description" : "Task UUID",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "name" : "id",
+          "in" : "path"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Task completion toggled successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TaskResponseDTO"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Task not found"
+          },
+          "401" : {
+            "description" : "Not authenticated"
+          }
+        }
+      }
+    }
+  },
+  "info" : {
+    "title" : "Task Manager API",
+    "version" : "1.0.0",
+    "description" : "RESTful API for Task Manager application demonstrating Islands Architecture",
+    "contact" : {
+      "name" : "Task Manager Team"
+    }
+  },
+  "servers" : [ {
+    "url" : "http://localhost:7171",
+    "description" : "Auto generated value"
+  }, {
+    "url" : "http://0.0.0.0:7171",
+    "description" : "Auto generated value"
+  } ]
+}

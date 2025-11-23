@@ -1,0 +1,56 @@
+---
+/**
+ * Categories Page - Task Manager
+ *
+ * T407-T411: Category management page where users can create, edit, and delete categories.
+ * Demonstrates Islands Architecture with the CategoryManager island.
+ *
+ * Features:
+ * - List all categories with color badges and task counts
+ * - Create new custom categories
+ * - Edit existing categories (name and color)
+ * - Delete non-default categories
+ * - Visual indicators for default categories
+ * - Responsive layout with Tailwind CSS
+ *
+ * Islands Architecture:
+ * - CategoryManager island hydrated with client:load
+ * - Theme toggle for consistency with other pages
+ * - Static content remains as lightweight HTML
+ */
+
+import Layout from '@/components/Layout.astro';
+import CategoryManager from '@/islands/CategoryManager';
+---
+
+<Layout title="Manage Categories - Task Manager">
+  <!-- Main container with responsive padding -->
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <!-- T410: Page Header with Title and Description -->
+    <div class="mb-8">
+      <h1 class="text-foreground text-3xl font-bold tracking-tight sm:text-4xl">
+        Manage Categories
+      </h1>
+      <p class="text-muted-foreground mt-2 text-base">
+        Create and organize your task categories with custom colors
+      </p>
+    </div>
+
+    <!-- T411: CategoryManager Island - Responsive layout with Tailwind -->
+    <div class="bg-card rounded-lg border p-6 shadow-sm">
+      <!-- T409: Import CategoryManager island with client:load directive -->
+      <CategoryManager client:only="preact" />
+    </div>
+
+    <!-- Info section -->
+    <div class="bg-muted mt-6 rounded-lg p-4">
+      <h3 class="text-foreground mb-2 font-medium">About Categories</h3>
+      <ul class="text-muted-foreground space-y-1 text-sm">
+        <li>• Default categories (Work, Personal, Shopping) cannot be deleted</li>
+        <li>• Each category can have a custom color for easy identification</li>
+        <li>• Category names must be unique</li>
+        <li>• Categories with tasks will show the task count</li>
+      </ul>
+    </div>
+  </div>
+</Layout>
