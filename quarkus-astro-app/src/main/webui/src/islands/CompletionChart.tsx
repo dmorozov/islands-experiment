@@ -43,10 +43,10 @@ import { Button } from '@/components/ui/button';
  */
 function ChartSkeleton() {
   return (
-    <div class="animate-pulse rounded-lg border bg-card p-6 shadow-sm">
+    <div class="bg-card animate-pulse rounded-lg border p-6 shadow-sm">
       <div class="space-y-4">
-        <div class="h-6 w-48 rounded bg-muted"></div>
-        <div class="h-[300px] rounded bg-muted"></div>
+        <div class="bg-muted h-6 w-48 rounded"></div>
+        <div class="bg-muted h-[300px] rounded"></div>
       </div>
     </div>
   );
@@ -57,10 +57,10 @@ function ChartSkeleton() {
  */
 function ErrorState({ error }: { error: Error }) {
   return (
-    <div class="rounded-lg border border-destructive bg-destructive/10 p-6">
+    <div class="border-destructive bg-destructive/10 rounded-lg border p-6">
       <div class="flex items-start gap-3">
         <svg
-          class="h-6 w-6 flex-shrink-0 text-destructive"
+          class="text-destructive h-6 w-6 flex-shrink-0"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -73,11 +73,9 @@ function ErrorState({ error }: { error: Error }) {
           ></path>
         </svg>
         <div class="flex-1">
-          <h3 class="text-base font-semibold text-destructive">
-            Failed to load chart data
-          </h3>
-          <p class="mt-1 text-sm text-destructive/90">
-            {error.message ??  'An unexpected error occurred. Please try again.'}
+          <h3 class="text-destructive text-base font-semibold">Failed to load chart data</h3>
+          <p class="text-destructive/90 mt-1 text-sm">
+            {error.message ?? 'An unexpected error occurred. Please try again.'}
           </p>
         </div>
       </div>
@@ -90,9 +88,9 @@ function ErrorState({ error }: { error: Error }) {
  */
 function EmptyState() {
   return (
-    <div class="flex flex-col items-center justify-center rounded-lg border-2 border-dashed bg-muted/50 p-12 text-center">
+    <div class="bg-muted/50 flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-12 text-center">
       <svg
-        class="mb-4 h-16 w-16 text-muted-foreground"
+        class="text-muted-foreground mb-4 h-16 w-16"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -104,12 +102,8 @@ function EmptyState() {
           d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
         ></path>
       </svg>
-      <h3 class="mb-2 text-lg font-semibold text-foreground">
-        No completion history
-      </h3>
-      <p class="text-sm text-muted-foreground">
-        Complete some tasks to see your history here.
-      </p>
+      <h3 class="text-foreground mb-2 text-lg font-semibold">No completion history</h3>
+      <p class="text-muted-foreground text-sm">Complete some tasks to see your history here.</p>
     </div>
   );
 }
@@ -126,15 +120,15 @@ function CustomTooltip({ active, payload }: CustomTooltipProps) {
   if (active && payload?.length) {
     const data = payload[0].payload;
     return (
-      <div class="rounded-lg border bg-card p-3 shadow-lg">
-        <p class="text-sm font-medium text-foreground">
+      <div class="bg-card rounded-lg border p-3 shadow-lg">
+        <p class="text-foreground text-sm font-medium">
           {new Date(data.date).toLocaleDateString('en-US', {
             month: 'short',
             day: 'numeric',
             year: 'numeric',
           })}
         </p>
-        <p class="text-sm text-muted-foreground">
+        <p class="text-muted-foreground text-sm">
           {data.count} {data.count === 1 ? 'task' : 'tasks'} completed
         </p>
       </div>
@@ -158,7 +152,11 @@ function CompletionChartContent({ days = 30 }: { days?: number }) {
   }, []);
 
   // T502: Use useGetApiStatsHistory to fetch history data
-  const { data: history, isLoading, error } = useGetApiStatsHistory({
+  const {
+    data: history,
+    isLoading,
+    error,
+  } = useGetApiStatsHistory({
     days: selectedDays,
   });
 
@@ -192,13 +190,13 @@ function CompletionChartContent({ days = 30 }: { days?: number }) {
 
   // T503-T506: Render responsive bar chart
   return (
-    <div class="rounded-lg border bg-card p-6 shadow-sm">
+    <div class="bg-card rounded-lg border p-6 shadow-sm">
       <div class="mb-6 flex items-center justify-between">
         <div>
-          <h2 class="text-2xl font-bold text-foreground">Completion History</h2>
-          <p class="text-sm text-muted-foreground">
-            {totalCount} {totalCount === 1 ? 'task' : 'tasks'} completed in the last{' '}
-            {selectedDays} {selectedDays === 1 ? 'day' : 'days'}
+          <h2 class="text-foreground text-2xl font-bold">Completion History</h2>
+          <p class="text-muted-foreground text-sm">
+            {totalCount} {totalCount === 1 ? 'task' : 'tasks'} completed in the last {selectedDays}{' '}
+            {selectedDays === 1 ? 'day' : 'days'}
           </p>
         </div>
 

@@ -32,7 +32,7 @@ import {
   useGetApiTasks,
   useDeleteApiTasksId,
   usePatchApiTasksIdComplete,
-  getGetApiTasksQueryKey
+  getGetApiTasksQueryKey,
 } from '@/lib/api/endpoints/tasks/tasks';
 import type { TaskResponseDTO } from '@/lib/api/model';
 import { QueryProvider } from '@/components/providers/QueryProvider';
@@ -79,21 +79,13 @@ function PriorityBadge({ priority }: { priority: string }) {
  * Category badge component
  * Displays category with custom color
  */
-function CategoryBadge({
-  name,
-  colorCode,
-}: {
-  name: string;
-  colorCode?: string;
-}) {
+function CategoryBadge({ name, colorCode }: { name: string; colorCode?: string }) {
   return (
     <span
       class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
       style={{
-        backgroundColor: colorCode
-          ? `${colorCode}20`
-          : 'hsl(var(--muted))',
-        color: colorCode ??  'hsl(var(--muted-foreground))',
+        backgroundColor: colorCode ? `${colorCode}20` : 'hsl(var(--muted))',
+        color: colorCode ?? 'hsl(var(--muted-foreground))',
       }}
     >
       {name}
@@ -120,7 +112,7 @@ function TaskCard({
 
   return (
     <div
-      class={`rounded-lg border bg-card p-4 shadow-sm transition-all hover:shadow-md ${
+      class={`bg-card rounded-lg border p-4 shadow-sm transition-all hover:shadow-md ${
         isCompleted ? 'opacity-60' : ''
       }`}
     >
@@ -138,8 +130,8 @@ function TaskCard({
         <div class="flex-1 space-y-2">
           {/* Title */}
           <h3
-            class={`text-base font-medium cursor-pointer hover:text-primary ${
-              isCompleted ? 'line-through text-muted-foreground' : 'text-foreground'
+            class={`hover:text-primary cursor-pointer text-base font-medium ${
+              isCompleted ? 'text-muted-foreground line-through' : 'text-foreground'
             }`}
             onClick={onEdit}
           >
@@ -148,16 +140,14 @@ function TaskCard({
 
           {/* Description */}
           {task.description && (
-            <p class="text-sm text-muted-foreground line-clamp-2">
-              {task.description}
-            </p>
+            <p class="text-muted-foreground line-clamp-2 text-sm">{task.description}</p>
           )}
 
           {/* Badges */}
           <div class="flex flex-wrap items-center gap-2">
             {task.category && (
               <CategoryBadge
-                name={task.category.name ??  'Uncategorized'}
+                name={task.category.name ?? 'Uncategorized'}
                 colorCode={task.category.colorCode}
               />
             )}
@@ -165,16 +155,11 @@ function TaskCard({
           </div>
 
           {/* Metadata */}
-          <div class="flex items-center gap-4 text-xs text-muted-foreground">
+          <div class="text-muted-foreground flex items-center gap-4 text-xs">
             {task.completedAt && (
-              <span>
-                Completed:{' '}
-                {new Date(task.completedAt).toLocaleDateString()}
-              </span>
+              <span>Completed: {new Date(task.completedAt).toLocaleDateString()}</span>
             )}
-            <span>
-              Created: {new Date(task.createdAt ??  '').toLocaleDateString()}
-            </span>
+            <span>Created: {new Date(task.createdAt ?? '').toLocaleDateString()}</span>
           </div>
 
           {/* T331: Actions - Edit and Delete buttons */}
@@ -199,15 +184,12 @@ function TaskCard({
                 <AlertDialogHeader>
                   <AlertDialogTitle>Delete Task</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to delete "{task.title}"? This action
-                    cannot be undone.
+                    Are you sure you want to delete "{task.title}"? This action cannot be undone.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={onDelete}>
-                    Delete
-                  </AlertDialogAction>
+                  <AlertDialogAction onClick={onDelete}>Delete</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
@@ -224,15 +206,15 @@ function TaskCard({
  */
 function TaskSkeleton() {
   return (
-    <div class="animate-pulse rounded-lg border bg-card p-4 shadow-sm">
+    <div class="bg-card animate-pulse rounded-lg border p-4 shadow-sm">
       <div class="flex items-start gap-3">
-        <div class="h-4 w-4 rounded bg-muted"></div>
+        <div class="bg-muted h-4 w-4 rounded"></div>
         <div class="flex-1 space-y-2">
-          <div class="h-5 w-3/4 rounded bg-muted"></div>
-          <div class="h-4 w-full rounded bg-muted"></div>
+          <div class="bg-muted h-5 w-3/4 rounded"></div>
+          <div class="bg-muted h-4 w-full rounded"></div>
           <div class="flex gap-2">
-            <div class="h-6 w-20 rounded-full bg-muted"></div>
-            <div class="h-6 w-16 rounded-full bg-muted"></div>
+            <div class="bg-muted h-6 w-20 rounded-full"></div>
+            <div class="bg-muted h-6 w-16 rounded-full"></div>
           </div>
         </div>
       </div>
@@ -246,9 +228,9 @@ function TaskSkeleton() {
  */
 function EmptyState({ hasFilters }: { hasFilters: boolean }) {
   return (
-    <div class="flex flex-col items-center justify-center rounded-lg border-2 border-dashed bg-muted/50 p-12 text-center">
+    <div class="bg-muted/50 flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-12 text-center">
       <svg
-        class="mb-4 h-16 w-16 text-muted-foreground"
+        class="text-muted-foreground mb-4 h-16 w-16"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -261,10 +243,10 @@ function EmptyState({ hasFilters }: { hasFilters: boolean }) {
           d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
         ></path>
       </svg>
-      <h3 class="mb-2 text-lg font-semibold text-foreground">
+      <h3 class="text-foreground mb-2 text-lg font-semibold">
         {hasFilters ? 'No tasks found' : 'No tasks yet'}
       </h3>
-      <p class="mb-4 text-sm text-muted-foreground">
+      <p class="text-muted-foreground mb-4 text-sm">
         {hasFilters
           ? 'Try adjusting your filters to see more tasks.'
           : 'Create your first task to get started with organizing your work.'}
@@ -272,7 +254,7 @@ function EmptyState({ hasFilters }: { hasFilters: boolean }) {
       {!hasFilters && (
         <button
           type="button"
-          class="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+          class="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary rounded-md px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:outline-none"
         >
           Create Task
         </button>
@@ -287,10 +269,10 @@ function EmptyState({ hasFilters }: { hasFilters: boolean }) {
  */
 function ErrorState({ error }: { error: Error }) {
   return (
-    <div class="rounded-lg border border-destructive bg-destructive/10 p-6">
+    <div class="border-destructive bg-destructive/10 rounded-lg border p-6">
       <div class="flex items-start gap-3">
         <svg
-          class="h-6 w-6 flex-shrink-0 text-destructive"
+          class="text-destructive h-6 w-6 flex-shrink-0"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -304,16 +286,14 @@ function ErrorState({ error }: { error: Error }) {
           ></path>
         </svg>
         <div class="flex-1">
-          <h3 class="text-base font-semibold text-destructive">
-            Failed to load tasks
-          </h3>
-          <p class="mt-1 text-sm text-destructive/90">
-            {error.message ??  'An unexpected error occurred. Please try again.'}
+          <h3 class="text-destructive text-base font-semibold">Failed to load tasks</h3>
+          <p class="text-destructive/90 mt-1 text-sm">
+            {error.message ?? 'An unexpected error occurred. Please try again.'}
           </p>
           <button
             type="button"
             onClick={() => window.location.reload()}
-            class="mt-3 text-sm font-medium text-destructive underline hover:no-underline"
+            class="text-destructive mt-3 text-sm font-medium underline hover:no-underline"
           >
             Reload page
           </button>
@@ -353,7 +333,11 @@ function TaskListContent() {
   }, []);
 
   // Fetch tasks from API using generated TanStack Query hook
-  const { data: tasks, isLoading, error } = useGetApiTasks({
+  const {
+    data: tasks,
+    isLoading,
+    error,
+  } = useGetApiTasks({
     category: filter.category,
     priority: filter.priority,
     status: filter.status,
@@ -368,9 +352,7 @@ function TaskListContent() {
   const toggleCompleteMutation = usePatchApiTasksIdComplete();
 
   // Check if any filters are active
-  const hasActiveFilters = Boolean(
-    filter.category ?? filter.priority ?? filter.status
-  );
+  const hasActiveFilters = Boolean(filter.category ?? filter.priority ?? filter.status);
 
   // T327: Handle task edit
   const handleEdit = (taskId: string) => {
@@ -420,9 +402,7 @@ function TaskListContent() {
 
       // Auto-dismiss undo notification after 5 seconds
       setTimeout(() => {
-        setLastCompletedTask((current) =>
-          current?.id === taskId ? null : current
-        );
+        setLastCompletedTask((current) => (current?.id === taskId ? null : current));
       }, 5000);
     } catch (error) {
       console.error('Failed to toggle task completion:', error);
@@ -484,8 +464,8 @@ function TaskListContent() {
     <div class="space-y-4">
       {/* T489: Undo notification banner */}
       {lastCompletedTask && (
-        <div class="flex items-center justify-between rounded-lg border border-primary bg-primary/10 p-4">
-          <p class="text-sm text-foreground">
+        <div class="border-primary bg-primary/10 flex items-center justify-between rounded-lg border p-4">
+          <p class="text-foreground text-sm">
             Task "{lastCompletedTask.title}" marked as{' '}
             {lastCompletedTask.wasCompleted ? 'incomplete' : 'complete'}
           </p>
@@ -502,7 +482,7 @@ function TaskListContent() {
 
       {/* Task count header */}
       <div class="flex items-center justify-between">
-        <p class="text-sm text-muted-foreground">
+        <p class="text-muted-foreground text-sm">
           Showing {sortedTasks.length} {sortedTasks.length === 1 ? 'task' : 'tasks'}
         </p>
       </div>

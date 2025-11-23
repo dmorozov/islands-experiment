@@ -69,7 +69,7 @@ export type MetricStatus = 'good' | 'needs-improvement' | 'poor';
 export function getMetricStatus(
   value: number,
   goodThreshold: number,
-  needsImprovementThreshold: number,
+  needsImprovementThreshold: number
 ): MetricStatus {
   if (value <= goodThreshold) return 'good';
   if (value <= needsImprovementThreshold) return 'needs-improvement';

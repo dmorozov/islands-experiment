@@ -20,4 +20,5 @@ export * from './priority';
 export * from './taskCreateDTO';
 export * from './taskResponseDTO';
 export * from './taskUpdateDTO';
+export * from './userDTO';
 export * from './uuid';

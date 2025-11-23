@@ -53,9 +53,9 @@ function HydrationVisualizerContent() {
 
     const checkInterval = setInterval(() => {
       const measures = performance.getEntriesByType('measure');
-      const hydrationMeasures = measures.filter(m => m.name.endsWith('-hydration'));
+      const hydrationMeasures = measures.filter((m) => m.name.endsWith('-hydration'));
 
-      const newIslands: IslandStatus[] = hydrationMeasures.map(measure => {
+      const newIslands: IslandStatus[] = hydrationMeasures.map((measure) => {
         const islandName = measure.name.replace('-hydration', '');
         return {
           name: islandName,
@@ -78,7 +78,7 @@ function HydrationVisualizerContent() {
   useEffect(() => {
     if (!isEnabled) {
       // Remove all overlays
-      document.querySelectorAll('.hydration-overlay').forEach(el => el.remove());
+      document.querySelectorAll('.hydration-overlay').forEach((el) => el.remove());
       return;
     }
 
@@ -128,14 +128,14 @@ function HydrationVisualizerContent() {
   return (
     <div class="space-y-4">
       {/* Toggle Button */}
-      <div class="flex items-center justify-between rounded-lg border bg-card p-4">
+      <div class="bg-card flex items-center justify-between rounded-lg border p-4">
         <div class="flex items-center gap-3">
-          <div class="rounded-md bg-primary/10 p-2">
+          <div class="bg-primary/10 rounded-md p-2">
             <Zap size={20} class="text-primary" />
           </div>
           <div>
-            <h3 class="font-semibold text-foreground">Hydration Visualizer</h3>
-            <p class="text-sm text-muted-foreground">
+            <h3 class="text-foreground font-semibold">Hydration Visualizer</h3>
+            <p class="text-muted-foreground text-sm">
               {isEnabled
                 ? 'Visualization is active - watch islands light up as they hydrate'
                 : 'Enable to see visual indicators as islands become interactive'}
@@ -159,27 +159,27 @@ function HydrationVisualizerContent() {
 
       {/* Hydration Timeline */}
       {isEnabled && islands.length > 0 && (
-        <div class="rounded-lg border bg-card p-6">
-          <h4 class="mb-4 text-sm font-semibold text-foreground">Hydration Timeline</h4>
+        <div class="bg-card rounded-lg border p-6">
+          <h4 class="text-foreground mb-4 text-sm font-semibold">Hydration Timeline</h4>
           <div class="space-y-3">
             {islands.map((island, index) => (
               <div
                 key={`${island.name}-${index}`}
-                class="flex items-center gap-4 rounded-md bg-muted/50 p-3"
+                class="bg-muted/50 flex items-center gap-4 rounded-md p-3"
               >
                 <div class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-green-100 text-xs font-semibold text-green-700 dark:bg-green-900/30 dark:text-green-400">
                   {index + 1}
                 </div>
                 <div class="flex-1">
                   <div class="flex items-center justify-between">
-                    <span class="font-medium text-foreground">{island.name}</span>
+                    <span class="text-foreground font-medium">{island.name}</span>
                     {island.duration !== undefined && (
-                      <span class="text-sm text-muted-foreground">
+                      <span class="text-muted-foreground text-sm">
                         {island.duration.toFixed(0)}ms
                       </span>
                     )}
                   </div>
-                  <div class="mt-1 text-xs text-muted-foreground">
+                  <div class="text-muted-foreground mt-1 text-xs">
                     Hydrated at {island.timestamp.toFixed(0)}ms after page load
                   </div>
                 </div>
@@ -203,8 +203,8 @@ function HydrationVisualizerContent() {
             <div class="flex items-start gap-2">
               <div class="mt-0.5 h-3 w-3 flex-shrink-0 rounded border-2 border-green-500"></div>
               <span>
-                <strong>Green border pulse:</strong> Indicates when an island has just hydrated
-                and become interactive
+                <strong>Green border pulse:</strong> Indicates when an island has just hydrated and
+                become interactive
               </span>
             </div>
             <div class="flex items-start gap-2">
@@ -217,8 +217,8 @@ function HydrationVisualizerContent() {
             <div class="flex items-start gap-2">
               <span class="mt-0.5 text-xs font-semibold">ms</span>
               <span>
-                <strong>Duration:</strong> Time taken for each island to hydrate (should be
-                under 200ms for good performance)
+                <strong>Duration:</strong> Time taken for each island to hydrate (should be under
+                200ms for good performance)
               </span>
             </div>
           </div>
@@ -227,10 +227,10 @@ function HydrationVisualizerContent() {
 
       {/* Instructions */}
       {!isEnabled && (
-        <div class="rounded-lg border bg-muted/50 p-4 text-center">
-          <p class="text-sm text-muted-foreground">
-            Enable the visualizer and reload the page to see islands light up as they hydrate.
-            This helps you understand the progressive enhancement process of Islands Architecture.
+        <div class="bg-muted/50 rounded-lg border p-4 text-center">
+          <p class="text-muted-foreground text-sm">
+            Enable the visualizer and reload the page to see islands light up as they hydrate. This
+            helps you understand the progressive enhancement process of Islands Architecture.
           </p>
         </div>
       )}

@@ -75,8 +75,8 @@ interface CustomTooltipProps {
 function CustomTooltip({ active, payload }: CustomTooltipProps) {
   if (active && payload?.length) {
     return (
-      <div class="rounded-lg border bg-card p-4 shadow-lg">
-        <p class="font-semibold text-foreground">{payload[0].payload.metric}</p>
+      <div class="bg-card rounded-lg border p-4 shadow-lg">
+        <p class="text-foreground font-semibold">{payload[0].payload.metric}</p>
         <div class="mt-2 space-y-1">
           <p class="text-sm text-green-600 dark:text-green-400">
             Islands: <span class="font-semibold">{payload[0].value}</span>
@@ -84,7 +84,7 @@ function CustomTooltip({ active, payload }: CustomTooltipProps) {
           <p class="text-sm text-blue-600 dark:text-blue-400">
             Traditional SPA: <span class="font-semibold">{payload[1].value}</span>
           </p>
-          <p class="mt-2 text-xs font-semibold text-primary">
+          <p class="text-primary mt-2 text-xs font-semibold">
             {payload[0].payload.improvement} improvement
           </p>
         </div>
@@ -97,23 +97,23 @@ function CustomTooltip({ active, payload }: CustomTooltipProps) {
 /**
  * Benefit card component
  */
-function BenefitCard({ data }: { data: typeof comparisonData[0] }) {
+function BenefitCard({ data }: { data: (typeof comparisonData)[0] }) {
   const Icon = data.icon;
 
   return (
-    <div class="rounded-lg border bg-card p-4 shadow-sm">
+    <div class="bg-card rounded-lg border p-4 shadow-sm">
       <div class="flex items-start gap-3">
-        <div class="rounded-md bg-primary/10 p-2">
+        <div class="bg-primary/10 rounded-md p-2">
           <Icon size={20} class="text-primary" />
         </div>
         <div class="flex-1">
           <div class="flex items-center justify-between">
-            <h4 class="font-semibold text-foreground">{data.metric}</h4>
+            <h4 class="text-foreground font-semibold">{data.metric}</h4>
             <span class="rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700 dark:bg-green-900/30 dark:text-green-400">
               -{data.improvement}
             </span>
           </div>
-          <p class="mt-1 text-sm text-muted-foreground">{data.description}</p>
+          <p class="text-muted-foreground mt-1 text-sm">{data.description}</p>
           <div class="mt-3 flex items-center gap-4 text-sm">
             <div>
               <span class="text-muted-foreground">Islands:</span>
@@ -123,9 +123,7 @@ function BenefitCard({ data }: { data: typeof comparisonData[0] }) {
             </div>
             <div>
               <span class="text-muted-foreground">SPA:</span>
-              <span class="ml-1 font-semibold text-blue-600 dark:text-blue-400">
-                {data.spa}
-              </span>
+              <span class="ml-1 font-semibold text-blue-600 dark:text-blue-400">{data.spa}</span>
             </div>
           </div>
         </div>
@@ -144,7 +142,7 @@ function PerformanceComparisonContent() {
   }, []);
 
   // Prepare data for the chart
-  const chartData = comparisonData.map(item => ({
+  const chartData = comparisonData.map((item) => ({
     name: item.metric,
     Islands: item.islands,
     'Traditional SPA': item.spa,
@@ -155,22 +153,18 @@ function PerformanceComparisonContent() {
     <div class="space-y-6">
       {/* Header */}
       <div>
-        <h2 class="text-2xl font-bold text-foreground">Architecture Comparison</h2>
-        <p class="mt-1 text-sm text-muted-foreground">
+        <h2 class="text-foreground text-2xl font-bold">Architecture Comparison</h2>
+        <p class="text-muted-foreground mt-1 text-sm">
           Islands Architecture vs Traditional Single Page Application
         </p>
       </div>
 
       {/* Comparison Chart */}
-      <div class="rounded-lg border bg-card p-6 shadow-sm">
-        <h3 class="mb-4 text-lg font-semibold text-foreground">Performance Metrics</h3>
+      <div class="bg-card rounded-lg border p-6 shadow-sm">
+        <h3 class="text-foreground mb-4 text-lg font-semibold">Performance Metrics</h3>
         <ResponsiveContainer width="100%" height={350}>
           <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-            <CartesianGrid
-              strokeDasharray="3 3"
-              stroke="hsl(var(--border))"
-              opacity={0.3}
-            />
+            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.3} />
             <XAxis
               dataKey="name"
               tick={{ fill: 'hsl(var(--foreground))' }}
@@ -193,23 +187,15 @@ function PerformanceComparisonContent() {
               }}
               iconType="square"
             />
-            <Bar
-              dataKey="Islands"
-              fill="hsl(142 76% 36%)"
-              radius={[4, 4, 0, 0]}
-            />
-            <Bar
-              dataKey="Traditional SPA"
-              fill="hsl(221 83% 53%)"
-              radius={[4, 4, 0, 0]}
-            />
+            <Bar dataKey="Islands" fill="hsl(142 76% 36%)" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="Traditional SPA" fill="hsl(221 83% 53%)" radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>
 
       {/* Benefits Breakdown */}
       <div>
-        <h3 class="mb-4 text-lg font-semibold text-foreground">Benefits Breakdown</h3>
+        <h3 class="text-foreground mb-4 text-lg font-semibold">Benefits Breakdown</h3>
         <div class="grid gap-4 md:grid-cols-3">
           {comparisonData.map((data, index) => (
             <BenefitCard key={index} data={data} />
@@ -224,9 +210,7 @@ function PerformanceComparisonContent() {
         </h4>
         <div class="mt-4 grid gap-4 md:grid-cols-2">
           <div>
-            <h5 class="font-semibold text-purple-800 dark:text-purple-200">
-              Selective Hydration
-            </h5>
+            <h5 class="font-semibold text-purple-800 dark:text-purple-200">Selective Hydration</h5>
             <p class="mt-1 text-sm text-purple-700 dark:text-purple-300">
               Only components that need interactivity are hydrated. Static content remains as
               lightweight HTML, dramatically reducing JavaScript payloads.
@@ -237,17 +221,15 @@ function PerformanceComparisonContent() {
               Progressive Enhancement
             </h5>
             <p class="mt-1 text-sm text-purple-700 dark:text-purple-300">
-              Content is visible instantly as HTML. Interactive features load independently
-              without blocking the initial render.
+              Content is visible instantly as HTML. Interactive features load independently without
+              blocking the initial render.
             </p>
           </div>
           <div>
-            <h5 class="font-semibold text-purple-800 dark:text-purple-200">
-              Independent Islands
-            </h5>
+            <h5 class="font-semibold text-purple-800 dark:text-purple-200">Independent Islands</h5>
             <p class="mt-1 text-sm text-purple-700 dark:text-purple-300">
-              Each island can use different frameworks or load on-demand. One slow island
-              doesn't block others from becoming interactive.
+              Each island can use different frameworks or load on-demand. One slow island doesn't
+              block others from becoming interactive.
             </p>
           </div>
           <div>
@@ -255,17 +237,17 @@ function PerformanceComparisonContent() {
               Better Performance Budget
             </h5>
             <p class="mt-1 text-sm text-purple-700 dark:text-purple-300">
-              Smaller bundles mean faster downloads, parsing, and execution. Users on slow
-              networks or devices get a significantly better experience.
+              Smaller bundles mean faster downloads, parsing, and execution. Users on slow networks
+              or devices get a significantly better experience.
             </p>
           </div>
         </div>
       </div>
 
       {/* Methodology Note */}
-      <div class="rounded-lg border bg-muted/50 p-4">
-        <h5 class="text-sm font-semibold text-foreground">Methodology</h5>
-        <p class="mt-2 text-xs text-muted-foreground">
+      <div class="bg-muted/50 rounded-lg border p-4">
+        <h5 class="text-foreground text-sm font-semibold">Methodology</h5>
+        <p class="text-muted-foreground mt-2 text-xs">
           Comparison data represents typical improvements observed when migrating a task management
           application from a traditional React SPA to Islands Architecture. Actual results may vary
           based on application complexity and optimization techniques. Islands values reflect this

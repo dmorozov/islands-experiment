@@ -285,10 +285,7 @@ export function resetFilters(): void {
  * updateFilter('priority', undefined);
  * ```
  */
-export function updateFilter(
-  field: keyof TaskFilter,
-  value: string | undefined
-): void {
+export function updateFilter(field: keyof TaskFilter, value: string | undefined): void {
   const current = taskFilter.get();
 
   if (value === undefined) {

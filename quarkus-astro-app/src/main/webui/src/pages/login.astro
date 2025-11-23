@@ -1,0 +1,19 @@
+---
+/**
+ * Login Page
+ *
+ * Simple login page for demo authentication.
+ * Users can enter any username (no password required).
+ */
+
+import Layout from '@/components/Layout.astro';
+import Login from '@/islands/Login';
+---
+
+<Layout title="Login - Task Manager">
+  <main
+    class="bg-background flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8"
+  >
+    <Login client:only="preact" />
+  </main>
+</Layout>

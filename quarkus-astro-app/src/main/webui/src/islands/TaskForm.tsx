@@ -61,10 +61,10 @@ export default function TaskForm({ mode, initialTask, onSuccess, onCancel }: Tas
   // T315: If edit mode, accept initialTask prop and pre-fill form fields
   useEffect(() => {
     if (mode === 'edit' && initialTask) {
-      setTitle(initialTask.title ??  '');
-      setDescription(initialTask.description ??  '');
-      setCategoryId(initialTask.category?.id ??  '');
-      setPriority(initialTask.priority ??  'MEDIUM');
+      setTitle(initialTask.title ?? '');
+      setDescription(initialTask.description ?? '');
+      setCategoryId(initialTask.category?.id ?? '');
+      setPriority(initialTask.priority ?? 'MEDIUM');
     }
   }, [mode, initialTask]);
 
@@ -89,7 +89,7 @@ export default function TaskForm({ mode, initialTask, onSuccess, onCancel }: Tas
         await createMutation.mutateAsync({
           data: {
             title: title.trim(),
-            description: description?.trim() ??  '',
+            description: description?.trim() ?? '',
             categoryId,
             priority,
           },

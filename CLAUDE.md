@@ -17,12 +17,16 @@ This is a research project exploring Islands Architecture using Quarkus (Java ba
 
 **Frontend (in `quarkus-astro-app/src/main/webui`):**
 - Astro (Islands Architecture)
-- Preact (planned for interactive islands)
+- Preact (for interactive islands)
 - TypeScript
-- Tailwind CSS (planned)
-- Shadcn UI (planned)
-- TanStack Query with Axios (planned for API calls)
-- Orval (planned for generating API client from OpenAPI schema)
+- Tailwind CSS v4
+- Shadcn UI
+- TanStack Query v5 with Axios (for API calls)
+- Orval (generates API client from OpenAPI schema)
+- Nano Stores (lightweight state management)
+- ESLint + Prettier (code quality)
+- Husky + lint-staged (pre-commit hooks)
+- Vitest (frontend testing)
 
 **Build Tools:**
 - Maven (Java/Quarkus)
@@ -52,6 +56,26 @@ The project uses Quarkus Quinoa to seamlessly integrate the Astro frontend with 
 - Schema is stored at: `quarkus-astro-app/src/main/webui/api`
 - Swagger UI available at: `http://localhost:7171/swagger-ui`
 - Use Orval to generate TypeScript API client from this schema
+
+### Session Management
+
+- Simple demo authentication (username only, no password)
+- Server-side sessions using Vert.x
+- Session management endpoints at `/api/session`
+- User isolation: all queries filter by `userId`
+- Default categories automatically seeded on first login
+
+### Key Features Implemented
+
+- Task CRUD operations with filters and pagination
+- Category management with color coding
+- Task completion tracking with statistics
+- Dashboard with completion charts (recharts)
+- Performance metrics page demonstrating Islands Architecture
+- Responsive design with light/dark theme toggle
+- Client-side persistent state (localStorage)
+- Cross-island state management (Nano Stores)
+- Optimistic UI updates with TanStack Query
 
 ## Development Commands
 

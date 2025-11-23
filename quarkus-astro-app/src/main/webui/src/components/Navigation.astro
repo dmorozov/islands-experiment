@@ -18,6 +18,7 @@
  */
 
 import ThemeToggle from '@/islands/ThemeToggle';
+import UserMenu from '@/islands/UserMenu';
 
 const { pathname } = Astro.url;
 
@@ -42,14 +43,14 @@ function isActive(href: string): boolean {
 }
 ---
 
-<nav class="border-b bg-background">
+<nav class="bg-background border-b">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
       <!-- Logo/Brand -->
       <div class="flex items-center">
-        <a href="/" class="flex items-center gap-2 text-xl font-bold text-foreground">
+        <a href="/" class="text-foreground flex items-center gap-2 text-xl font-bold">
           <svg
-            class="h-8 w-8 text-primary"
+            class="text-primary h-8 w-8"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -85,6 +86,8 @@ function isActive(href: string): boolean {
               </a>
             ))
           }
+          <!-- User Menu -->
+          <UserMenu client:only="preact" />
           <!-- Theme Toggle -->
           <ThemeToggle client:only="preact" />
         </div>
@@ -95,7 +98,7 @@ function isActive(href: string): boolean {
         <button
           type="button"
           id="mobile-menu-button"
-          class="inline-flex items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+          class="text-muted-foreground hover:bg-accent hover:text-accent-foreground focus:ring-primary inline-flex items-center justify-center rounded-md p-2 focus:ring-2 focus:outline-none focus:ring-inset"
           aria-controls="mobile-menu"
           aria-expanded="false"
         >
@@ -135,7 +138,7 @@ function isActive(href: string): boolean {
 
   <!-- Mobile Menu -->
   <div class="hidden md:hidden" id="mobile-menu">
-    <div class="space-y-1 px-2 pb-3 pt-2">
+    <div class="space-y-1 px-2 pt-2 pb-3">
       {
         navLinks.map((link) => (
           <a
@@ -152,6 +155,10 @@ function isActive(href: string): boolean {
           </a>
         ))
       }
+      <!-- User Menu for Mobile -->
+      <div class="px-3 py-2">
+        <UserMenu client:only="preact" />
+      </div>
       <!-- Theme Toggle for Mobile -->
       <div class="px-3 py-2">
         <ThemeToggle client:only="preact" />

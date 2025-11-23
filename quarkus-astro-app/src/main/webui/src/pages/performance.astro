@@ -25,25 +25,25 @@ import HydrationVisualizer from '@/islands/HydrationVisualizer';
     <nav class="flex items-center gap-2 text-sm">
       <a
         href="/"
-        class="rounded-md px-3 py-2 font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+        class="text-foreground hover:bg-accent hover:text-accent-foreground rounded-md px-3 py-2 font-medium transition-colors"
       >
         Tasks
       </a>
       <a
         href="/dashboard"
-        class="rounded-md px-3 py-2 font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+        class="text-foreground hover:bg-accent hover:text-accent-foreground rounded-md px-3 py-2 font-medium transition-colors"
       >
         Dashboard
       </a>
       <a
         href="/categories"
-        class="rounded-md px-3 py-2 font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+        class="text-foreground hover:bg-accent hover:text-accent-foreground rounded-md px-3 py-2 font-medium transition-colors"
       >
         Categories
       </a>
       <a
         href="/performance"
-        class="rounded-md bg-primary px-3 py-2 font-medium text-primary-foreground"
+        class="bg-primary text-primary-foreground rounded-md px-3 py-2 font-medium"
       >
         Performance
       </a>
@@ -51,18 +51,18 @@ import HydrationVisualizer from '@/islands/HydrationVisualizer';
 
     {/* Page Header */}
     <header class="space-y-2">
-      <h1 class="text-4xl font-bold tracking-tight text-foreground">
-        Performance Insights
-      </h1>
-      <p class="text-lg text-muted-foreground">
+      <h1 class="text-foreground text-4xl font-bold tracking-tight">Performance Insights</h1>
+      <p class="text-muted-foreground text-lg">
         Demonstrating the performance benefits of Islands Architecture
       </p>
     </header>
 
     {/* What is Islands Architecture */}
-    <section class="rounded-lg border bg-gradient-to-br from-indigo-50 to-purple-50 p-6 dark:from-indigo-950/30 dark:to-purple-950/30">
-      <h2 class="text-2xl font-bold text-foreground">What is Islands Architecture?</h2>
-      <p class="mt-3 text-foreground/90">
+    <section
+      class="rounded-lg border bg-gradient-to-br from-indigo-50 to-purple-50 p-6 dark:from-indigo-950/30 dark:to-purple-950/30"
+    >
+      <h2 class="text-foreground text-2xl font-bold">What is Islands Architecture?</h2>
+      <p class="text-foreground/90 mt-3">
         Islands Architecture is a modern web development pattern that combines the best of static
         site generation with selective hydration of interactive components. Instead of shipping a
         massive JavaScript bundle for the entire page, only small "islands" of interactivity are
@@ -72,24 +72,24 @@ import HydrationVisualizer from '@/islands/HydrationVisualizer';
       <div class="mt-6 grid gap-4 md:grid-cols-3">
         <div class="rounded-lg bg-white/50 p-4 dark:bg-black/20">
           <div class="mb-2 text-2xl">🏝️</div>
-          <h3 class="font-semibold text-foreground">Islands of Interactivity</h3>
-          <p class="mt-2 text-sm text-foreground/80">
+          <h3 class="text-foreground font-semibold">Islands of Interactivity</h3>
+          <p class="text-foreground/80 mt-2 text-sm">
             Only components that need JavaScript are hydrated. Static content stays as pure HTML.
           </p>
         </div>
 
         <div class="rounded-lg bg-white/50 p-4 dark:bg-black/20">
           <div class="mb-2 text-2xl">⚡</div>
-          <h3 class="font-semibold text-foreground">Instant Page Loads</h3>
-          <p class="mt-2 text-sm text-foreground/80">
+          <h3 class="text-foreground font-semibold">Instant Page Loads</h3>
+          <p class="text-foreground/80 mt-2 text-sm">
             Content appears immediately as HTML. No waiting for JavaScript to download and parse.
           </p>
         </div>
 
         <div class="rounded-lg bg-white/50 p-4 dark:bg-black/20">
           <div class="mb-2 text-2xl">📦</div>
-          <h3 class="font-semibold text-foreground">Minimal JavaScript</h3>
-          <p class="mt-2 text-sm text-foreground/80">
+          <h3 class="text-foreground font-semibold">Minimal JavaScript</h3>
+          <p class="text-foreground/80 mt-2 text-sm">
             Ship only the JavaScript needed for interactive features. Dramatically smaller bundles.
           </p>
         </div>
@@ -113,59 +113,67 @@ import HydrationVisualizer from '@/islands/HydrationVisualizer';
 
     {/* Understanding the Metrics */}
     <section class="space-y-4">
-      <h2 class="text-2xl font-bold text-foreground">Understanding the Metrics</h2>
+      <h2 class="text-foreground text-2xl font-bold">Understanding the Metrics</h2>
 
       <div class="grid gap-4 md:grid-cols-2">
-        <div class="rounded-lg border bg-card p-4">
-          <h3 class="font-semibold text-foreground">First Contentful Paint (FCP)</h3>
-          <p class="mt-2 text-sm text-muted-foreground">
+        <div class="bg-card rounded-lg border p-4">
+          <h3 class="text-foreground font-semibold">First Contentful Paint (FCP)</h3>
+          <p class="text-muted-foreground mt-2 text-sm">
             The time from navigation to when the browser renders the first piece of DOM content.
             Good FCP is under 1.5 seconds.
           </p>
           <div class="mt-3 flex items-center gap-2 text-xs">
-            <span class="rounded bg-green-100 px-2 py-1 font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400">
+            <span
+              class="rounded bg-green-100 px-2 py-1 font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400"
+            >
               &lt; 1.5s
             </span>
             <span class="text-muted-foreground">Good</span>
           </div>
         </div>
 
-        <div class="rounded-lg border bg-card p-4">
-          <h3 class="font-semibold text-foreground">Largest Contentful Paint (LCP)</h3>
-          <p class="mt-2 text-sm text-muted-foreground">
-            The time when the largest content element becomes visible. Measures perceived load speed.
-            Good LCP is under 2.5 seconds.
+        <div class="bg-card rounded-lg border p-4">
+          <h3 class="text-foreground font-semibold">Largest Contentful Paint (LCP)</h3>
+          <p class="text-muted-foreground mt-2 text-sm">
+            The time when the largest content element becomes visible. Measures perceived load
+            speed. Good LCP is under 2.5 seconds.
           </p>
           <div class="mt-3 flex items-center gap-2 text-xs">
-            <span class="rounded bg-green-100 px-2 py-1 font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400">
+            <span
+              class="rounded bg-green-100 px-2 py-1 font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400"
+            >
               &lt; 2.5s
             </span>
             <span class="text-muted-foreground">Good</span>
           </div>
         </div>
 
-        <div class="rounded-lg border bg-card p-4">
-          <h3 class="font-semibold text-foreground">Time to Interactive (TTI)</h3>
-          <p class="mt-2 text-sm text-muted-foreground">
+        <div class="bg-card rounded-lg border p-4">
+          <h3 class="text-foreground font-semibold">Time to Interactive (TTI)</h3>
+          <p class="text-muted-foreground mt-2 text-sm">
             The time when the page becomes fully interactive and can reliably respond to user input.
             Good TTI is under 3.8 seconds.
           </p>
           <div class="mt-3 flex items-center gap-2 text-xs">
-            <span class="rounded bg-green-100 px-2 py-1 font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400">
+            <span
+              class="rounded bg-green-100 px-2 py-1 font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400"
+            >
               &lt; 3.8s
             </span>
             <span class="text-muted-foreground">Good</span>
           </div>
         </div>
 
-        <div class="rounded-lg border bg-card p-4">
-          <h3 class="font-semibold text-foreground">Island Hydration Time</h3>
-          <p class="mt-2 text-sm text-muted-foreground">
+        <div class="bg-card rounded-lg border p-4">
+          <h3 class="text-foreground font-semibold">Island Hydration Time</h3>
+          <p class="text-muted-foreground mt-2 text-sm">
             The time it takes for each interactive island to become functional after the page loads.
             Individual islands should hydrate in under 200ms.
           </p>
           <div class="mt-3 flex items-center gap-2 text-xs">
-            <span class="rounded bg-green-100 px-2 py-1 font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400">
+            <span
+              class="rounded bg-green-100 px-2 py-1 font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400"
+            >
               &lt; 200ms
             </span>
             <span class="text-muted-foreground">Target per island</span>
@@ -176,17 +184,19 @@ import HydrationVisualizer from '@/islands/HydrationVisualizer';
 
     {/* Optimization Techniques */}
     <section class="space-y-4">
-      <h2 class="text-2xl font-bold text-foreground">Optimization Techniques Used</h2>
+      <h2 class="text-foreground text-2xl font-bold">Optimization Techniques Used</h2>
 
-      <div class="rounded-lg border bg-card p-6">
+      <div class="bg-card rounded-lg border p-6">
         <ul class="space-y-3">
           <li class="flex items-start gap-3">
-            <div class="mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
+            <div
+              class="bg-primary/10 text-primary mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-xs font-semibold"
+            >
               1
             </div>
             <div>
-              <h4 class="font-semibold text-foreground">Selective Hydration</h4>
-              <p class="mt-1 text-sm text-muted-foreground">
+              <h4 class="text-foreground font-semibold">Selective Hydration</h4>
+              <p class="text-muted-foreground mt-1 text-sm">
                 Only interactive components (TaskList, TaskForm, etc.) are hydrated with JavaScript.
                 Static content like headers and footers remain as HTML.
               </p>
@@ -194,12 +204,14 @@ import HydrationVisualizer from '@/islands/HydrationVisualizer';
           </li>
 
           <li class="flex items-start gap-3">
-            <div class="mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
+            <div
+              class="bg-primary/10 text-primary mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-xs font-semibold"
+            >
               2
             </div>
             <div>
-              <h4 class="font-semibold text-foreground">Lazy Loading</h4>
-              <p class="mt-1 text-sm text-muted-foreground">
+              <h4 class="text-foreground font-semibold">Lazy Loading</h4>
+              <p class="text-muted-foreground mt-1 text-sm">
                 Islands can be loaded on-demand with client:visible or client:idle directives,
                 further reducing initial JavaScript payload.
               </p>
@@ -207,25 +219,29 @@ import HydrationVisualizer from '@/islands/HydrationVisualizer';
           </li>
 
           <li class="flex items-start gap-3">
-            <div class="mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
+            <div
+              class="bg-primary/10 text-primary mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-xs font-semibold"
+            >
               3
             </div>
             <div>
-              <h4 class="font-semibold text-foreground">Code Splitting</h4>
-              <p class="mt-1 text-sm text-muted-foreground">
-                Each island is bundled separately, so users only download the code for features
-                they actually use.
+              <h4 class="text-foreground font-semibold">Code Splitting</h4>
+              <p class="text-muted-foreground mt-1 text-sm">
+                Each island is bundled separately, so users only download the code for features they
+                actually use.
               </p>
             </div>
           </li>
 
           <li class="flex items-start gap-3">
-            <div class="mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
+            <div
+              class="bg-primary/10 text-primary mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-xs font-semibold"
+            >
               4
             </div>
             <div>
-              <h4 class="font-semibold text-foreground">Preact as Runtime</h4>
-              <p class="mt-1 text-sm text-muted-foreground">
+              <h4 class="text-foreground font-semibold">Preact as Runtime</h4>
+              <p class="text-muted-foreground mt-1 text-sm">
                 Using Preact instead of React reduces the runtime overhead by ~70%, from 45KB to
                 just 4KB gzipped.
               </p>
@@ -233,12 +249,14 @@ import HydrationVisualizer from '@/islands/HydrationVisualizer';
           </li>
 
           <li class="flex items-start gap-3">
-            <div class="mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
+            <div
+              class="bg-primary/10 text-primary mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full text-xs font-semibold"
+            >
               5
             </div>
             <div>
-              <h4 class="font-semibold text-foreground">Static Generation</h4>
-              <p class="mt-1 text-sm text-muted-foreground">
+              <h4 class="text-foreground font-semibold">Static Generation</h4>
+              <p class="text-muted-foreground mt-1 text-sm">
                 Pages are pre-rendered as HTML at build time, eliminating server-side rendering
                 overhead and providing instant content visibility.
               </p>
@@ -249,9 +267,9 @@ import HydrationVisualizer from '@/islands/HydrationVisualizer';
     </section>
 
     {/* Learn More */}
-    <section class="rounded-lg border bg-muted/50 p-6 text-center">
-      <h3 class="text-lg font-semibold text-foreground">Want to Learn More?</h3>
-      <p class="mt-2 text-sm text-muted-foreground">
+    <section class="bg-muted/50 rounded-lg border p-6 text-center">
+      <h3 class="text-foreground text-lg font-semibold">Want to Learn More?</h3>
+      <p class="text-muted-foreground mt-2 text-sm">
         Explore the source code of this application to see how Islands Architecture is implemented
         with Quarkus and Astro.
       </p>
@@ -260,7 +278,7 @@ import HydrationVisualizer from '@/islands/HydrationVisualizer';
           href="https://docs.astro.build/en/concepts/islands/"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+          class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium"
         >
           Astro Islands Docs
           <svg
@@ -283,7 +301,7 @@ import HydrationVisualizer from '@/islands/HydrationVisualizer';
           href="https://quarkus.io/guides/quinoa"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 rounded-md border border-input bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground"
+          class="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium"
         >
           Quarkus Quinoa Guide
           <svg

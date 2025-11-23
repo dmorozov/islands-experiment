@@ -106,7 +106,7 @@ function CategoryManagerContent() {
   const startEditing = (category: CategoryResponseDTO) => {
     setEditingId(category.id);
     setEditName(category.name);
-    setEditColor(category.colorCode ??  '#3B82F6');
+    setEditColor(category.colorCode ?? '#3B82F6');
     setEditError(null);
   };
 
@@ -237,9 +237,7 @@ function CategoryManagerContent() {
                   />
                 </div>
               </div>
-              {createError && (
-                <p class="text-sm text-destructive">{createError}</p>
-              )}
+              {createError && <p class="text-destructive text-sm">{createError}</p>}
               <div class="flex justify-end gap-2">
                 <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
                   Cancel
@@ -261,7 +259,7 @@ function CategoryManagerContent() {
         {categories.map((category) => (
           <div
             key={category.id}
-            class="flex items-center justify-between rounded-lg border p-4 hover:bg-accent"
+            class="hover:bg-accent flex items-center justify-between rounded-lg border p-4"
           >
             {editingId === category.id ? (
               // Editing mode
@@ -291,9 +289,7 @@ function CategoryManagerContent() {
                     />
                   </div>
                 </div>
-                {editError && (
-                  <p class="text-sm text-destructive">{editError}</p>
-                )}
+                {editError && <p class="text-destructive text-sm">{editError}</p>}
                 <div class="flex gap-2">
                   <Button
                     size="sm"
@@ -302,11 +298,7 @@ function CategoryManagerContent() {
                   >
                     {updateMutation.isPending ? 'Saving...' : 'Save'}
                   </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={cancelEditing}
-                  >
+                  <Button size="sm" variant="outline" onClick={cancelEditing}>
                     Cancel
                   </Button>
                 </div>
@@ -317,26 +309,20 @@ function CategoryManagerContent() {
                 <div class="flex items-center gap-3">
                   {/* Color badge */}
                   <div
-                    class="h-6 w-6 rounded-full border-2 border-border"
-                    style={{ backgroundColor: category.colorCode ??  '#6B7280' }}
+                    class="border-border h-6 w-6 rounded-full border-2"
+                    style={{ backgroundColor: category.colorCode ?? '#6B7280' }}
                   />
                   <div>
                     <p class="font-medium">{category.name}</p>
-                    <p class="text-sm text-muted-foreground">
+                    <p class="text-muted-foreground text-sm">
                       {category.taskCount ?? 0} {category.taskCount === 1 ? 'task' : 'tasks'}
                     </p>
                   </div>
                   {/* T397: Mark default categories as non-deletable in UI */}
-                  {category.isDefault && (
-                    <Badge variant="secondary">Default</Badge>
-                  )}
+                  {category.isDefault && <Badge variant="secondary">Default</Badge>}
                 </div>
                 <div class="flex gap-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => startEditing(category)}
-                  >
+                  <Button size="sm" variant="outline" onClick={() => startEditing(category)}>
                     Edit
                   </Button>
                   <Button
@@ -361,7 +347,10 @@ function CategoryManagerContent() {
       </div>
 
       {/* T403: Delete confirmation dialog */}
-      <AlertDialog open={!!deletingCategory} onOpenChange={(open) => !open && setDeletingCategory(null)}>
+      <AlertDialog
+        open={!!deletingCategory}
+        onOpenChange={(open) => !open && setDeletingCategory(null)}
+      >
         <AlertDialogContent
           onCloseAutoFocus={(e: Event) => {
             // Prevent auto-focus behavior that causes errors
@@ -373,19 +362,15 @@ function CategoryManagerContent() {
             <AlertDialogDescription>
               Are you sure you want to delete "{deletingCategory?.name}"?
               {deletingCategory && deletingCategory.taskCount > 0 && (
-                <span class="block mt-2 text-destructive font-medium">
+                <span class="text-destructive mt-2 block font-medium">
                   Warning: This category contains {deletingCategory.taskCount} task(s).
                 </span>
               )}
             </AlertDialogDescription>
           </AlertDialogHeader>
-          {deleteError && (
-            <p class="text-sm text-destructive">{deleteError}</p>
-          )}
+          {deleteError && <p class="text-destructive text-sm">{deleteError}</p>}
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setDeletingCategory(null)}>
-              Cancel
-            </AlertDialogCancel>
+            <AlertDialogCancel onClick={() => setDeletingCategory(null)}>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
               disabled={deleteMutation.isPending}

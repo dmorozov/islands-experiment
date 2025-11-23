@@ -3,6 +3,8 @@ openapi: 3.1.0
 tags:
 - name: Categories
   description: Category management
+- name: Session
+  description: Session management and authentication endpoints
 - name: Statistics
   description: Task completion statistics and history
 - name: Tasks
@@ -148,6 +150,15 @@ components:
       type: string
       format: uuid
       pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"
+    UserDTO:
+      type: object
+      required:
+      - username
+      properties:
+        username:
+          type: string
+          minLength: 1
+          maxLength: 50
 paths:
   /api/categories:
     get:
@@ -268,6 +279,52 @@ paths:
           description: Not authenticated
         "404":
           description: Category not found
+  /api/session/login:
+    post:
+      summary: Login user
+      description: Authenticates user with username only (demo mode). Creates session
+        and seeds default categories on first login.
+      tags:
+      - Session
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserDTO"
+        required: true
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserDTO"
+        "400":
+          description: Invalid request - username required
+  /api/session/logout:
+    post:
+      summary: Logout user
+      description: Invalidates the current session and logs out the user
+      tags:
+      - Session
+      responses:
+        "204":
+          description: Logout successful
+  /api/session/user:
+    get:
+      summary: Get current user
+      description: Returns the currently authenticated user from session
+      tags:
+      - Session
+      responses:
+        "200":
+          description: User is authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserDTO"
+        "401":
+          description: User is not authenticated
   /api/stats/history:
     get:
       summary: Get completion history

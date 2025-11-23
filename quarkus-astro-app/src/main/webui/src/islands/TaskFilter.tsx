@@ -64,12 +64,12 @@ interface SelectProps {
 function Select({ label, value, onChange, options, isLoading }: SelectProps) {
   return (
     <div class="flex flex-col gap-2">
-      <label class="text-sm font-medium text-foreground">{label}</label>
+      <label class="text-foreground text-sm font-medium">{label}</label>
       <select
         value={value}
         onChange={(e) => onChange((e.target as HTMLSelectElement).value)}
         disabled={isLoading}
-        class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        class="border-input bg-background ring-offset-background focus-visible:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>
@@ -182,9 +182,7 @@ function TaskFilterContent() {
   /**
    * Check if any filters are active
    */
-  const hasActiveFilters = Boolean(
-    filter.category ?? filter.priority ?? filter.status
-  );
+  const hasActiveFilters = Boolean(filter.category ?? filter.priority ?? filter.status);
 
   /**
    * Prepare category options for dropdown
@@ -192,26 +190,24 @@ function TaskFilterContent() {
   const categoryOptions = [
     { value: '', label: 'All Categories' },
     ...(categories?.map((cat) => ({
-      value: cat.id ??  '',
-      label: cat.name ??  'Unnamed',
+      value: cat.id ?? '',
+      label: cat.name ?? 'Unnamed',
     })) ?? []),
   ];
 
   return (
-    <div class="rounded-lg border bg-card p-6 shadow-sm">
+    <div class="bg-card rounded-lg border p-6 shadow-sm">
       {/* Header */}
       <div class="mb-6 flex items-center justify-between">
         <div>
-          <h2 class="text-lg font-semibold text-foreground">Filters</h2>
-          <p class="text-sm text-muted-foreground">
-            Refine your task list
-          </p>
+          <h2 class="text-foreground text-lg font-semibold">Filters</h2>
+          <p class="text-muted-foreground text-sm">Refine your task list</p>
         </div>
         {hasActiveFilters && (
           <button
             type="button"
             onClick={handleClearFilters}
-            class="text-sm font-medium text-primary hover:underline"
+            class="text-primary text-sm font-medium hover:underline"
           >
             Clear all
           </button>
@@ -223,7 +219,7 @@ function TaskFilterContent() {
         {/* Category Filter */}
         <Select
           label="Category"
-          value={filter.category ??  ''}
+          value={filter.category ?? ''}
           onChange={handleCategoryChange}
           options={categoryOptions}
           isLoading={categoriesLoading}
@@ -232,7 +228,7 @@ function TaskFilterContent() {
         {/* Priority Filter */}
         <Select
           label="Priority"
-          value={filter.priority ??  ''}
+          value={filter.priority ?? ''}
           onChange={handlePriorityChange}
           options={PRIORITY_OPTIONS}
         />
@@ -240,7 +236,7 @@ function TaskFilterContent() {
         {/* Status Filter */}
         <Select
           label="Status"
-          value={filter.status ??  ''}
+          value={filter.status ?? ''}
           onChange={handleStatusChange}
           options={STATUS_OPTIONS}
         />
@@ -249,24 +245,17 @@ function TaskFilterContent() {
       {/* Active Filters Summary */}
       {hasActiveFilters && (
         <div class="mt-4 flex flex-wrap items-center gap-2 border-t pt-4">
-          <span class="text-sm font-medium text-muted-foreground">
-            Active filters:
-          </span>
+          <span class="text-muted-foreground text-sm font-medium">Active filters:</span>
           {filter.category && (
-            <span class="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+            <span class="bg-primary/10 text-primary inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium">
               Category
               <button
                 type="button"
                 onClick={() => updateFilter('category', undefined)}
-                class="ml-1 rounded-full hover:bg-primary/20"
+                class="hover:bg-primary/20 ml-1 rounded-full"
                 aria-label="Remove category filter"
               >
-                <svg
-                  class="h-3 w-3"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -278,20 +267,15 @@ function TaskFilterContent() {
             </span>
           )}
           {filter.priority && (
-            <span class="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+            <span class="bg-primary/10 text-primary inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium">
               Priority: {filter.priority}
               <button
                 type="button"
                 onClick={() => updateFilter('priority', undefined)}
-                class="ml-1 rounded-full hover:bg-primary/20"
+                class="hover:bg-primary/20 ml-1 rounded-full"
                 aria-label="Remove priority filter"
               >
-                <svg
-                  class="h-3 w-3"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -303,20 +287,15 @@ function TaskFilterContent() {
             </span>
           )}
           {filter.status && (
-            <span class="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+            <span class="bg-primary/10 text-primary inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium">
               Status: {filter.status}
               <button
                 type="button"
                 onClick={() => updateFilter('status', undefined)}
-                class="ml-1 rounded-full hover:bg-primary/20"
+                class="hover:bg-primary/20 ml-1 rounded-full"
                 aria-label="Remove status filter"
               >
-                <svg
-                  class="h-3 w-3"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"

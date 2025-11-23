@@ -85,11 +85,11 @@ const fullTitle = title === 'Task Manager' ? title : `${title} | Task Manager`;
     <link rel="preconnect" href="http://localhost:7171" />
   </head>
 
-  <body class="h-full bg-background text-foreground antialiased">
+  <body class="bg-background text-foreground h-full antialiased">
     <!-- Skip to main content link for accessibility -->
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-4 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+      class="focus:bg-primary focus:text-primary-foreground focus:ring-ring sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-4 focus:rounded-md focus:px-4 focus:py-2 focus:ring-2 focus:outline-none"
     >
       Skip to main content
     </a>
@@ -98,25 +98,22 @@ const fullTitle = title === 'Task Manager' ? title : `${title} | Task Manager`;
     <Navigation />
 
     <!-- Main Content Area -->
-    <main
-      id="main-content"
-      class:list={['min-h-[calc(100vh-4rem)]', className]}
-    >
+    <main id="main-content" class:list={['min-h-[calc(100vh-4rem)]', className]}>
       <slot />
     </main>
 
     <!-- Footer -->
-    <footer class="border-t bg-muted/50">
+    <footer class="bg-muted/50 border-t">
       <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
           <!-- Copyright -->
-          <p class="text-sm text-muted-foreground">
+          <p class="text-muted-foreground text-sm">
             &copy; {new Date().getFullYear()} Task Manager. Built with
             <a
               href="https://astro.build"
               target="_blank"
               rel="noopener noreferrer"
-              class="font-medium text-primary hover:underline"
+              class="text-primary font-medium hover:underline"
             >
               Astro
             </a>
@@ -125,7 +122,7 @@ const fullTitle = title === 'Task Manager' ? title : `${title} | Task Manager`;
               href="https://quarkus.io"
               target="_blank"
               rel="noopener noreferrer"
-              class="font-medium text-primary hover:underline"
+              class="text-primary font-medium hover:underline"
             >
               Quarkus
             </a>.
@@ -135,19 +132,19 @@ const fullTitle = title === 'Task Manager' ? title : `${title} | Task Manager`;
           <nav class="flex gap-4">
             <a
               href="/about"
-              class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              class="text-muted-foreground hover:text-foreground text-sm transition-colors"
             >
               About
             </a>
             <a
               href="/privacy"
-              class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              class="text-muted-foreground hover:text-foreground text-sm transition-colors"
             >
               Privacy
             </a>
             <a
               href="/terms"
-              class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              class="text-muted-foreground hover:text-foreground text-sm transition-colors"
             >
               Terms
             </a>
@@ -155,7 +152,7 @@ const fullTitle = title === 'Task Manager' ? title : `${title} | Task Manager`;
               href="https://github.com"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              class="text-muted-foreground hover:text-foreground text-sm transition-colors"
               aria-label="GitHub Repository"
             >
               GitHub

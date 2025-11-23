@@ -42,17 +42,15 @@ function StatCard({
   icon?: string;
 }) {
   return (
-    <div class="rounded-lg border bg-card p-6 shadow-sm">
+    <div class="bg-card rounded-lg border p-6 shadow-sm">
       <div class="flex items-start justify-between">
         <div class="space-y-1">
-          <p class="text-sm font-medium text-muted-foreground">{label}</p>
-          <p class="text-3xl font-bold text-foreground">{value}</p>
-          {description && (
-            <p class="text-xs text-muted-foreground">{description}</p>
-          )}
+          <p class="text-muted-foreground text-sm font-medium">{label}</p>
+          <p class="text-foreground text-3xl font-bold">{value}</p>
+          {description && <p class="text-muted-foreground text-xs">{description}</p>}
         </div>
         {icon && (
-          <div class="rounded-md bg-primary/10 p-2">
+          <div class="bg-primary/10 rounded-md p-2">
             <span class="text-2xl">{icon}</span>
           </div>
         )}
@@ -66,11 +64,11 @@ function StatCard({
  */
 function StatCardSkeleton() {
   return (
-    <div class="animate-pulse rounded-lg border bg-card p-6 shadow-sm">
+    <div class="bg-card animate-pulse rounded-lg border p-6 shadow-sm">
       <div class="space-y-2">
-        <div class="h-4 w-24 rounded bg-muted"></div>
-        <div class="h-8 w-16 rounded bg-muted"></div>
-        <div class="h-3 w-32 rounded bg-muted"></div>
+        <div class="bg-muted h-4 w-24 rounded"></div>
+        <div class="bg-muted h-8 w-16 rounded"></div>
+        <div class="bg-muted h-3 w-32 rounded"></div>
       </div>
     </div>
   );
@@ -81,10 +79,10 @@ function StatCardSkeleton() {
  */
 function ErrorState({ error }: { error: Error }) {
   return (
-    <div class="rounded-lg border border-destructive bg-destructive/10 p-6">
+    <div class="border-destructive bg-destructive/10 rounded-lg border p-6">
       <div class="flex items-start gap-3">
         <svg
-          class="h-6 w-6 flex-shrink-0 text-destructive"
+          class="text-destructive h-6 w-6 flex-shrink-0"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -97,11 +95,9 @@ function ErrorState({ error }: { error: Error }) {
           ></path>
         </svg>
         <div class="flex-1">
-          <h3 class="text-base font-semibold text-destructive">
-            Failed to load statistics
-          </h3>
-          <p class="mt-1 text-sm text-destructive/90">
-            {error.message ??  'An unexpected error occurred. Please try again.'}
+          <h3 class="text-destructive text-base font-semibold">Failed to load statistics</h3>
+          <p class="text-destructive/90 mt-1 text-sm">
+            {error.message ?? 'An unexpected error occurred. Please try again.'}
           </p>
         </div>
       </div>
@@ -142,8 +138,8 @@ function CompletionStatsContent() {
   // T497: No data state
   if (!stats) {
     return (
-      <div class="rounded-lg border border-muted bg-muted/50 p-6 text-center">
-        <p class="text-sm text-muted-foreground">No statistics available</p>
+      <div class="border-muted bg-muted/50 rounded-lg border p-6 text-center">
+        <p class="text-muted-foreground text-sm">No statistics available</p>
       </div>
     );
   }
@@ -152,8 +148,8 @@ function CompletionStatsContent() {
   return (
     <div>
       <div class="mb-4">
-        <h2 class="text-2xl font-bold text-foreground">Completion Statistics</h2>
-        <p class="text-sm text-muted-foreground">Track your task completion progress</p>
+        <h2 class="text-foreground text-2xl font-bold">Completion Statistics</h2>
+        <p class="text-muted-foreground text-sm">Track your task completion progress</p>
       </div>
 
       <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

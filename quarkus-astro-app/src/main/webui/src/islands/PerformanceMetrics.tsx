@@ -52,11 +52,11 @@ function MetricCard({
 }) {
   if (value === undefined) {
     return (
-      <div class="rounded-lg border bg-card p-6 shadow-sm">
+      <div class="bg-card rounded-lg border p-6 shadow-sm">
         <div class="space-y-2">
-          <p class="text-sm font-medium text-muted-foreground">{label}</p>
-          <p class="text-lg text-muted-foreground">Measuring...</p>
-          {description && <p class="text-xs text-muted-foreground">{description}</p>}
+          <p class="text-muted-foreground text-sm font-medium">{label}</p>
+          <p class="text-muted-foreground text-lg">Measuring...</p>
+          {description && <p class="text-muted-foreground text-xs">{description}</p>}
         </div>
       </div>
     );
@@ -77,15 +77,20 @@ function MetricCard({
     }
   }
 
-  const displayValue = unit === 'ms' ? formatDuration(value) : unit === 'bytes' ? formatBytes(value) : `${value}${unit}`;
+  const displayValue =
+    unit === 'ms'
+      ? formatDuration(value)
+      : unit === 'bytes'
+        ? formatBytes(value)
+        : `${value}${unit}`;
 
   return (
-    <div class="rounded-lg border bg-card p-6 shadow-sm">
+    <div class="bg-card rounded-lg border p-6 shadow-sm">
       <div class="flex items-start justify-between">
         <div class="space-y-1">
-          <p class="text-sm font-medium text-muted-foreground">{label}</p>
-          <p class="text-3xl font-bold text-foreground">{displayValue}</p>
-          {description && <p class="text-xs text-muted-foreground">{description}</p>}
+          <p class="text-muted-foreground text-sm font-medium">{label}</p>
+          <p class="text-foreground text-3xl font-bold">{displayValue}</p>
+          {description && <p class="text-muted-foreground text-xs">{description}</p>}
         </div>
         <div class={`rounded-md p-2 ${iconColor}`}>
           <StatusIcon size={24} />
@@ -102,9 +107,9 @@ function MetricCard({
 function HydrationTable({ hydrations }: { hydrations: IslandHydration[] }) {
   if (hydrations.length === 0) {
     return (
-      <div class="rounded-lg border border-muted bg-muted/50 p-6 text-center">
-        <p class="text-sm text-muted-foreground">No island hydration data available yet</p>
-        <p class="mt-2 text-xs text-muted-foreground">
+      <div class="border-muted bg-muted/50 rounded-lg border p-6 text-center">
+        <p class="text-muted-foreground text-sm">No island hydration data available yet</p>
+        <p class="text-muted-foreground mt-2 text-xs">
           Islands will appear here as they hydrate on the page
         </p>
       </div>
@@ -116,21 +121,24 @@ function HydrationTable({ hydrations }: { hydrations: IslandHydration[] }) {
       <table class="w-full">
         <thead class="bg-muted">
           <tr>
-            <th class="px-4 py-3 text-left text-sm font-medium text-foreground">Island Name</th>
-            <th class="px-4 py-3 text-right text-sm font-medium text-foreground">Hydration Time</th>
-            <th class="px-4 py-3 text-center text-sm font-medium text-foreground">Status</th>
+            <th class="text-foreground px-4 py-3 text-left text-sm font-medium">Island Name</th>
+            <th class="text-foreground px-4 py-3 text-right text-sm font-medium">Hydration Time</th>
+            <th class="text-foreground px-4 py-3 text-center text-sm font-medium">Status</th>
           </tr>
         </thead>
         <tbody class="bg-card">
           {hydrations.map((hydration, index) => {
-            const isSlowStatus = hydration.durationMs > WEB_VITALS_THRESHOLDS.ISLAND_HYDRATION_TARGET;
+            const isSlowStatus =
+              hydration.durationMs > WEB_VITALS_THRESHOLDS.ISLAND_HYDRATION_TARGET;
             const statusColor = isSlowStatus ? 'text-red-500' : 'text-green-500';
             const rowBg = index % 2 === 0 ? 'bg-card' : 'bg-muted/30';
 
             return (
               <tr key={`${hydration.islandName}-${index}`} class={rowBg}>
-                <td class="px-4 py-3 text-sm font-medium text-foreground">{hydration.islandName}</td>
-                <td class="px-4 py-3 text-right text-sm text-foreground">
+                <td class="text-foreground px-4 py-3 text-sm font-medium">
+                  {hydration.islandName}
+                </td>
+                <td class="text-foreground px-4 py-3 text-right text-sm">
                   {formatDuration(hydration.durationMs)}
                 </td>
                 <td class="px-4 py-3 text-center">
@@ -151,9 +159,10 @@ function HydrationTable({ hydrations }: { hydrations: IslandHydration[] }) {
           })}
         </tbody>
       </table>
-      <div class="border-t bg-muted px-4 py-2">
-        <p class="text-xs text-muted-foreground">
-          Target: Individual islands should hydrate in under {WEB_VITALS_THRESHOLDS.ISLAND_HYDRATION_TARGET}ms
+      <div class="bg-muted border-t px-4 py-2">
+        <p class="text-muted-foreground text-xs">
+          Target: Individual islands should hydrate in under{' '}
+          {WEB_VITALS_THRESHOLDS.ISLAND_HYDRATION_TARGET}ms
         </p>
       </div>
     </div>
@@ -178,7 +187,7 @@ function PerformanceMetricsContent() {
       setIsCollecting(true);
 
       // Wait for page to be fully interactive
-      await new Promise(resolve => {
+      await new Promise((resolve) => {
         if (document.readyState === 'complete') {
           resolve(null);
         } else {
@@ -187,7 +196,7 @@ function PerformanceMetricsContent() {
       });
 
       // Small delay to ensure all islands have hydrated
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       const collected = await collectMetrics('performance');
       setMetrics(collected);
@@ -219,8 +228,8 @@ function PerformanceMetricsContent() {
       {/* Header */}
       <div class="flex items-center justify-between">
         <div>
-          <h2 class="text-2xl font-bold text-foreground">Performance Metrics</h2>
-          <p class="mt-1 text-sm text-muted-foreground">
+          <h2 class="text-foreground text-2xl font-bold">Performance Metrics</h2>
+          <p class="text-muted-foreground mt-1 text-sm">
             Real-time Web Vitals and Islands Architecture performance data
           </p>
         </div>
@@ -237,7 +246,7 @@ function PerformanceMetricsContent() {
 
       {/* Web Vitals Metrics */}
       <div>
-        <h3 class="mb-4 text-lg font-semibold text-foreground">Web Vitals</h3>
+        <h3 class="text-foreground mb-4 text-lg font-semibold">Web Vitals</h3>
         <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <MetricCard
             label="First Contentful Paint"
@@ -284,19 +293,17 @@ function PerformanceMetricsContent() {
 
       {/* Island Hydration Times */}
       <div>
-        <h3 class="mb-4 text-lg font-semibold text-foreground">Island Hydration Performance</h3>
+        <h3 class="text-foreground mb-4 text-lg font-semibold">Island Hydration Performance</h3>
         <HydrationTable hydrations={metrics?.islandHydrations ?? []} />
       </div>
 
       {/* Educational Note */}
       <div class="rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-900 dark:bg-blue-950/30">
-        <h4 class="font-semibold text-blue-900 dark:text-blue-100">
-          About Islands Architecture
-        </h4>
+        <h4 class="font-semibold text-blue-900 dark:text-blue-100">About Islands Architecture</h4>
         <p class="mt-2 text-sm text-blue-800 dark:text-blue-200">
-          This application uses Islands Architecture, which ships minimal JavaScript by only hydrating
-          interactive components. Static content remains as pure HTML, resulting in faster load times
-          and better performance compared to traditional SPAs.
+          This application uses Islands Architecture, which ships minimal JavaScript by only
+          hydrating interactive components. Static content remains as pure HTML, resulting in faster
+          load times and better performance compared to traditional SPAs.
         </p>
         <ul class="mt-3 space-y-1 text-sm text-blue-800 dark:text-blue-200">
           <li class="flex items-start gap-2">
@@ -315,7 +322,7 @@ function PerformanceMetricsContent() {
       </div>
 
       {isCollecting && (
-        <div class="text-center text-sm text-muted-foreground">
+        <div class="text-muted-foreground text-center text-sm">
           <p>Collecting performance metrics...</p>
         </div>
       )}

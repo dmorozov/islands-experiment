@@ -74,27 +74,17 @@ export default function ThemeToggle() {
       type="button"
       onClick={handleToggle}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} theme`}
-      class="inline-flex h-10 w-10 items-center justify-center rounded-md border border-input bg-background text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+      class="border-input bg-background hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring inline-flex h-10 w-10 items-center justify-center rounded-md border text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
       title={`Switch to ${isDark ? 'light' : 'dark'} theme`}
     >
       {/* Sun icon for light mode (visible when dark mode is active) */}
       {isDark ? (
-        <Sun
-          class="h-5 w-5 transition-all"
-          strokeWidth={2}
-          aria-hidden="true"
-        />
+        <Sun class="h-5 w-5 transition-all" strokeWidth={2} aria-hidden="true" />
       ) : (
         /* Moon icon for dark mode (visible when light mode is active) */
-        <Moon
-          class="h-5 w-5 transition-all"
-          strokeWidth={2}
-          aria-hidden="true"
-        />
+        <Moon class="h-5 w-5 transition-all" strokeWidth={2} aria-hidden="true" />
       )}
-      <span class="sr-only">
-        {isDark ? 'Switch to light theme' : 'Switch to dark theme'}
-      </span>
+      <span class="sr-only">{isDark ? 'Switch to light theme' : 'Switch to dark theme'}</span>
     </button>
   );
 }

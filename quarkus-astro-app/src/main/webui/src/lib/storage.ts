@@ -96,10 +96,7 @@ export const preferences = {
       if (result.success) {
         return result.data;
       } else {
-        console.warn(
-          '[Storage] Invalid preferences format, using defaults:',
-          result.error.errors
-        );
+        console.warn('[Storage] Invalid preferences format, using defaults:', result.error.errors);
         return { ...defaultPreferences };
       }
     } catch (error) {
@@ -147,10 +144,7 @@ export const preferences = {
       const result = userPreferencesSchema.safeParse(prefs);
 
       if (!result.success) {
-        console.error(
-          '[Storage] Invalid preferences provided:',
-          result.error.errors
-        );
+        console.error('[Storage] Invalid preferences provided:', result.error.errors);
         return;
       }
 

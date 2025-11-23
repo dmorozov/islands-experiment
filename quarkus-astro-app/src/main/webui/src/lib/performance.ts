@@ -30,7 +30,9 @@ export async function collectMetrics(pageName: string): Promise<PerformanceMetri
   }
 
   // Collect Time to Interactive (TTI) - approximation using domInteractive
-  const navigationTiming = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+  const navigationTiming = performance.getEntriesByType(
+    'navigation'
+  )[0] as PerformanceNavigationTiming;
   if (navigationTiming) {
     metrics.timeToInteractive = navigationTiming.domInteractive;
   }
