@@ -80,7 +80,7 @@ function CategoryManagerContent() {
       await createMutation.mutateAsync({ data: dto });
 
       // Invalidate categories query cache
-      queryClient.invalidateQueries({ queryKey: getGetApiCategoriesQueryKey() });
+      void queryClient.invalidateQueries({ queryKey: getGetApiCategoriesQueryKey() });
 
       // Reset form
       setNewName('');
@@ -106,7 +106,7 @@ function CategoryManagerContent() {
   const startEditing = (category: CategoryResponseDTO) => {
     setEditingId(category.id);
     setEditName(category.name);
-    setEditColor(category.colorCode || '#3B82F6');
+    setEditColor(category.colorCode ??  '#3B82F6');
     setEditError(null);
   };
 
@@ -128,7 +128,7 @@ function CategoryManagerContent() {
       await updateMutation.mutateAsync({ id, data: dto });
 
       // T406: Invalidate categories query cache
-      queryClient.invalidateQueries({ queryKey: getGetApiCategoriesQueryKey() });
+      void queryClient.invalidateQueries({ queryKey: getGetApiCategoriesQueryKey() });
 
       // Reset editing state
       setEditingId(null);
@@ -159,7 +159,7 @@ function CategoryManagerContent() {
       await deleteMutation.mutateAsync({ id: deletingCategory.id });
 
       // T406: Invalidate categories query cache
-      queryClient.invalidateQueries({ queryKey: getGetApiCategoriesQueryKey() });
+      void queryClient.invalidateQueries({ queryKey: getGetApiCategoriesQueryKey() });
 
       // Add delay before closing to allow DOM updates to complete
       setTimeout(() => {
@@ -318,12 +318,12 @@ function CategoryManagerContent() {
                   {/* Color badge */}
                   <div
                     class="h-6 w-6 rounded-full border-2 border-border"
-                    style={{ backgroundColor: category.colorCode || '#6B7280' }}
+                    style={{ backgroundColor: category.colorCode ??  '#6B7280' }}
                   />
                   <div>
                     <p class="font-medium">{category.name}</p>
                     <p class="text-sm text-muted-foreground">
-                      {category.taskCount || 0} {category.taskCount === 1 ? 'task' : 'tasks'}
+                      {category.taskCount ?? 0} {category.taskCount === 1 ? 'task' : 'tasks'}
                     </p>
                   </div>
                   {/* T397: Mark default categories as non-deletable in UI */}

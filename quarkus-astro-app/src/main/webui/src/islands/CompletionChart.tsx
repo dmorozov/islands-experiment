@@ -77,7 +77,7 @@ function ErrorState({ error }: { error: Error }) {
             Failed to load chart data
           </h3>
           <p class="mt-1 text-sm text-destructive/90">
-            {error.message || 'An unexpected error occurred. Please try again.'}
+            {error.message ??  'An unexpected error occurred. Please try again.'}
           </p>
         </div>
       </div>
@@ -117,8 +117,13 @@ function EmptyState() {
 /**
  * Custom tooltip for the chart
  */
-function CustomTooltip({ active, payload }: any) {
-  if (active && payload && payload.length) {
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: Array<{ payload: { date: string; count: number } }>;
+}
+
+function CustomTooltip({ active, payload }: CustomTooltipProps) {
+  if (active && payload?.length) {
     const data = payload[0].payload;
     return (
       <div class="rounded-lg border bg-card p-3 shadow-lg">

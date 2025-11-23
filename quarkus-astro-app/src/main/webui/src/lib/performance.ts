@@ -76,7 +76,7 @@ function getFirstContentfulPaint(): Promise<PerformanceEntry | null> {
         observer.disconnect();
         resolve(null);
       }, 5000);
-    } catch (e) {
+    } catch {
       resolve(null);
     }
   });
@@ -115,7 +115,7 @@ function getLargestContentfulPaint(): Promise<PerformanceEntry | null> {
 
       // Also disconnect on visibility change (user interaction)
       document.addEventListener('visibilitychange', resolveWithEntry, { once: true });
-    } catch (e) {
+    } catch {
       resolve(null);
     }
   });
@@ -264,8 +264,16 @@ export function exportMetrics(metrics: PerformanceMetrics): void {
   URL.revokeObjectURL(url);
 }
 
+// Extend Window interface for performance tracking functions
+declare global {
+  interface Window {
+    markIslandStart?: typeof markIslandStart;
+    trackIslandHydration?: typeof trackIslandHydration;
+  }
+}
+
 // Make trackIslandHydration available globally for easy access
 if (typeof window !== 'undefined') {
-  (window as any).markIslandStart = markIslandStart;
-  (window as any).trackIslandHydration = trackIslandHydration;
+  window.markIslandStart = markIslandStart;
+  window.trackIslandHydration = trackIslandHydration;
 }

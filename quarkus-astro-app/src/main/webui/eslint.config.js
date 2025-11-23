@@ -64,9 +64,11 @@ export default [
 
   // ============================================================================
   // TypeScript Configuration - Strict type checking for all .ts and .tsx files
+  // Note: Excludes virtual files from Astro plugin (*.astro/**/*.ts)
   // ============================================================================
   {
     files: ['**/*.{ts,tsx}'],
+    ignores: ['**/*.astro/**/*.ts'],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
@@ -96,6 +98,7 @@ export default [
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-non-null-assertion': 'warn',
+      // Type-aware rules (only for .ts and .tsx files with tsconfig.json)
       '@typescript-eslint/prefer-optional-chain': 'error',
       '@typescript-eslint/prefer-nullish-coalescing': 'error',
       '@typescript-eslint/no-floating-promises': 'error',
@@ -130,14 +133,8 @@ export default [
       preact: preactPlugin,
     },
     rules: {
-      // Preact-specific rules
-      'preact/no-deprecated': 'error',
-      'preact/no-unknown-property': 'error',
-      'preact/prefer-props': 'warn',
-
-      // JSX best practices
-      'react/jsx-no-target-blank': 'error', // Preact uses React rules
-      'react/jsx-key': 'error',
+      // Preact-specific rules (using available rules from eslint-plugin-preact)
+      // Note: eslint-plugin-preact 0.1.0 has limited rules available
     },
     settings: {
       preact: {
@@ -151,6 +148,18 @@ export default [
   // ============================================================================
   ...astroPlugin.configs.recommended,
 
+  // Disable type-aware rules for Astro files (they require project parser options)
+  {
+    files: ['**/*.astro'],
+    rules: {
+      '@typescript-eslint/prefer-optional-chain': 'off',
+      '@typescript-eslint/prefer-nullish-coalescing': 'off',
+      '@typescript-eslint/no-floating-promises': 'off',
+      '@typescript-eslint/await-thenable': 'off',
+      '@typescript-eslint/no-misused-promises': 'off',
+    },
+  },
+
   // ============================================================================
   // Prettier Integration - MUST BE LAST to disable conflicting rules
   // ============================================================================
@@ -160,6 +169,22 @@ export default [
   // Ignore Patterns - Files/directories to exclude from linting
   // ============================================================================
   {
-    ignores: ['dist/', 'node_modules/', '.astro/', 'api/', '*.config.{js,mjs,ts}', '.husky/'],
+    ignores: [
+      // Build output
+      'dist/',
+      '.astro/',
+      // Dependencies
+      'node_modules/',
+      // Generated API client (from Orval)
+      'api/',
+      // Configuration files
+      '*.config.{js,mjs,ts}',
+      // Husky git hooks
+      '.husky/',
+      // Lock files
+      'package-lock.json',
+      'pnpm-lock.yaml',
+      'yarn.lock',
+    ],
   },
 ];

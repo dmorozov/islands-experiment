@@ -93,7 +93,7 @@ function CategoryBadge({
         backgroundColor: colorCode
           ? `${colorCode}20`
           : 'hsl(var(--muted))',
-        color: colorCode || 'hsl(var(--muted-foreground))',
+        color: colorCode ??  'hsl(var(--muted-foreground))',
       }}
     >
       {name}
@@ -157,7 +157,7 @@ function TaskCard({
           <div class="flex flex-wrap items-center gap-2">
             {task.category && (
               <CategoryBadge
-                name={task.category.name || 'Uncategorized'}
+                name={task.category.name ??  'Uncategorized'}
                 colorCode={task.category.colorCode}
               />
             )}
@@ -173,7 +173,7 @@ function TaskCard({
               </span>
             )}
             <span>
-              Created: {new Date(task.createdAt || '').toLocaleDateString()}
+              Created: {new Date(task.createdAt ??  '').toLocaleDateString()}
             </span>
           </div>
 
@@ -308,7 +308,7 @@ function ErrorState({ error }: { error: Error }) {
             Failed to load tasks
           </h3>
           <p class="mt-1 text-sm text-destructive/90">
-            {error.message || 'An unexpected error occurred. Please try again.'}
+            {error.message ??  'An unexpected error occurred. Please try again.'}
           </p>
           <button
             type="button"
@@ -369,7 +369,7 @@ function TaskListContent() {
 
   // Check if any filters are active
   const hasActiveFilters = Boolean(
-    filter.category || filter.priority || filter.status
+    filter.category ?? filter.priority ?? filter.status
   );
 
   // T327: Handle task edit
@@ -388,7 +388,7 @@ function TaskListContent() {
       await deleteMutation.mutateAsync({ id: taskId });
 
       // Invalidate tasks query cache to refetch
-      queryClient.invalidateQueries({
+      void queryClient.invalidateQueries({
         queryKey: getGetApiTasksQueryKey(),
       });
     } catch (error) {
@@ -414,7 +414,7 @@ function TaskListContent() {
       await toggleCompleteMutation.mutateAsync({ id: taskId });
 
       // Invalidate tasks query cache to refetch
-      queryClient.invalidateQueries({
+      void queryClient.invalidateQueries({
         queryKey: getGetApiTasksQueryKey(),
       });
 
@@ -439,7 +439,7 @@ function TaskListContent() {
       await toggleCompleteMutation.mutateAsync({ id: lastCompletedTask.id });
 
       // Invalidate tasks query cache to refetch
-      queryClient.invalidateQueries({
+      void queryClient.invalidateQueries({
         queryKey: getGetApiTasksQueryKey(),
       });
 
@@ -523,8 +523,8 @@ function TaskListContent() {
               <TaskCard
                 task={task}
                 onEdit={() => handleEdit(task.id)}
-                onDelete={() => handleDelete(task.id)}
-                onToggleComplete={handleToggleComplete}
+                onDelete={() => void handleDelete(task.id)}
+                onToggleComplete={(id) => void handleToggleComplete(id)}
               />
             )}
           </div>

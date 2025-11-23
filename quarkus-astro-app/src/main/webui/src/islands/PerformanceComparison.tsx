@@ -30,7 +30,6 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  Cell,
 } from 'recharts';
 import { TrendingDown, Zap, Package } from 'lucide-preact';
 
@@ -68,8 +67,13 @@ const comparisonData = [
 /**
  * Custom tooltip for the comparison chart
  */
-function CustomTooltip({ active, payload }: any) {
-  if (active && payload && payload.length) {
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: Array<{ payload: { metric: string }; value: number; dataKey: string }>;
+}
+
+function CustomTooltip({ active, payload }: CustomTooltipProps) {
+  if (active && payload?.length) {
     return (
       <div class="rounded-lg border bg-card p-4 shadow-lg">
         <p class="font-semibold text-foreground">{payload[0].payload.metric}</p>
@@ -95,7 +99,6 @@ function CustomTooltip({ active, payload }: any) {
  */
 function BenefitCard({ data }: { data: typeof comparisonData[0] }) {
   const Icon = data.icon;
-  const improvementValue = parseInt(data.improvement);
 
   return (
     <div class="rounded-lg border bg-card p-4 shadow-sm">

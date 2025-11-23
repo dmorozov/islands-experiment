@@ -43,24 +43,18 @@ import { customInstance } from '../../../../api/mutator';
 export const getApiTasks = (
     params?: GetApiTasksParams,
  signal?: AbortSignal
-) => {
-      
-      
-      return customInstance<TaskResponseDTO[]>(
+) => customInstance<TaskResponseDTO[]>(
       {url: `http://localhost:7171/api/tasks`, method: 'GET',
         params, signal
     },
-      );
-    }
+      )
   
 
 
 
-export const getGetApiTasksQueryKey = (params?: GetApiTasksParams,) => {
-    return [
+export const getGetApiTasksQueryKey = (params?: GetApiTasksParams,) => [
     `http://localhost:7171/api/tasks`, ...(params ? [params]: [])
-    ] as const;
-    }
+    ] as const
 
     
 export const getGetApiTasksQueryOptions = <TData = Awaited<ReturnType<typeof getApiTasks>>, TError = void>(params?: GetApiTasksParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiTasks>>, TError, TData>>, }
@@ -136,16 +130,12 @@ export function useGetApiTasks<TData = Awaited<ReturnType<typeof getApiTasks>>, 
 export const postApiTasks = (
     taskCreateDTO: TaskCreateDTO,
  signal?: AbortSignal
-) => {
-      
-      
-      return customInstance<TaskResponseDTO>(
+) => customInstance<TaskResponseDTO>(
       {url: `http://localhost:7171/api/tasks`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: taskCreateDTO, signal
     },
-      );
-    }
+      )
   
 
 
@@ -201,16 +191,12 @@ export const usePostApiTasks = <TError = void | void,
 export const putApiTasksId = (
     id: string,
     taskUpdateDTO: TaskUpdateDTO,
- ) => {
-      
-      
-      return customInstance<TaskResponseDTO>(
+ ) => customInstance<TaskResponseDTO>(
       {url: `http://localhost:7171/api/tasks/${id}`, method: 'PUT',
       headers: {'Content-Type': 'application/json', },
       data: taskUpdateDTO
     },
-      );
-    }
+      )
   
 
 
@@ -266,23 +252,17 @@ export const usePutApiTasksId = <TError = void | void | void,
 export const getApiTasksId = (
     id: string,
  signal?: AbortSignal
-) => {
-      
-      
-      return customInstance<TaskResponseDTO>(
+) => customInstance<TaskResponseDTO>(
       {url: `http://localhost:7171/api/tasks/${id}`, method: 'GET', signal
     },
-      );
-    }
+      )
   
 
 
 
-export const getGetApiTasksIdQueryKey = (id?: string,) => {
-    return [
+export const getGetApiTasksIdQueryKey = (id?: string,) => [
     `http://localhost:7171/api/tasks/${id}`
-    ] as const;
-    }
+    ] as const
 
     
 export const getGetApiTasksIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiTasksId>>, TError = void | void>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiTasksId>>, TError, TData>>, }
@@ -357,14 +337,10 @@ export function useGetApiTasksId<TData = Awaited<ReturnType<typeof getApiTasksId
  */
 export const deleteApiTasksId = (
     id: string,
- ) => {
-      
-      
-      return customInstance<void>(
+ ) => customInstance<void>(
       {url: `http://localhost:7171/api/tasks/${id}`, method: 'DELETE'
     },
-      );
-    }
+      )
   
 
 
@@ -419,14 +395,10 @@ export const useDeleteApiTasksId = <TError = void | void,
  */
 export const patchApiTasksIdComplete = (
     id: string,
- ) => {
-      
-      
-      return customInstance<TaskResponseDTO>(
+ ) => customInstance<TaskResponseDTO>(
       {url: `http://localhost:7171/api/tasks/${id}/complete`, method: 'PATCH'
     },
-      );
-    }
+      )
   
 
 

@@ -194,12 +194,11 @@ function PerformanceMetricsContent() {
       setIsCollecting(false);
     };
 
-    collect();
+    void collect();
 
     // Re-collect metrics every 5 seconds to catch late-hydrating islands
-    const interval = setInterval(async () => {
-      const collected = await collectMetrics('performance');
-      setMetrics(collected);
+    const interval = setInterval(() => {
+      void collectMetrics('performance').then(setMetrics);
     }, 5000);
 
     return () => clearInterval(interval);
@@ -286,7 +285,7 @@ function PerformanceMetricsContent() {
       {/* Island Hydration Times */}
       <div>
         <h3 class="mb-4 text-lg font-semibold text-foreground">Island Hydration Performance</h3>
-        <HydrationTable hydrations={metrics?.islandHydrations || []} />
+        <HydrationTable hydrations={metrics?.islandHydrations ?? []} />
       </div>
 
       {/* Educational Note */}

@@ -16,6 +16,7 @@ import { QueryProvider } from '@/components/providers/QueryProvider';
 declare global {
   namespace JSX {
     interface IntrinsicElements {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       [elemName: string]: any;
     }
   }

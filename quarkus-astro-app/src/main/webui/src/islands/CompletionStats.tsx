@@ -101,7 +101,7 @@ function ErrorState({ error }: { error: Error }) {
             Failed to load statistics
           </h3>
           <p class="mt-1 text-sm text-destructive/90">
-            {error.message || 'An unexpected error occurred. Please try again.'}
+            {error.message ??  'An unexpected error occurred. Please try again.'}
           </p>
         </div>
       </div>

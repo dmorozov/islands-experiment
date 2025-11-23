@@ -9,7 +9,7 @@
 export type GetApiTasksStatus = typeof GetApiTasksStatus[keyof typeof GetApiTasksStatus];
 
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
+ 
 export const GetApiTasksStatus = {
   active: 'active',
   completed: 'completed',

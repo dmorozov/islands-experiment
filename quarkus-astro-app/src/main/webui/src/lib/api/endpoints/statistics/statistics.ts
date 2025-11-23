@@ -38,24 +38,18 @@ import { customInstance } from '../../../../api/mutator';
 export const getApiStatsHistory = (
     params?: GetApiStatsHistoryParams,
  signal?: AbortSignal
-) => {
-      
-      
-      return customInstance<CompletionHistoryDTO[]>(
+) => customInstance<CompletionHistoryDTO[]>(
       {url: `http://localhost:7171/api/stats/history`, method: 'GET',
         params, signal
     },
-      );
-    }
+      )
   
 
 
 
-export const getGetApiStatsHistoryQueryKey = (params?: GetApiStatsHistoryParams,) => {
-    return [
+export const getGetApiStatsHistoryQueryKey = (params?: GetApiStatsHistoryParams,) => [
     `http://localhost:7171/api/stats/history`, ...(params ? [params]: [])
-    ] as const;
-    }
+    ] as const
 
     
 export const getGetApiStatsHistoryQueryOptions = <TData = Awaited<ReturnType<typeof getApiStatsHistory>>, TError = void | void>(params?: GetApiStatsHistoryParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiStatsHistory>>, TError, TData>>, }
@@ -131,23 +125,17 @@ export function useGetApiStatsHistory<TData = Awaited<ReturnType<typeof getApiSt
 export const getApiStatsSummary = (
     
  signal?: AbortSignal
-) => {
-      
-      
-      return customInstance<CompletionStatsDTO>(
+) => customInstance<CompletionStatsDTO>(
       {url: `http://localhost:7171/api/stats/summary`, method: 'GET', signal
     },
-      );
-    }
+      )
   
 
 
 
-export const getGetApiStatsSummaryQueryKey = () => {
-    return [
+export const getGetApiStatsSummaryQueryKey = () => [
     `http://localhost:7171/api/stats/summary`
-    ] as const;
-    }
+    ] as const
 
     
 export const getGetApiStatsSummaryQueryOptions = <TData = Awaited<ReturnType<typeof getApiStatsSummary>>, TError = void>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiStatsSummary>>, TError, TData>>, }

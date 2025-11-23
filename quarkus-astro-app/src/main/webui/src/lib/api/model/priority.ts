@@ -9,7 +9,7 @@
 export type Priority = typeof Priority[keyof typeof Priority];
 
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
+ 
 export const Priority = {
   HIGH: 'HIGH',
   MEDIUM: 'MEDIUM',

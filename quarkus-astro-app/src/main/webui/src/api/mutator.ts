@@ -11,7 +11,7 @@ import Axios, { type AxiosRequestConfig, type AxiosError } from 'axios';
  */
 
 export const AXIOS_INSTANCE = Axios.create({
-  baseURL: import.meta.env.PUBLIC_API_URL || 'http://localhost:7171/api',
+  baseURL: import.meta.env.PUBLIC_API_URL ?? 'http://localhost:7171/api',
   withCredentials: true, // Send cookies for session management
   headers: {
     'Content-Type': 'application/json',
@@ -20,10 +20,10 @@ export const AXIOS_INSTANCE = Axios.create({
 
 // Request Interceptor: Add authentication headers if needed
 AXIOS_INSTANCE.interceptors.request.use(
-  (config) => {
+  (config) => 
     // Add any custom headers here (e.g., CSRF tokens)
-    return config;
-  },
+     config
+  ,
   (error) => Promise.reject(error)
 );
 

@@ -113,9 +113,9 @@ function TaskFilterContent() {
     // Only update if URL has filter params
     if (category || priority || status) {
       taskFilter.set({
-        category: category || undefined,
-        priority: priority || undefined,
-        status: status || undefined,
+        category: category ?? undefined,
+        priority: priority ?? undefined,
+        status: status ?? undefined,
       });
     }
   }, []);
@@ -155,21 +155,21 @@ function TaskFilterContent() {
    * Handle category filter change
    */
   const handleCategoryChange = (value: string) => {
-    updateFilter('category', value || undefined);
+    updateFilter('category', value ?? undefined);
   };
 
   /**
    * Handle priority filter change
    */
   const handlePriorityChange = (value: string) => {
-    updateFilter('priority', value || undefined);
+    updateFilter('priority', value ?? undefined);
   };
 
   /**
    * Handle status filter change
    */
   const handleStatusChange = (value: string) => {
-    updateFilter('status', value || undefined);
+    updateFilter('status', value ?? undefined);
   };
 
   /**
@@ -183,7 +183,7 @@ function TaskFilterContent() {
    * Check if any filters are active
    */
   const hasActiveFilters = Boolean(
-    filter.category || filter.priority || filter.status
+    filter.category ?? filter.priority ?? filter.status
   );
 
   /**
@@ -192,9 +192,9 @@ function TaskFilterContent() {
   const categoryOptions = [
     { value: '', label: 'All Categories' },
     ...(categories?.map((cat) => ({
-      value: cat.id || '',
-      label: cat.name || 'Unnamed',
-    })) || []),
+      value: cat.id ??  '',
+      label: cat.name ??  'Unnamed',
+    })) ?? []),
   ];
 
   return (
@@ -223,7 +223,7 @@ function TaskFilterContent() {
         {/* Category Filter */}
         <Select
           label="Category"
-          value={filter.category || ''}
+          value={filter.category ??  ''}
           onChange={handleCategoryChange}
           options={categoryOptions}
           isLoading={categoriesLoading}
@@ -232,7 +232,7 @@ function TaskFilterContent() {
         {/* Priority Filter */}
         <Select
           label="Priority"
-          value={filter.priority || ''}
+          value={filter.priority ??  ''}
           onChange={handlePriorityChange}
           options={PRIORITY_OPTIONS}
         />
@@ -240,7 +240,7 @@ function TaskFilterContent() {
         {/* Status Filter */}
         <Select
           label="Status"
-          value={filter.status || ''}
+          value={filter.status ??  ''}
           onChange={handleStatusChange}
           options={STATUS_OPTIONS}
         />

@@ -43,23 +43,17 @@ import { customInstance } from '../../../../api/mutator';
 export const getApiCategories = (
     
  signal?: AbortSignal
-) => {
-      
-      
-      return customInstance<CategoryResponseDTO[]>(
+) => customInstance<CategoryResponseDTO[]>(
       {url: `http://localhost:7171/api/categories`, method: 'GET', signal
     },
-      );
-    }
+      )
   
 
 
 
-export const getGetApiCategoriesQueryKey = () => {
-    return [
+export const getGetApiCategoriesQueryKey = () => [
     `http://localhost:7171/api/categories`
-    ] as const;
-    }
+    ] as const
 
     
 export const getGetApiCategoriesQueryOptions = <TData = Awaited<ReturnType<typeof getApiCategories>>, TError = void>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiCategories>>, TError, TData>>, }
@@ -135,16 +129,12 @@ export function useGetApiCategories<TData = Awaited<ReturnType<typeof getApiCate
 export const postApiCategories = (
     categoryCreateDTO: CategoryCreateDTO,
  signal?: AbortSignal
-) => {
-      
-      
-      return customInstance<CategoryResponseDTO>(
+) => customInstance<CategoryResponseDTO>(
       {url: `http://localhost:7171/api/categories`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: categoryCreateDTO, signal
     },
-      );
-    }
+      )
   
 
 
@@ -200,16 +190,12 @@ export const usePostApiCategories = <TError = void | void | void,
 export const putApiCategoriesId = (
     id: Uuid,
     categoryUpdateDTO: CategoryUpdateDTO,
- ) => {
-      
-      
-      return customInstance<CategoryResponseDTO>(
+ ) => customInstance<CategoryResponseDTO>(
       {url: `http://localhost:7171/api/categories/${id}`, method: 'PUT',
       headers: {'Content-Type': 'application/json', },
       data: categoryUpdateDTO
     },
-      );
-    }
+      )
   
 
 
@@ -265,23 +251,17 @@ export const usePutApiCategoriesId = <TError = void | void | void | void,
 export const getApiCategoriesId = (
     id: Uuid,
  signal?: AbortSignal
-) => {
-      
-      
-      return customInstance<CategoryResponseDTO>(
+) => customInstance<CategoryResponseDTO>(
       {url: `http://localhost:7171/api/categories/${id}`, method: 'GET', signal
     },
-      );
-    }
+      )
   
 
 
 
-export const getGetApiCategoriesIdQueryKey = (id?: Uuid,) => {
-    return [
+export const getGetApiCategoriesIdQueryKey = (id?: Uuid,) => [
     `http://localhost:7171/api/categories/${id}`
-    ] as const;
-    }
+    ] as const
 
     
 export const getGetApiCategoriesIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiCategoriesId>>, TError = void | void>(id: Uuid, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiCategoriesId>>, TError, TData>>, }
@@ -356,14 +336,10 @@ export function useGetApiCategoriesId<TData = Awaited<ReturnType<typeof getApiCa
  */
 export const deleteApiCategoriesId = (
     id: Uuid,
- ) => {
-      
-      
-      return customInstance<void>(
+ ) => customInstance<void>(
       {url: `http://localhost:7171/api/categories/${id}`, method: 'DELETE'
     },
-      );
-    }
+      )
   
 
 

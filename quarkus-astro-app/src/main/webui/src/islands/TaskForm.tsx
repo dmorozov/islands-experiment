@@ -61,10 +61,10 @@ export default function TaskForm({ mode, initialTask, onSuccess, onCancel }: Tas
   // T315: If edit mode, accept initialTask prop and pre-fill form fields
   useEffect(() => {
     if (mode === 'edit' && initialTask) {
-      setTitle(initialTask.title || '');
-      setDescription(initialTask.description || '');
-      setCategoryId(initialTask.category?.id || '');
-      setPriority(initialTask.priority || 'MEDIUM');
+      setTitle(initialTask.title ??  '');
+      setDescription(initialTask.description ??  '');
+      setCategoryId(initialTask.category?.id ??  '');
+      setPriority(initialTask.priority ??  'MEDIUM');
     }
   }, [mode, initialTask]);
 
@@ -89,7 +89,7 @@ export default function TaskForm({ mode, initialTask, onSuccess, onCancel }: Tas
         await createMutation.mutateAsync({
           data: {
             title: title.trim(),
-            description: description?.trim() || '',
+            description: description?.trim() ??  '',
             categoryId,
             priority,
           },
@@ -99,10 +99,10 @@ export default function TaskForm({ mode, initialTask, onSuccess, onCancel }: Tas
         setTitle('');
         setDescription('');
         setPriority('MEDIUM');
-      } else if (mode === 'edit' && initialTask) {
+      } else if (mode === 'edit' && initialTask?.id) {
         // Call updateTask mutation
         await updateMutation.mutateAsync({
-          id: initialTask.id!,
+          id: initialTask.id,
           data: {
             title: title.trim(),
             description: description?.trim(),
@@ -113,7 +113,7 @@ export default function TaskForm({ mode, initialTask, onSuccess, onCancel }: Tas
       }
 
       // T322: Invalidate tasks query cache to refetch
-      queryClient.invalidateQueries({
+      void queryClient.invalidateQueries({
         queryKey: getGetApiTasksQueryKey(),
       });
 
@@ -153,7 +153,7 @@ export default function TaskForm({ mode, initialTask, onSuccess, onCancel }: Tas
           id="task-title"
           type="text"
           value={title}
-          onInput={(e) => setTitle((e.target as HTMLInputElement).value)}
+          onInput={(e: Event) => setTitle((e.target as HTMLInputElement).value)}
           placeholder="Enter task title"
           required
           maxLength={200}
@@ -167,7 +167,7 @@ export default function TaskForm({ mode, initialTask, onSuccess, onCancel }: Tas
         <Textarea
           id="task-description"
           value={description}
-          onInput={(e) => setDescription((e.target as HTMLTextAreaElement).value)}
+          onInput={(e: Event) => setDescription((e.target as HTMLTextAreaElement).value)}
           placeholder="Enter task description"
           maxLength={2000}
           rows={4}
@@ -209,7 +209,7 @@ export default function TaskForm({ mode, initialTask, onSuccess, onCancel }: Tas
         </Label>
         <Select
           value={priority}
-          onValueChange={(value) => setPriority(value as 'HIGH' | 'MEDIUM' | 'LOW')}
+          onValueChange={(value: string) => setPriority(value as 'HIGH' | 'MEDIUM' | 'LOW')}
           disabled={isLoading}
         >
           <SelectTrigger id="task-priority">
