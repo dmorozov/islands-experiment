@@ -104,8 +104,8 @@ function CategoryManagerContent() {
    * T402: Handle category update (inline editing)
    */
   const startEditing = (category: CategoryResponseDTO) => {
-    setEditingId(category.id);
-    setEditName(category.name);
+    setEditingId(category.id ?? null);
+    setEditName(category.name ?? '');
     setEditColor(category.colorCode ?? '#3B82F6');
     setEditError(null);
   };
@@ -153,7 +153,7 @@ function CategoryManagerContent() {
   };
 
   const confirmDelete = async () => {
-    if (!deletingCategory) return;
+    if (!deletingCategory?.id) return;
 
     try {
       await deleteMutation.mutateAsync({ id: deletingCategory.id });
@@ -243,7 +243,9 @@ function CategoryManagerContent() {
                   Cancel
                 </Button>
                 <Button
-                  onClick={handleCreate}
+                  onClick={() => {
+                    void handleCreate();
+                  }}
                   disabled={!newName.trim() || createMutation.isPending}
                 >
                   {createMutation.isPending ? 'Creating...' : 'Create'}
@@ -293,7 +295,9 @@ function CategoryManagerContent() {
                 <div class="flex gap-2">
                   <Button
                     size="sm"
-                    onClick={() => handleUpdate(category.id)}
+                    onClick={() => {
+                      if (category.id) void handleUpdate(category.id);
+                    }}
                     disabled={!editName.trim() || updateMutation.isPending}
                   >
                     {updateMutation.isPending ? 'Saving...' : 'Save'}
@@ -328,7 +332,9 @@ function CategoryManagerContent() {
                   <Button
                     size="sm"
                     variant="destructive"
-                    onClick={() => handleDelete(category)}
+                    onClick={() => {
+                      void handleDelete(category);
+                    }}
                     disabled={category.isDefault}
                   >
                     Delete
@@ -361,7 +367,7 @@ function CategoryManagerContent() {
             <AlertDialogTitle>Delete Category</AlertDialogTitle>
             <AlertDialogDescription>
               Are you sure you want to delete "{deletingCategory?.name}"?
-              {deletingCategory && deletingCategory.taskCount > 0 && (
+              {deletingCategory && (deletingCategory.taskCount ?? 0) > 0 && (
                 <span class="text-destructive mt-2 block font-medium">
                   Warning: This category contains {deletingCategory.taskCount} task(s).
                 </span>
@@ -372,7 +378,9 @@ function CategoryManagerContent() {
           <AlertDialogFooter>
             <AlertDialogCancel onClick={() => setDeletingCategory(null)}>Cancel</AlertDialogCancel>
             <AlertDialogAction
-              onClick={confirmDelete}
+              onClick={() => {
+                void confirmDelete();
+              }}
               disabled={deleteMutation.isPending}
               class="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >

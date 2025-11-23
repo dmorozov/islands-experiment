@@ -143,7 +143,12 @@ export default function TaskForm({ mode, initialTask, onSuccess, onCancel }: Tas
   const isLoading = createMutation.isPending || updateMutation.isPending;
 
   return (
-    <form onSubmit={handleSubmit} class="space-y-4 rounded-lg border p-4">
+    <form
+      onSubmit={(e) => {
+        void handleSubmit(e);
+      }}
+      class="space-y-4 rounded-lg border p-4"
+    >
       {/* T316: Render title input with required validation */}
       <div class="space-y-2">
         <Label htmlFor="task-title">

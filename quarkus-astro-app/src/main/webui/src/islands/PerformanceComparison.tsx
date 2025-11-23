@@ -69,23 +69,27 @@ const comparisonData = [
  */
 interface CustomTooltipProps {
   active?: boolean;
-  payload?: Array<{ payload: { metric: string }; value: number; dataKey: string }>;
+  payload?: Array<{
+    payload: { metric?: string; improvement?: string };
+    value: number;
+    dataKey: string;
+  }>;
 }
 
 function CustomTooltip({ active, payload }: CustomTooltipProps) {
   if (active && payload?.length) {
     return (
       <div class="bg-card rounded-lg border p-4 shadow-lg">
-        <p class="text-foreground font-semibold">{payload[0].payload.metric}</p>
+        <p class="text-foreground font-semibold">{payload?.[0]?.payload?.metric}</p>
         <div class="mt-2 space-y-1">
           <p class="text-sm text-green-600 dark:text-green-400">
-            Islands: <span class="font-semibold">{payload[0].value}</span>
+            Islands: <span class="font-semibold">{payload?.[0]?.value}</span>
           </p>
           <p class="text-sm text-blue-600 dark:text-blue-400">
-            Traditional SPA: <span class="font-semibold">{payload[1].value}</span>
+            Traditional SPA: <span class="font-semibold">{payload?.[1]?.value}</span>
           </p>
           <p class="text-primary mt-2 text-xs font-semibold">
-            {payload[0].payload.improvement} improvement
+            {payload?.[0]?.payload?.improvement} improvement
           </p>
         </div>
       </div>

@@ -1,13 +1,14 @@
 import { useSession } from '@/lib/hooks/useSession';
 import { usePostApiSessionLogout } from '@/lib/api/endpoints/session/session';
 import { Button } from '@/components/ui/button';
+import { QueryProvider } from '@/components/providers/QueryProvider';
 
 /**
  * UserMenu island component.
  * Shows username and logout button when authenticated.
  * Shows login link when not authenticated.
  */
-export default function UserMenu() {
+function UserMenuContent() {
   const { user, isAuthenticated, isLoading } = useSession();
 
   const logoutMutation = usePostApiSessionLogout({
@@ -59,5 +60,13 @@ export default function UserMenu() {
         {logoutMutation.isPending ? 'Logging out...' : 'Logout'}
       </Button>
     </div>
+  );
+}
+
+export default function UserMenu() {
+  return (
+    <QueryProvider>
+      <UserMenuContent />
+    </QueryProvider>
   );
 }

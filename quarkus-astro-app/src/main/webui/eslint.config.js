@@ -173,6 +173,7 @@ export default [
       // Build output
       'dist/',
       '.astro/',
+      'types/',
       // Dependencies
       'node_modules/',
       // Generated API client (from Orval)

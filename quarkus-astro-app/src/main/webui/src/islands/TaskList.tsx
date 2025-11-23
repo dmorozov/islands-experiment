@@ -34,7 +34,7 @@ import {
   usePatchApiTasksIdComplete,
   getGetApiTasksQueryKey,
 } from '@/lib/api/endpoints/tasks/tasks';
-import type { TaskResponseDTO } from '@/lib/api/model';
+import type { GetApiTasksStatus, Priority, TaskResponseDTO } from '@/lib/api/model';
 import { QueryProvider } from '@/components/providers/QueryProvider';
 import { useQueryClient } from '@tanstack/react-query';
 import TaskForm from './TaskForm';
@@ -121,7 +121,7 @@ function TaskCard({
         <div class="flex h-5 items-center pt-0.5">
           <Checkbox
             checked={isCompleted}
-            onCheckedChange={() => onToggleComplete(task.id)}
+            onCheckedChange={() => onToggleComplete(task.id!)}
             aria-label={`Mark task ${task.title} as ${isCompleted ? 'incomplete' : 'complete'}`}
           />
         </div>
@@ -339,8 +339,8 @@ function TaskListContent() {
     error,
   } = useGetApiTasks({
     category: filter.category,
-    priority: filter.priority,
-    status: filter.status,
+    priority: filter.priority as Priority,
+    status: filter.status as GetApiTasksStatus,
     page,
     size: perPage,
   });
@@ -386,9 +386,9 @@ function TaskListContent() {
 
     // Store for undo
     setLastCompletedTask({
-      id: task.id,
-      title: task.title,
-      wasCompleted: task.completed,
+      id: task.id!,
+      title: task.title!,
+      wasCompleted: task.completed!,
     });
 
     try {
@@ -472,7 +472,9 @@ function TaskListContent() {
           <Button
             size="sm"
             variant="outline"
-            onClick={handleUndoComplete}
+            onClick={() => {
+              void handleUndoComplete();
+            }}
             disabled={toggleCompleteMutation.isPending}
           >
             Undo
@@ -502,8 +504,8 @@ function TaskListContent() {
             ) : (
               <TaskCard
                 task={task}
-                onEdit={() => handleEdit(task.id)}
-                onDelete={() => void handleDelete(task.id)}
+                onEdit={() => handleEdit(task.id!)}
+                onDelete={() => void handleDelete(task.id!)}
                 onToggleComplete={(id) => void handleToggleComplete(id)}
               />
             )}
