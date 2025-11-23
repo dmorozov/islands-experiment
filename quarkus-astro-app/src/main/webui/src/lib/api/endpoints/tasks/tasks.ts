@@ -413,4 +413,66 @@ export const useDeleteApiTasksId = <TError = void | void,
 
       return useMutation(mutationOptions, queryClient);
     }
+    /**
+ * Toggles a task between complete and incomplete. If incomplete, marks as complete with timestamp. If complete, marks as incomplete and clears timestamp.
+ * @summary Toggle task completion
+ */
+export const patchApiTasksIdComplete = (
+    id: string,
+ ) => {
+      
+      
+      return customInstance<TaskResponseDTO>(
+      {url: `http://localhost:7171/api/tasks/${id}/complete`, method: 'PATCH'
+    },
+      );
+    }
+  
+
+
+export const getPatchApiTasksIdCompleteMutationOptions = <TError = void | void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchApiTasksIdComplete>>, TError,{id: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof patchApiTasksIdComplete>>, TError,{id: string}, TContext> => {
+
+const mutationKey = ['patchApiTasksIdComplete'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof patchApiTasksIdComplete>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  patchApiTasksIdComplete(id,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PatchApiTasksIdCompleteMutationResult = NonNullable<Awaited<ReturnType<typeof patchApiTasksIdComplete>>>
+    
+    export type PatchApiTasksIdCompleteMutationError = void | void
+
+    /**
+ * @summary Toggle task completion
+ */
+export const usePatchApiTasksIdComplete = <TError = void | void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchApiTasksIdComplete>>, TError,{id: string}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof patchApiTasksIdComplete>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+
+      const mutationOptions = getPatchApiTasksIdCompleteMutationOptions(options);
+
+      return useMutation(mutationOptions, queryClient);
+    }
     

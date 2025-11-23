@@ -32,6 +32,69 @@ quarkus dev
 ./mvnw clean package
 ```
 
+## Performance & Islands Architecture
+
+This project demonstrates the performance benefits of Islands Architecture through a real-world task management application.
+
+### Performance Metrics
+
+Visit `/performance` to see live performance metrics including:
+
+- **Web Vitals**: FCP, LCP, and TTI measurements
+- **Island Hydration**: Individual component hydration times
+- **Bundle Sizes**: JavaScript payload analysis
+- **Architecture Comparison**: Islands vs Traditional SPA
+
+### Bundle Size Analysis
+
+Production build measurements (gzipped):
+
+- Total JavaScript (excluding charts): ~85 KB
+- Recharts library: ~102 KB
+- Individual islands: 2-20 KB each
+
+### Key Performance Features
+
+1. **Selective Hydration**: Only interactive components load JavaScript
+2. **Progressive Enhancement**: Static HTML loads first, islands hydrate independently
+3. **Code Splitting**: Each island is bundled separately
+4. **Minimal Runtime**: Preact reduces runtime overhead by ~70% vs React (4KB vs 45KB)
+5. **Static Generation**: Pages pre-rendered as HTML at build time
+
+### Performance Targets
+
+- First Contentful Paint (FCP): < 1.5s
+- Largest Contentful Paint (LCP): < 2.5s
+- Time to Interactive (TTI): < 3.8s
+- Island Hydration: < 200ms per island
+- Bundle Size: < 100KB (gzipped, excluding heavy libraries)
+
+### Optimization Techniques Used
+
+- **Lazy Loading**: Islands can load on-demand with `client:visible` or `client:idle`
+- **Hydration Tracking**: Performance API measures when islands become interactive
+- **Preact Runtime**: Lightweight alternative to React
+- **Tree Shaking**: Unused code eliminated during build
+- **Asset Optimization**: Images and static assets optimized
+
+### Measuring Performance
+
+1. **Development Metrics**: Visit `/performance` while running `quarkus dev`
+2. **Production Build**: Run `npm run build` in `src/main/webui/` to see bundle sizes
+3. **Lighthouse Audit**: Run Lighthouse on the deployed application
+4. **Export Metrics**: Use the "Export JSON" button on the performance page
+
+### Hydration Visualizer
+
+The performance page includes an optional Hydration Visualizer that shows:
+
+- Visual indicators when islands hydrate
+- Timeline showing hydration order
+- Duration measurements for each island
+- Real-time status updates
+
+Enable it on the `/performance` page to see islands light up as they become interactive.
+
 ## Using AI
 
 ### SpecKit

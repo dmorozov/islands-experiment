@@ -1,0 +1,99 @@
+---
+/**
+ * Dashboard Page (T507-T513)
+ *
+ * Displays task completion statistics and history visualizations.
+ *
+ * This page showcases:
+ * - Completion statistics (today, week, total, completion rate)
+ * - Completion history chart with customizable date range
+ * - Responsive layout optimized for all screen sizes
+ *
+ * Islands Architecture:
+ * - Uses CompletionStats and CompletionChart interactive islands
+ * - Static page shell for optimal performance
+ * - Hydrated components only where interactivity is needed
+ */
+
+import Layout from '@/layouts/Layout.astro';
+import CompletionStats from '@/islands/CompletionStats';
+import CompletionChart from '@/islands/CompletionChart';
+---
+
+<Layout title="Dashboard | Task Manager">
+  <main class="container mx-auto px-4 py-8">
+    {/* Page Header */}
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold text-foreground mb-2">Dashboard</h1>
+      <p class="text-lg text-muted-foreground">
+        Track your productivity and completion trends
+      </p>
+    </div>
+
+    {/* Navigation Links */}
+    <nav class="mb-6" aria-label="Main navigation">
+      <div class="flex flex-wrap gap-2">
+        <a
+          href="/"
+          class="inline-flex items-center rounded-md border border-input bg-background px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
+        >
+          Tasks
+        </a>
+        <a
+          href="/dashboard"
+          class="inline-flex items-center rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground shadow-sm transition-colors"
+          aria-current="page"
+        >
+          Dashboard
+        </a>
+        <a
+          href="/categories"
+          class="inline-flex items-center rounded-md border border-input bg-background px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
+        >
+          Categories
+        </a>
+      </div>
+    </nav>
+
+    {/* T510-T511: Responsive layout with stats at top and chart below */}
+    <div class="space-y-8">
+      {/* T509: Completion Statistics */}
+      <section aria-labelledby="stats-heading">
+        <CompletionStats client:only="preact" />
+      </section>
+
+      {/* T509: Completion Chart */}
+      <section aria-labelledby="chart-heading">
+        <CompletionChart client:only="preact" days={30} />
+      </section>
+
+      {/* Quick Actions */}
+      <section aria-labelledby="actions-heading" class="rounded-lg border bg-card p-6 shadow-sm">
+        <h2 id="actions-heading" class="text-xl font-bold text-foreground mb-4">
+          Quick Actions
+        </h2>
+        <div class="flex flex-wrap gap-4">
+          <a
+            href="/"
+            class="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors"
+          >
+            View All Tasks
+          </a>
+          <a
+            href="/categories"
+            class="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors"
+          >
+            Manage Categories
+          </a>
+        </div>
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  /* T513: Additional custom styling if needed */
+  main {
+    min-height: calc(100vh - 4rem);
+  }
+</style>

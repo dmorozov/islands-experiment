@@ -336,4 +336,57 @@ public class TaskService {
 
     LOG.debugf("Deleted task with ID=%s", taskId);
   }
+
+  /**
+   * Toggles the completion status of a task.
+   *
+   * <p>T441-T445: If task is incomplete, marks it as complete with timestamp.
+   * If task is already complete, marks it as incomplete and clears timestamp.
+   *
+   * @param userId the user's unique identifier (required)
+   * @param taskId the task's unique identifier (required)
+   * @return TaskResponseDTO containing the updated task
+   * @throws IllegalArgumentException if userId or taskId is null
+   * @throws ResourceNotFoundException if task not found or doesn't belong to user
+   */
+  @Transactional
+  public TaskResponseDTO toggleTaskCompletion(final String userId, final UUID taskId) {
+    // T442: Validate required parameters
+    if (userId == null || userId.isBlank()) {
+      throw new IllegalArgumentException("User ID cannot be null or blank");
+    }
+    if (taskId == null) {
+      throw new IllegalArgumentException("Task ID cannot be null");
+    }
+
+    LOG.debugf("Toggling completion for task ID=%s for user=%s", taskId, userId);
+
+    // T442: Validate task exists and belongs to user
+    Task task = taskRepository.findByIdOptional(taskId)
+        .orElseThrow(() -> new ResourceNotFoundException(
+            "Task not found with ID: " + taskId));
+
+    if (!task.getUserId().equals(userId)) {
+      throw new ResourceNotFoundException(
+          "Task not found with ID: " + taskId);
+    }
+
+    // T443-T444: Toggle completion status
+    if (task.isCompleted()) {
+      // Mark as incomplete
+      task.setCompleted(false);
+      task.setCompletedAt(null);
+      LOG.debugf("Marked task ID=%s as incomplete", taskId);
+    } else {
+      // Mark as complete
+      task.setCompleted(true);
+      task.setCompletedAt(java.time.LocalDateTime.now());
+      LOG.debugf("Marked task ID=%s as complete", taskId);
+    }
+
+    taskRepository.persist(task);
+
+    // T445: Return updated TaskResponseDTO
+    return TaskResponseDTO.from(task);
+  }
 }

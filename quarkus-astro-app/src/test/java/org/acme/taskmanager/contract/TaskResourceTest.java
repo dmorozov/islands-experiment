@@ -125,14 +125,32 @@ class TaskResourceTest {
     @Test
     @DisplayName("POST /api/tasks - should return 201 and created task")
     void testCreateTask() {
+        // First create a category to use in the task
+        String categoryBody = """
+            {
+                "name": "Test Category",
+                "colorCode": "#10B981"
+            }
+            """;
+
+        String categoryId = given()
+            .contentType(ContentType.JSON)
+            .body(categoryBody)
+            .when()
+            .post("/api/categories")
+            .then()
+            .statusCode(HTTP_CREATED)
+            .extract()
+            .path("id");
+
         String requestBody = """
             {
                 "title": "Buy milk",
-                "description": "Get 2% milk from the store",
+                "description": "Get milk from the store",
                 "categoryId": "%s",
                 "priority": "HIGH"
             }
-            """.formatted(TEST_CATEGORY_ID);
+            """.formatted(categoryId);
 
         given()
             .contentType(ContentType.JSON)
@@ -144,7 +162,7 @@ class TaskResourceTest {
             .contentType(ContentType.JSON)
             .body("id", notNullValue())
             .body("title", equalTo("Buy milk"))
-            .body("description", equalTo("Get 2% milk from the store"))
+            .body("description", equalTo("Get milk from the store"))
             .body("priority", equalTo("HIGH"))
             .body("completed", equalTo(false));
     }
@@ -206,7 +224,25 @@ class TaskResourceTest {
     @Test
     @DisplayName("GET /api/tasks/{id} - should return 200 and task details")
     void testGetTaskById() {
-        // First create a task to retrieve
+        // First create a category
+        String categoryBody = """
+            {
+                "name": "Test Category for Get",
+                "colorCode": "#10B981"
+            }
+            """;
+
+        String categoryId = given()
+            .contentType(ContentType.JSON)
+            .body(categoryBody)
+            .when()
+            .post("/api/categories")
+            .then()
+            .statusCode(HTTP_CREATED)
+            .extract()
+            .path("id");
+
+        // Create a task to retrieve
         String createBody = """
             {
                 "title": "Test task for retrieval",
@@ -214,7 +250,7 @@ class TaskResourceTest {
                 "categoryId": "%s",
                 "priority": "MEDIUM"
             }
-            """.formatted(TEST_CATEGORY_ID);
+            """.formatted(categoryId);
 
         String taskId = given()
             .contentType(ContentType.JSON)
@@ -262,7 +298,25 @@ class TaskResourceTest {
     @Test
     @DisplayName("PUT /api/tasks/{id} - should return 200 and updated task")
     void testUpdateTask() {
-        // First create a task to update
+        // First create a category
+        String categoryBody = """
+            {
+                "name": "Test Category for Update",
+                "colorCode": "#10B981"
+            }
+            """;
+
+        String categoryId = given()
+            .contentType(ContentType.JSON)
+            .body(categoryBody)
+            .when()
+            .post("/api/categories")
+            .then()
+            .statusCode(HTTP_CREATED)
+            .extract()
+            .path("id");
+
+        // Create a task to update
         String createBody = """
             {
                 "title": "Original title",
@@ -270,7 +324,7 @@ class TaskResourceTest {
                 "categoryId": "%s",
                 "priority": "LOW"
             }
-            """.formatted(TEST_CATEGORY_ID);
+            """.formatted(categoryId);
 
         String taskId = given()
             .contentType(ContentType.JSON)
@@ -312,7 +366,25 @@ class TaskResourceTest {
     @Test
     @DisplayName("DELETE /api/tasks/{id} - should return 204")
     void testDeleteTask() {
-        // First create a task to delete
+        // First create a category
+        String categoryBody = """
+            {
+                "name": "Test Category for Delete",
+                "colorCode": "#10B981"
+            }
+            """;
+
+        String categoryId = given()
+            .contentType(ContentType.JSON)
+            .body(categoryBody)
+            .when()
+            .post("/api/categories")
+            .then()
+            .statusCode(HTTP_CREATED)
+            .extract()
+            .path("id");
+
+        // Create a task to delete
         String createBody = """
             {
                 "title": "Task to delete",
@@ -320,7 +392,7 @@ class TaskResourceTest {
                 "categoryId": "%s",
                 "priority": "MEDIUM"
             }
-            """.formatted(TEST_CATEGORY_ID);
+            """.formatted(categoryId);
 
         String taskId = given()
             .contentType(ContentType.JSON)
@@ -345,5 +417,127 @@ class TaskResourceTest {
             .get(API_BASE_PATH + "/" + taskId)
             .then()
             .statusCode(HTTP_NOT_FOUND);
+    }
+
+    /**
+     * T433: Test PATCH /api/tasks/{id}/complete - mark task complete.
+     * Expected: 200 OK with task marked complete and timestamp set.
+     */
+    @Test
+    @DisplayName("PATCH /api/tasks/{id}/complete - should mark task complete with timestamp")
+    void testToggleTaskComplete() {
+        // First create a category
+        String categoryBody = """
+            {
+                "name": "Test Category for Complete",
+                "colorCode": "#10B981"
+            }
+            """;
+
+        String categoryId = given()
+            .contentType(ContentType.JSON)
+            .body(categoryBody)
+            .when()
+            .post("/api/categories")
+            .then()
+            .statusCode(HTTP_CREATED)
+            .extract()
+            .path("id");
+
+        // Create a task
+        String createBody = """
+            {
+                "title": "Task to complete",
+                "description": "This task will be marked complete",
+                "categoryId": "%s",
+                "priority": "MEDIUM"
+            }
+            """.formatted(categoryId);
+
+        String taskId = given()
+            .contentType(ContentType.JSON)
+            .body(createBody)
+            .when()
+            .post(API_BASE_PATH)
+            .then()
+            .statusCode(HTTP_CREATED)
+            .extract()
+            .path("id");
+
+        // Mark task as complete
+        given()
+            .when()
+            .patch(API_BASE_PATH + "/" + taskId + "/complete")
+            .then()
+            .statusCode(HTTP_OK)
+            .contentType(ContentType.JSON)
+            .body("id", equalTo(taskId))
+            .body("completed", equalTo(true))
+            .body("completedAt", notNullValue());
+    }
+
+    /**
+     * T434: Test PATCH /api/tasks/{id}/complete on already completed task - toggle back to incomplete.
+     * Expected: 200 OK with task marked incomplete and completedAt set to null.
+     */
+    @Test
+    @DisplayName("PATCH /api/tasks/{id}/complete on completed task - should toggle to incomplete")
+    void testToggleTaskIncomplete() {
+        // First create a category
+        String categoryBody = """
+            {
+                "name": "Test Category for Toggle",
+                "colorCode": "#10B981"
+            }
+            """;
+
+        String categoryId = given()
+            .contentType(ContentType.JSON)
+            .body(categoryBody)
+            .when()
+            .post("/api/categories")
+            .then()
+            .statusCode(HTTP_CREATED)
+            .extract()
+            .path("id");
+
+        // Create a task
+        String createBody = """
+            {
+                "title": "Task to toggle",
+                "description": "This task will be toggled",
+                "categoryId": "%s",
+                "priority": "MEDIUM"
+            }
+            """.formatted(categoryId);
+
+        String taskId = given()
+            .contentType(ContentType.JSON)
+            .body(createBody)
+            .when()
+            .post(API_BASE_PATH)
+            .then()
+            .statusCode(HTTP_CREATED)
+            .extract()
+            .path("id");
+
+        // First toggle: mark as complete
+        given()
+            .when()
+            .patch(API_BASE_PATH + "/" + taskId + "/complete")
+            .then()
+            .statusCode(HTTP_OK)
+            .body("completed", equalTo(true));
+
+        // Second toggle: mark as incomplete
+        given()
+            .when()
+            .patch(API_BASE_PATH + "/" + taskId + "/complete")
+            .then()
+            .statusCode(HTTP_OK)
+            .contentType(ContentType.JSON)
+            .body("id", equalTo(taskId))
+            .body("completed", equalTo(false))
+            .body("completedAt", equalTo(null));
     }
 }

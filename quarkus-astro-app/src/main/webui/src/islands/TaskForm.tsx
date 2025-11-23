@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'preact/hooks';
+import { trackIslandHydration } from '@/lib/performance';
 import { useQueryClient } from '@tanstack/react-query';
 import {
   usePostApiTasks,
   usePutApiTasksId,
-  useGetApiCategories,
   getGetApiTasksQueryKey,
-} from '@/lib/api/endpoints';
+} from '@/lib/api/endpoints/tasks/tasks';
+import { useGetApiCategories } from '@/lib/api/endpoints/categories/categories';
 import type { TaskResponseDTO } from '@/lib/api/model';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -57,6 +58,11 @@ export default function TaskForm({
   // T310: Import useCreateTask and useUpdateTask hooks
   const createMutation = usePostApiTasks();
   const updateMutation = usePutApiTasksId();
+
+  // T537: Track island hydration for performance monitoring
+  useEffect(() => {
+    trackIslandHydration('TaskForm');
+  }, []);
 
   // T315: If edit mode, accept initialTask prop and pre-fill form fields
   useEffect(() => {

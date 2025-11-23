@@ -4,6 +4,9 @@
     "name" : "Categories",
     "description" : "Category management"
   }, {
+    "name" : "Statistics",
+    "description" : "Task completion statistics and history"
+  }, {
     "name" : "Tasks",
     "description" : "Task CRUD operations"
   } ],
@@ -65,6 +68,44 @@
             "maxLength" : 7
           }
         }
+      },
+      "CompletionHistoryDTO" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "$ref" : "#/components/schemas/LocalDate"
+          },
+          "count" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      },
+      "CompletionStatsDTO" : {
+        "type" : "object",
+        "properties" : {
+          "todayCount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "weekCount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalCount" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "completionRate" : {
+            "type" : "number",
+            "format" : "double"
+          }
+        }
+      },
+      "LocalDate" : {
+        "type" : "string",
+        "format" : "date",
+        "examples" : [ "2022-03-10" ]
       },
       "LocalDateTime" : {
         "type" : "string",
@@ -327,6 +368,67 @@
         }
       }
     },
+    "/api/stats/history" : {
+      "get" : {
+        "summary" : "Get completion history",
+        "description" : "Returns daily task completion counts for the specified number of days",
+        "tags" : [ "Statistics" ],
+        "parameters" : [ {
+          "description" : "Number of days to include in history (1-365, default 30)",
+          "schema" : {
+            "maximum" : 365,
+            "minimum" : 1,
+            "type" : "integer",
+            "default" : 30
+          },
+          "name" : "days",
+          "in" : "query"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "History retrieved successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/CompletionHistoryDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid days parameter"
+          },
+          "401" : {
+            "description" : "Not authenticated"
+          }
+        }
+      }
+    },
+    "/api/stats/summary" : {
+      "get" : {
+        "summary" : "Get completion statistics",
+        "description" : "Returns task completion statistics including today, week, total counts and completion rate",
+        "tags" : [ "Statistics" ],
+        "responses" : {
+          "200" : {
+            "description" : "Statistics retrieved successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CompletionStatsDTO"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Not authenticated"
+          }
+        }
+      }
+    },
     "/api/tasks" : {
       "get" : {
         "summary" : "List user's tasks",
@@ -525,6 +627,41 @@
         "responses" : {
           "204" : {
             "description" : "Task deleted successfully"
+          },
+          "404" : {
+            "description" : "Task not found"
+          },
+          "401" : {
+            "description" : "Not authenticated"
+          }
+        }
+      }
+    },
+    "/api/tasks/{id}/complete" : {
+      "patch" : {
+        "summary" : "Toggle task completion",
+        "description" : "Toggles a task between complete and incomplete. If incomplete, marks as complete with timestamp. If complete, marks as incomplete and clears timestamp.",
+        "tags" : [ "Tasks" ],
+        "parameters" : [ {
+          "description" : "Task UUID",
+          "required" : true,
+          "schema" : {
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "name" : "id",
+          "in" : "path"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Task completion toggled successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TaskResponseDTO"
+                }
+              }
+            }
           },
           "404" : {
             "description" : "Task not found"

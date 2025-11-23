@@ -44,9 +44,34 @@ import NewTaskButton from '@/islands/NewTaskButton';
       <!-- New Task Button and Theme Toggle - Hydrated islands -->
       <div class="flex items-center gap-4">
         <NewTaskButton client:only="preact" />
-        <ThemeToggle client:load />
+        <ThemeToggle client:only="preact" />
       </div>
     </div>
+
+    <!-- T512: Navigation Links -->
+    <nav class="mb-6" aria-label="Main navigation">
+      <div class="flex flex-wrap gap-2">
+        <a
+          href="/"
+          class="inline-flex items-center rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground shadow-sm transition-colors"
+          aria-current="page"
+        >
+          Tasks
+        </a>
+        <a
+          href="/dashboard"
+          class="inline-flex items-center rounded-md border border-input bg-background px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
+        >
+          Dashboard
+        </a>
+        <a
+          href="/categories"
+          class="inline-flex items-center rounded-md border border-input bg-background px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
+        >
+          Categories
+        </a>
+      </div>
+    </nav>
 
     <!-- Task Filter Island - Client-only (requires React Query context) -->
     <div class="mb-6">

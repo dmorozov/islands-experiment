@@ -1,4 +1,5 @@
-import { useState } from 'preact/hooks';
+import { useState, useEffect } from 'preact/hooks';
+import { trackIslandHydration } from '@/lib/performance';
 import { Button } from '@/components/ui/button';
 import TaskForm from './TaskForm';
 import {
@@ -18,6 +19,11 @@ import { QueryProvider } from '@/components/providers/QueryProvider';
  */
 function NewTaskButtonContent() {
   const [isOpen, setIsOpen] = useState(false);
+
+  // Track island hydration for performance monitoring
+  useEffect(() => {
+    trackIslandHydration('NewTaskButton');
+  }, []);
 
   // T338: After task created, close modal
   const handleSuccess = () => {

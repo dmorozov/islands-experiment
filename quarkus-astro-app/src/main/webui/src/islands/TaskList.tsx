@@ -25,15 +25,22 @@
  * The client:load directive ensures this component hydrates immediately on page load.
  */
 
-import { useState } from 'preact/hooks';
+import { useState, useEffect } from 'preact/hooks';
 import { useStore } from '@nanostores/preact';
 import { taskFilter, currentPage, tasksPerPage } from '@/lib/state';
-import { useGetApiTasks, useDeleteApiTasksId, getGetApiTasksQueryKey } from '@/lib/api/endpoints/tasks/tasks';
+import {
+  useGetApiTasks,
+  useDeleteApiTasksId,
+  usePatchApiTasksIdComplete,
+  getGetApiTasksQueryKey
+} from '@/lib/api/endpoints/tasks/tasks';
 import type { TaskResponseDTO } from '@/lib/api/model';
 import { QueryProvider } from '@/components/providers/QueryProvider';
 import { useQueryClient } from '@tanstack/react-query';
 import TaskForm from './TaskForm';
+import { trackIslandHydration } from '@/lib/performance';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -95,17 +102,19 @@ function CategoryBadge({
 }
 
 /**
- * Task card component (T327-T334)
- * Renders a single task item with edit and delete functionality
+ * Task card component (T327-T334, T481-T491)
+ * Renders a single task item with edit, delete, and completion toggle functionality
  */
 function TaskCard({
   task,
   onEdit,
   onDelete,
+  onToggleComplete,
 }: {
   task: TaskResponseDTO;
   onEdit: () => void;
   onDelete: () => void;
+  onToggleComplete: (taskId: string) => void;
 }) {
   const isCompleted = task.completed;
 
@@ -116,14 +125,12 @@ function TaskCard({
       }`}
     >
       <div class="flex items-start gap-3">
-        {/* Completion Checkbox (read-only for US1) */}
+        {/* T481: Completion Checkbox - now interactive */}
         <div class="flex h-5 items-center pt-0.5">
-          <input
-            type="checkbox"
+          <Checkbox
             checked={isCompleted}
-            disabled
-            class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary disabled:cursor-not-allowed disabled:opacity-50"
-            aria-label={`Task ${task.title} is ${isCompleted ? 'completed' : 'not completed'}`}
+            onCheckedChange={() => onToggleComplete(task.id)}
+            aria-label={`Mark task ${task.title} as ${isCompleted ? 'incomplete' : 'complete'}`}
           />
         </div>
 
@@ -312,10 +319,10 @@ function ErrorState({ error }: { error: Error }) {
 }
 
 /**
- * Internal TaskList component (T327-T334)
+ * Internal TaskList component (T327-T334, T473-T491)
  *
  * Fetches and displays tasks with filtering, loading, and error states.
- * Supports inline editing and deletion.
+ * Supports inline editing, deletion, and completion toggling with undo.
  */
 function TaskListContent() {
   const queryClient = useQueryClient();
@@ -323,10 +330,22 @@ function TaskListContent() {
   // T328: Add state to track selected task ID for editing
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
 
+  // T477: Add state for tracking last completed task (for undo)
+  const [lastCompletedTask, setLastCompletedTask] = useState<{
+    id: string;
+    title: string;
+    wasCompleted: boolean;
+  } | null>(null);
+
   // Subscribe to Nano Stores atoms for reactive state
   const filter = useStore(taskFilter);
   const page = useStore(currentPage);
   const perPage = useStore(tasksPerPage);
+
+  // T535: Track island hydration for performance monitoring
+  useEffect(() => {
+    trackIslandHydration('TaskList');
+  }, []);
 
   // Fetch tasks from API using generated TanStack Query hook
   const { data: tasks, isLoading, error } = useGetApiTasks({
@@ -339,6 +358,9 @@ function TaskListContent() {
 
   // T333: Call useDeleteTask mutation
   const deleteMutation = useDeleteApiTasksId();
+
+  // T476: Call usePatchApiTasksIdComplete mutation
+  const toggleCompleteMutation = usePatchApiTasksIdComplete();
 
   // Check if any filters are active
   const hasActiveFilters = Boolean(
@@ -367,6 +389,59 @@ function TaskListContent() {
     } catch (error) {
       console.error('Failed to delete task:', error);
       alert('Unable to delete task. Please try again.');
+    }
+  };
+
+  // T478-T480: Handle task completion toggle with undo functionality
+  const handleToggleComplete = async (taskId: string) => {
+    const task = tasks?.find((t) => t.id === taskId);
+    if (!task) return;
+
+    // Store for undo
+    setLastCompletedTask({
+      id: task.id,
+      title: task.title,
+      wasCompleted: task.completed,
+    });
+
+    try {
+      // T479: Call toggle completion mutation
+      await toggleCompleteMutation.mutateAsync({ id: taskId });
+
+      // Invalidate tasks query cache to refetch
+      queryClient.invalidateQueries({
+        queryKey: getGetApiTasksQueryKey(),
+      });
+
+      // Auto-dismiss undo notification after 5 seconds
+      setTimeout(() => {
+        setLastCompletedTask((current) =>
+          current?.id === taskId ? null : current
+        );
+      }, 5000);
+    } catch (error) {
+      console.error('Failed to toggle task completion:', error);
+      alert('Unable to update task. Please try again.');
+      setLastCompletedTask(null);
+    }
+  };
+
+  // T480: Handle undo completion toggle
+  const handleUndoComplete = async () => {
+    if (!lastCompletedTask) return;
+
+    try {
+      await toggleCompleteMutation.mutateAsync({ id: lastCompletedTask.id });
+
+      // Invalidate tasks query cache to refetch
+      queryClient.invalidateQueries({
+        queryKey: getGetApiTasksQueryKey(),
+      });
+
+      setLastCompletedTask(null);
+    } catch (error) {
+      console.error('Failed to undo completion:', error);
+      alert('Unable to undo. Please try again.');
     }
   };
 
@@ -402,6 +477,24 @@ function TaskListContent() {
   // Success state: Render task list
   return (
     <div class="space-y-4">
+      {/* T489: Undo notification banner */}
+      {lastCompletedTask && (
+        <div class="flex items-center justify-between rounded-lg border border-primary bg-primary/10 p-4">
+          <p class="text-sm text-foreground">
+            Task "{lastCompletedTask.title}" marked as{' '}
+            {lastCompletedTask.wasCompleted ? 'incomplete' : 'complete'}
+          </p>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={handleUndoComplete}
+            disabled={toggleCompleteMutation.isPending}
+          >
+            Undo
+          </Button>
+        </div>
+      )}
+
       {/* Task count header */}
       <div class="flex items-center justify-between">
         <p class="text-sm text-muted-foreground">
@@ -426,6 +519,7 @@ function TaskListContent() {
                 task={task}
                 onEdit={() => handleEdit(task.id)}
                 onDelete={() => handleDelete(task.id)}
+                onToggleComplete={handleToggleComplete}
               />
             )}
           </div>

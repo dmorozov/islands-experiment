@@ -673,133 +673,133 @@ This is a web application with the following structure:
 
 ### Contract Tests for US4
 
-- [ ] T433 [P] [US4] Write contract test for PATCH /api/tasks/{id}/complete - expect 200, task marked complete with timestamp
-- [ ] T434 [P] [US4] Write contract test for PATCH /api/tasks/{id}/complete on already completed task - expect 200, task marked incomplete (toggle)
-- [ ] T435 [P] [US4] Write contract test for GET /api/stats/summary - expect 200, completion statistics
-- [ ] T436 [P] [US4] Write contract test for GET /api/stats/history?days=7 - expect 200, array of daily completion counts
+- [x] T433 [P] [US4] Write contract test for PATCH /api/tasks/{id}/complete - expect 200, task marked complete with timestamp
+- [x] T434 [P] [US4] Write contract test for PATCH /api/tasks/{id}/complete on already completed task - expect 200, task marked incomplete (toggle)
+- [x] T435 [P] [US4] Write contract test for GET /api/stats/summary - expect 200, completion statistics
+- [x] T436 [P] [US4] Write contract test for GET /api/stats/history?days=7 - expect 200, array of daily completion counts
 
 ### Backend DTOs for US4
 
-- [ ] T437 [P] [US4] Create CompletionStatsDTO record in quarkus-astro-app/src/main/java/org/acme/taskmanager/dto/CompletionStatsDTO.java
-- [ ] T438 [P] [US4] Add fields to CompletionStatsDTO: todayCount, weekCount, totalCount, completionRate
-- [ ] T439 [P] [US4] Create CompletionHistoryDTO record in quarkus-astro-app/src/main/java/org/acme/taskmanager/dto/CompletionHistoryDTO.java
-- [ ] T440 [P] [US4] Add fields to CompletionHistoryDTO: date (LocalDate), count (Long)
+- [x] T437 [P] [US4] Create CompletionStatsDTO record in quarkus-astro-app/src/main/java/org/acme/taskmanager/dto/CompletionStatsDTO.java
+- [x] T438 [P] [US4] Add fields to CompletionStatsDTO: todayCount, weekCount, totalCount, completionRate
+- [x] T439 [P] [US4] Create CompletionHistoryDTO record in quarkus-astro-app/src/main/java/org/acme/taskmanager/dto/CompletionHistoryDTO.java
+- [x] T440 [P] [US4] Add fields to CompletionHistoryDTO: date (LocalDate), count (Long)
 
 ### Backend Services for US4
 
-- [ ] T441 [US4] Implement toggleTaskCompletion(String userId, UUID taskId) in TaskService
-- [ ] T442 [US4] Validate task exists and belongs to user in TaskService.toggleTaskCompletion()
-- [ ] T443 [US4] If task.completed == false: set completed=true, completedAt=now() in TaskService.toggleTaskCompletion()
-- [ ] T444 [US4] If task.completed == true: set completed=false, completedAt=null in TaskService.toggleTaskCompletion()
-- [ ] T445 [US4] Return updated TaskResponseDTO from TaskService.toggleTaskCompletion()
-- [ ] T446 [US4] Create StatsService in quarkus-astro-app/src/main/java/org/acme/taskmanager/service/StatsService.java
-- [ ] T447 [US4] Inject TaskRepository into StatsService
-- [ ] T448 [US4] Implement getCompletionStats(String userId) in StatsService
-- [ ] T449 [US4] Query tasks completed today (completedAt >= start of day) in StatsService.getCompletionStats()
-- [ ] T450 [US4] Query tasks completed this week (completedAt >= start of week) in StatsService.getCompletionStats()
-- [ ] T451 [US4] Query total completed tasks (completed = true) in StatsService.getCompletionStats()
-- [ ] T452 [US4] Calculate completion rate: (completed / total tasks) \* 100 in StatsService.getCompletionStats()
-- [ ] T453 [US4] Return CompletionStatsDTO from StatsService.getCompletionStats()
-- [ ] T454 [US4] Implement getCompletionHistory(String userId, int days) in StatsService
-- [ ] T455 [US4] Query tasks completed per day for last N days using GROUP BY date in StatsService.getCompletionHistory()
-- [ ] T456 [US4] Return List<CompletionHistoryDTO> from StatsService.getCompletionHistory()
+- [x] T441 [US4] Implement toggleTaskCompletion(String userId, UUID taskId) in TaskService
+- [x] T442 [US4] Validate task exists and belongs to user in TaskService.toggleTaskCompletion()
+- [x] T443 [US4] If task.completed == false: set completed=true, completedAt=now() in TaskService.toggleTaskCompletion()
+- [x] T444 [US4] If task.completed == true: set completed=false, completedAt=null in TaskService.toggleTaskCompletion()
+- [x] T445 [US4] Return updated TaskResponseDTO from TaskService.toggleTaskCompletion()
+- [x] T446 [US4] Create StatsService in quarkus-astro-app/src/main/java/org/acme/taskmanager/service/StatsService.java
+- [x] T447 [US4] Inject TaskRepository into StatsService
+- [x] T448 [US4] Implement getCompletionStats(String userId) in StatsService
+- [x] T449 [US4] Query tasks completed today (completedAt >= start of day) in StatsService.getCompletionStats()
+- [x] T450 [US4] Query tasks completed this week (completedAt >= start of week) in StatsService.getCompletionStats()
+- [x] T451 [US4] Query total completed tasks (completed = true) in StatsService.getCompletionStats()
+- [x] T452 [US4] Calculate completion rate: (completed / total tasks) \* 100 in StatsService.getCompletionStats()
+- [x] T453 [US4] Return CompletionStatsDTO from StatsService.getCompletionStats()
+- [x] T454 [US4] Implement getCompletionHistory(String userId, int days) in StatsService
+- [x] T455 [US4] Query tasks completed per day for last N days using GROUP BY date in StatsService.getCompletionHistory()
+- [x] T456 [US4] Return List<CompletionHistoryDTO> from StatsService.getCompletionHistory()
 
 ### Backend API Endpoints for US4
 
-- [ ] T457 [US4] Implement PATCH /api/tasks/{id}/complete endpoint in TaskResource
-- [ ] T458 [US4] Extract userId from session in PATCH /api/tasks/{id}/complete
-- [ ] T459 [US4] Call TaskService.toggleTaskCompletion() and return 200 OK with TaskResponseDTO
-- [ ] T460 [US4] Add OpenAPI annotations to PATCH /api/tasks/{id}/complete matching api.yaml
-- [ ] T461 [US4] Create StatsResource in quarkus-astro-app/src/main/java/org/acme/taskmanager/resource/StatsResource.java with @Path("/api/stats")
-- [ ] T462 [US4] Inject StatsService and HttpSession into StatsResource
-- [ ] T463 [US4] Implement GET /api/stats/summary endpoint in StatsResource
-- [ ] T464 [US4] Extract userId from session in GET /api/stats/summary
-- [ ] T465 [US4] Call StatsService.getCompletionStats() and return 200 OK with CompletionStatsDTO
-- [ ] T466 [US4] Add OpenAPI annotations to GET /api/stats/summary matching api.yaml
-- [ ] T467 [US4] Implement GET /api/stats/history endpoint in StatsResource with @QueryParam days (default 30, max 365)
-- [ ] T468 [US4] Extract userId from session in GET /api/stats/history
-- [ ] T469 [US4] Call StatsService.getCompletionHistory(userId, days) and return 200 OK with List<CompletionHistoryDTO>
-- [ ] T470 [US4] Add OpenAPI annotations to GET /api/stats/history matching api.yaml
-- [ ] T471 [US4] Regenerate OpenAPI schema by restarting `quarkus dev`
-- [ ] T472 [US4] Run `npm run generate:api` to regenerate TypeScript client
+- [x] T457 [US4] Implement PATCH /api/tasks/{id}/complete endpoint in TaskResource
+- [x] T458 [US4] Extract userId from session in PATCH /api/tasks/{id}/complete
+- [x] T459 [US4] Call TaskService.toggleTaskCompletion() and return 200 OK with TaskResponseDTO
+- [x] T460 [US4] Add OpenAPI annotations to PATCH /api/tasks/{id}/complete matching api.yaml
+- [x] T461 [US4] Create StatsResource in quarkus-astro-app/src/main/java/org/acme/taskmanager/resource/StatsResource.java with @Path("/api/stats")
+- [x] T462 [US4] Inject StatsService and HttpSession into StatsResource
+- [x] T463 [US4] Implement GET /api/stats/summary endpoint in StatsResource
+- [x] T464 [US4] Extract userId from session in GET /api/stats/summary
+- [x] T465 [US4] Call StatsService.getCompletionStats() and return 200 OK with CompletionStatsDTO
+- [x] T466 [US4] Add OpenAPI annotations to GET /api/stats/summary matching api.yaml
+- [x] T467 [US4] Implement GET /api/stats/history endpoint in StatsResource with @QueryParam days (default 30, max 365)
+- [x] T468 [US4] Extract userId from session in GET /api/stats/history
+- [x] T469 [US4] Call StatsService.getCompletionHistory(userId, days) and return 200 OK with List<CompletionHistoryDTO>
+- [x] T470 [US4] Add OpenAPI annotations to GET /api/stats/history matching api.yaml
+- [x] T471 [US4] Regenerate OpenAPI schema by restarting `quarkus dev`
+- [x] T472 [US4] Run `npm run generate:api` to regenerate TypeScript client
 
 ### Frontend Completion Toggle Component for US4
 
-- [ ] T473 [US4] Create CompletionToggle.tsx island in quarkus-astro-app/src/main/webui/src/islands/CompletionToggle.tsx
-- [ ] T474 [US4] Accept taskId and initialCompleted props in CompletionToggle.tsx
-- [ ] T475 [US4] Import useToggleTaskCompletion mutation hook from generated API client
-- [ ] T476 [US4] Render checkbox using Shadcn Checkbox component in CompletionToggle.tsx
-- [ ] T477 [US4] Set checkbox checked state based on task.completed in CompletionToggle.tsx
-- [ ] T478 [US4] Handle checkbox change: call toggleTaskCompletion mutation in CompletionToggle.tsx
-- [ ] T479 [US4] Implement optimistic update: toggle checkbox immediately in CompletionToggle.tsx
-- [ ] T480 [US4] Invalidate tasks query cache after mutation success in CompletionToggle.tsx
-- [ ] T481 [US4] Show loading spinner on checkbox during mutation in CompletionToggle.tsx
+- [x] T473 [US4] Create CompletionToggle.tsx island in quarkus-astro-app/src/main/webui/src/islands/CompletionToggle.tsx
+- [x] T474 [US4] Accept taskId and initialCompleted props in CompletionToggle.tsx
+- [x] T475 [US4] Import useToggleTaskCompletion mutation hook from generated API client
+- [x] T476 [US4] Render checkbox using Shadcn Checkbox component in CompletionToggle.tsx
+- [x] T477 [US4] Set checkbox checked state based on task.completed in CompletionToggle.tsx
+- [x] T478 [US4] Handle checkbox change: call toggleTaskCompletion mutation in CompletionToggle.tsx
+- [x] T479 [US4] Implement optimistic update: toggle checkbox immediately in CompletionToggle.tsx
+- [x] T480 [US4] Invalidate tasks query cache after mutation success in CompletionToggle.tsx
+- [x] T481 [US4] Show loading spinner on checkbox during mutation in CompletionToggle.tsx
 
 ### Frontend Undo Completion Feature for US4
 
-- [ ] T482 [US4] Add undo state to CompletionToggle.tsx: track last toggle timestamp
-- [ ] T483 [US4] After marking complete, show "Undo" button for 5 seconds in CompletionToggle.tsx
-- [ ] T484 [US4] Use setTimeout to hide "Undo" button after 5 seconds in CompletionToggle.tsx
-- [ ] T485 [US4] On "Undo" click, call toggleTaskCompletion again to revert in CompletionToggle.tsx
-- [ ] T486 [US4] Clear timeout if component unmounts or user navigates away
+- [x] T482 [US4] Add undo state to CompletionToggle.tsx: track last toggle timestamp
+- [x] T483 [US4] After marking complete, show "Undo" button for 5 seconds in CompletionToggle.tsx
+- [x] T484 [US4] Use setTimeout to hide "Undo" button after 5 seconds in CompletionToggle.tsx
+- [x] T485 [US4] On "Undo" click, call toggleTaskCompletion again to revert in CompletionToggle.tsx
+- [x] T486 [US4] Clear timeout if component unmounts or user navigates away
 
 ### Frontend Task List Integration for US4
 
-- [ ] T487 [US4] Update TaskList.tsx to render CompletionToggle island for each task
-- [ ] T488 [US4] Pass task.id and task.completed as props to CompletionToggle
-- [ ] T489 [US4] Display completion timestamp (completedAt) next to completed tasks in TaskList.tsx
-- [ ] T490 [US4] Add visual strikethrough styling to completed task titles in TaskList.tsx
-- [ ] T491 [US4] Move completed tasks to separate "Completed" section or fold in TaskList.tsx
+- [x] T487 [US4] Update TaskList.tsx to render CompletionToggle island for each task
+- [x] T488 [US4] Pass task.id and task.completed as props to CompletionToggle
+- [x] T489 [US4] Display completion timestamp (completedAt) next to completed tasks in TaskList.tsx
+- [x] T490 [US4] Add visual strikethrough styling to completed task titles in TaskList.tsx
+- [x] T491 [US4] Move completed tasks to separate "Completed" section or fold in TaskList.tsx
 
 ### Frontend Completion Stats Component for US4
 
-- [ ] T492 [US4] Create CompletionStats.tsx island in quarkus-astro-app/src/main/webui/src/islands/CompletionStats.tsx
-- [ ] T493 [US4] Import useGetCompletionStats hook from generated API client
-- [ ] T494 [US4] Call useGetCompletionStats() and display loading/error states
-- [ ] T495 [US4] Render stats: "X tasks completed today", "Y this week", "Z total" in CompletionStats.tsx
-- [ ] T496 [US4] Display completion rate as percentage with progress bar in CompletionStats.tsx
-- [ ] T497 [US4] Style CompletionStats.tsx with Tailwind cards and progress indicators
-- [ ] T498 [US4] Add confetti animation when completionRate reaches 100% using canvas-confetti library
+- [x] T492 [US4] Create CompletionStats.tsx island in quarkus-astro-app/src/main/webui/src/islands/CompletionStats.tsx
+- [x] T493 [US4] Import useGetCompletionStats hook from generated API client
+- [x] T494 [US4] Call useGetCompletionStats() and display loading/error states
+- [x] T495 [US4] Render stats: "X tasks completed today", "Y this week", "Z total" in CompletionStats.tsx
+- [x] T496 [US4] Display completion rate as percentage with progress bar in CompletionStats.tsx
+- [x] T497 [US4] Style CompletionStats.tsx with Tailwind cards and progress indicators
+- [x] T498 [US4] Add confetti animation when completionRate reaches 100% using canvas-confetti library
 
 ### Frontend Completion History Chart for US4
 
-- [ ] T499 [US4] Install chart library for visualization: `npm install recharts` (lightweight for Preact)
-- [ ] T500 [US4] Create CompletionChart.tsx island in quarkus-astro-app/src/main/webui/src/islands/CompletionChart.tsx
-- [ ] T501 [US4] Import useGetCompletionHistory hook from generated API client
-- [ ] T502 [US4] Call useGetCompletionHistory({ days: 7 }) for last week
-- [ ] T503 [US4] Render bar chart or line chart showing tasks completed per day using recharts
-- [ ] T504 [US4] Format chart with proper axis labels, tooltip on hover
-- [ ] T505 [US4] Style chart to match light/dark theme from userTheme atom
-- [ ] T506 [US4] Handle empty data: show "No completion history yet" message
+- [x] T499 [US4] Install chart library for visualization: `npm install recharts` (lightweight for Preact)
+- [x] T500 [US4] Create CompletionChart.tsx island in quarkus-astro-app/src/main/webui/src/islands/CompletionChart.tsx
+- [x] T501 [US4] Import useGetCompletionHistory hook from generated API client
+- [x] T502 [US4] Call useGetCompletionHistory({ days: 7 }) for last week
+- [x] T503 [US4] Render bar chart or line chart showing tasks completed per day using recharts
+- [x] T504 [US4] Format chart with proper axis labels, tooltip on hover
+- [x] T505 [US4] Style chart to match light/dark theme from userTheme atom
+- [x] T506 [US4] Handle empty data: show "No completion history yet" message
 
 ### Frontend Dashboard Page for US4
 
-- [ ] T507 [US4] Create dashboard.astro page in quarkus-astro-app/src/main/webui/src/pages/dashboard.astro
-- [ ] T508 [US4] Import Layout component in dashboard.astro
-- [ ] T509 [US4] Import CompletionStats island with client:load directive
-- [ ] T510 [US4] Import CompletionChart island with client:load directive
-- [ ] T511 [US4] Add page title "Dashboard" and description in dashboard.astro
-- [ ] T512 [US4] Layout stats and chart in responsive grid using Tailwind
-- [ ] T513 [US4] Add motivational messages based on completion stats (e.g., "Great job! Keep it up!")
+- [x] T507 [US4] Create dashboard.astro page in quarkus-astro-app/src/main/webui/src/pages/dashboard.astro
+- [x] T508 [US4] Import Layout component in dashboard.astro
+- [x] T509 [US4] Import CompletionStats island with client:load directive
+- [x] T510 [US4] Import CompletionChart island with client:load directive
+- [x] T511 [US4] Add page title "Dashboard" and description in dashboard.astro
+- [x] T512 [US4] Layout stats and chart in responsive grid using Tailwind
+- [x] T513 [US4] Add motivational messages based on completion stats (e.g., "Great job! Keep it up!")
 
 ### Testing US4
 
-- [ ] T514 [US4] Manually test: mark task complete, verify checkbox toggles and task gets strikethrough
-- [ ] T515 [US4] Manually test: mark task complete, verify timestamp appears
-- [ ] T516 [US4] Manually test: mark task complete, click "Undo" within 5 seconds, verify task returns to active
-- [ ] T517 [US4] Manually test: mark task complete, wait 6 seconds, verify "Undo" button disappears
-- [ ] T518 [US4] Manually test: complete 3 tasks today, navigate to dashboard, verify "3 tasks completed today" shows
-- [ ] T519 [US4] Manually test: verify completion rate calculates correctly
-- [ ] T520 [US4] Manually test: complete all tasks, verify confetti animation shows (if implemented)
-- [ ] T521 [US4] Manually test: view completion history chart, verify last 7 days show correctly
-- [ ] T522 [US4] Run contract tests for toggle completion and stats endpoints
-- [ ] T523 [US4] Verify optimistic updates: toggle completion, observe immediate UI change
+- [x] T514 [US4] Manually test: mark task complete, verify checkbox toggles and task gets strikethrough
+- [x] T515 [US4] Manually test: mark task complete, verify timestamp appears
+- [x] T516 [US4] Manually test: mark task complete, click "Undo" within 5 seconds, verify task returns to active
+- [x] T517 [US4] Manually test: mark task complete, wait 6 seconds, verify "Undo" button disappears
+- [x] T518 [US4] Manually test: complete 3 tasks today, navigate to dashboard, verify "3 tasks completed today" shows
+- [x] T519 [US4] Manually test: verify completion rate calculates correctly
+- [x] T520 [US4] Manually test: complete all tasks, verify confetti animation shows (if implemented)
+- [x] T521 [US4] Manually test: view completion history chart, verify last 7 days show correctly
+- [x] T522 [US4] Run contract tests for toggle completion and stats endpoints
+- [x] T523 [US4] Verify optimistic updates: toggle completion, observe immediate UI change
 
 **Checkpoint US4**: At this point, US4 is fully functional. Users can track completion with timestamps, undo mistakes, view statistics and history. SC-011 (server-side state pattern) satisfied.
 
 ---
 
-## Phase 8: User Story 5 - Responsive Performance Demonstration (Priority: P5)
+## Phase 8: User Story 5 - Responsive Performance Demonstration (Priority: P5) ✅
 
 **Goal**: Demonstrate Islands Architecture benefits through performance metrics page showing bundle sizes, hydration timing, Web Vitals. Educational value for developers.
 
@@ -807,85 +807,85 @@ This is a web application with the following structure:
 
 ### Frontend Performance Measurement Utilities
 
-- [ ] T524 [P] [US5] Create PerformanceMetrics TypeScript interface in quarkus-astro-app/src/main/webui/src/types/performance.ts
-- [ ] T525 [P] [US5] Add fields to PerformanceMetrics: pageName, bundleSize, islandHydrations[], timeToInteractive, firstContentfulPaint, largestContentfulPaint, timestamp
-- [ ] T526 [P] [US5] Create IslandHydration interface: islandName (string), durationMs (number)
-- [ ] T527 [P] [US5] Create performance.ts utility in quarkus-astro-app/src/main/webui/src/lib/performance.ts
-- [ ] T528 [P] [US5] Implement collectMetrics(pageName: string) function using Performance API
-- [ ] T529 [P] [US5] Collect First Contentful Paint using PerformanceObserver for 'paint' entries
-- [ ] T530 [P] [US5] Collect Largest Contentful Paint using PerformanceObserver for 'largest-contentful-paint'
-- [ ] T531 [P] [US5] Collect Time to Interactive from PerformanceNavigationTiming
-- [ ] T532 [P] [US5] Collect island hydration marks from performance.getEntriesByType('measure')
-- [ ] T533 [P] [US5] Export collectMetrics function and PerformanceMetrics type
+- [x] T524 [P] [US5] Create PerformanceMetrics TypeScript interface in quarkus-astro-app/src/main/webui/src/types/performance.ts
+- [x] T525 [P] [US5] Add fields to PerformanceMetrics: pageName, bundleSize, islandHydrations[], timeToInteractive, firstContentfulPaint, largestContentfulPaint, timestamp
+- [x] T526 [P] [US5] Create IslandHydration interface: islandName (string), durationMs (number)
+- [x] T527 [P] [US5] Create performance.ts utility in quarkus-astro-app/src/main/webui/src/lib/performance.ts
+- [x] T528 [P] [US5] Implement collectMetrics(pageName: string) function using Performance API
+- [x] T529 [P] [US5] Collect First Contentful Paint using PerformanceObserver for 'paint' entries
+- [x] T530 [P] [US5] Collect Largest Contentful Paint using PerformanceObserver for 'largest-contentful-paint'
+- [x] T531 [P] [US5] Collect Time to Interactive from PerformanceNavigationTiming
+- [x] T532 [P] [US5] Collect island hydration marks from performance.getEntriesByType('measure')
+- [x] T533 [P] [US5] Export collectMetrics function and PerformanceMetrics type
 
 ### Frontend Island Hydration Tracking
 
-- [ ] T534 [P] [US5] Update TaskList.tsx to mark hydration start and end using performance.mark()
-- [ ] T535 [P] [US5] Add useEffect hook in TaskList.tsx: performance.mark('TaskList-hydrated') on mount
-- [ ] T536 [P] [US5] Call performance.measure('TaskList-hydration', 'TaskList-start', 'TaskList-hydrated')
-- [ ] T537 [P] [US5] Repeat hydration tracking for TaskForm.tsx: mark and measure hydration
-- [ ] T538 [P] [US5] Repeat hydration tracking for TaskFilter.tsx: mark and measure hydration
-- [ ] T539 [P] [US5] Repeat hydration tracking for CategoryManager.tsx: mark and measure hydration
-- [ ] T540 [P] [US5] Repeat hydration tracking for CompletionToggle.tsx: mark and measure hydration
-- [ ] T541 [P] [US5] Repeat hydration tracking for ThemeToggle.tsx: mark and measure hydration
-- [ ] T542 [P] [US5] Repeat hydration tracking for CompletionStats.tsx: mark and measure hydration
-- [ ] T543 [P] [US5] Repeat hydration tracking for CompletionChart.tsx: mark and measure hydration
+- [x] T534 [P] [US5] Update TaskList.tsx to mark hydration start and end using performance.mark()
+- [x] T535 [P] [US5] Add useEffect hook in TaskList.tsx: performance.mark('TaskList-hydrated') on mount
+- [x] T536 [P] [US5] Call performance.measure('TaskList-hydration', 'TaskList-start', 'TaskList-hydrated')
+- [x] T537 [P] [US5] Repeat hydration tracking for TaskForm.tsx: mark and measure hydration
+- [x] T538 [P] [US5] Repeat hydration tracking for TaskFilter.tsx: mark and measure hydration
+- [x] T539 [P] [US5] Repeat hydration tracking for CategoryManager.tsx: mark and measure hydration
+- [x] T540 [P] [US5] Repeat hydration tracking for CompletionToggle.tsx: mark and measure hydration
+- [x] T541 [P] [US5] Repeat hydration tracking for ThemeToggle.tsx: mark and measure hydration
+- [x] T542 [P] [US5] Repeat hydration tracking for CompletionStats.tsx: mark and measure hydration
+- [x] T543 [P] [US5] Repeat hydration tracking for CompletionChart.tsx: mark and measure hydration
 
 ### Frontend Bundle Size Calculation
 
-- [ ] T544 [P] [US5] Run production build: `npm run build` in src/main/webui/
-- [ ] T545 [P] [US5] Inspect dist/ folder to find generated JS bundle files
-- [ ] T546 [P] [US5] Calculate gzipped size of main bundle: `gzip -c dist/assets/index-*.js | wc -c`
-- [ ] T547 [P] [US5] Document bundle size in performance.ts or as constant
-- [ ] T548 [P] [US5] Verify bundle size <100KB gzipped per SC-003 (if not, optimize imports/code splitting)
+- [x] T544 [P] [US5] Run production build: `npm run build` in src/main/webui/
+- [x] T545 [P] [US5] Inspect dist/ folder to find generated JS bundle files
+- [x] T546 [P] [US5] Calculate gzipped size of main bundle: `gzip -c dist/assets/index-*.js | wc -c`
+- [x] T547 [P] [US5] Document bundle size in performance.ts or as constant
+- [x] T548 [P] [US5] Verify bundle size <100KB gzipped per SC-003 (if not, optimize imports/code splitting)
 
 ### Frontend Performance Metrics Island
 
-- [ ] T549 [US5] Create PerformanceMetrics.tsx island in quarkus-astro-app/src/main/webui/src/islands/PerformanceMetrics.tsx
-- [ ] T550 [US5] Import collectMetrics from performance.ts
-- [ ] T551 [US5] Call collectMetrics('homepage') on component mount in PerformanceMetrics.tsx
-- [ ] T552 [US5] Display collected metrics in cards: FCP, LCP, TTI, Bundle Size
-- [ ] T553 [US5] Display individual island hydration times in a table in PerformanceMetrics.tsx
-- [ ] T554 [US5] Highlight islands that hydrate >200ms in red (violation of SC-004)
-- [ ] T555 [US5] Add visual indicators: green checkmark if metric meets target, red X if exceeds
-- [ ] T556 [US5] Style PerformanceMetrics.tsx with Tailwind cards and tables
+- [x] T549 [US5] Create PerformanceMetrics.tsx island in quarkus-astro-app/src/main/webui/src/islands/PerformanceMetrics.tsx
+- [x] T550 [US5] Import collectMetrics from performance.ts
+- [x] T551 [US5] Call collectMetrics('homepage') on component mount in PerformanceMetrics.tsx
+- [x] T552 [US5] Display collected metrics in cards: FCP, LCP, TTI, Bundle Size
+- [x] T553 [US5] Display individual island hydration times in a table in PerformanceMetrics.tsx
+- [x] T554 [US5] Highlight islands that hydrate >200ms in red (violation of SC-004)
+- [x] T555 [US5] Add visual indicators: green checkmark if metric meets target, red X if exceeds
+- [x] T556 [US5] Style PerformanceMetrics.tsx with Tailwind cards and tables
 
 ### Frontend Performance Comparison Chart
 
-- [ ] T557 [US5] Create PerformanceComparison.tsx island in quarkus-astro-app/src/main/webui/src/islands/PerformanceComparison.tsx
-- [ ] T558 [US5] Import recharts library for comparison chart
-- [ ] T559 [US5] Create mock data comparing Islands Architecture vs traditional SPA for: bundle size, load time, TTI
-- [ ] T560 [US5] Render bar chart showing Islands vs SPA side-by-side for each metric
-- [ ] T561 [US5] Add annotations explaining Islands benefits: "3x faster load time", "5x smaller bundles"
-- [ ] T562 [US5] Style chart with Tailwind and theme support
+- [x] T557 [US5] Create PerformanceComparison.tsx island in quarkus-astro-app/src/main/webui/src/islands/PerformanceComparison.tsx
+- [x] T558 [US5] Import recharts library for comparison chart
+- [x] T559 [US5] Create mock data comparing Islands Architecture vs traditional SPA for: bundle size, load time, TTI
+- [x] T560 [US5] Render bar chart showing Islands vs SPA side-by-side for each metric
+- [x] T561 [US5] Add annotations explaining Islands benefits: "3x faster load time", "5x smaller bundles"
+- [x] T562 [US5] Style chart with Tailwind and theme support
 
 ### Frontend Hydration Visualization (Optional Advanced Feature)
 
-- [ ] T563 [P] [US5] Create HydrationVisualizer.tsx island with toggle button to enable/disable
-- [ ] T564 [P] [US5] When enabled, overlay visual indicators on each island showing when it hydrated
-- [ ] T565 [P] [US5] Use CSS animations to highlight islands as they hydrate (flash border or background)
-- [ ] T566 [P] [US5] Display timeline showing order of island hydration
-- [ ] T567 [P] [US5] Add legend explaining what each visual indicator means
+- [x] T563 [P] [US5] Create HydrationVisualizer.tsx island with toggle button to enable/disable
+- [x] T564 [P] [US5] When enabled, overlay visual indicators on each island showing when it hydrated
+- [x] T565 [P] [US5] Use CSS animations to highlight islands as they hydrate (flash border or background)
+- [x] T566 [P] [US5] Display timeline showing order of island hydration
+- [x] T567 [P] [US5] Add legend explaining what each visual indicator means
 
 ### Frontend Performance Page
 
-- [ ] T568 [US5] Create performance.astro page in quarkus-astro-app/src/main/webui/src/pages/performance.astro
-- [ ] T569 [US5] Import Layout component in performance.astro
-- [ ] T570 [US5] Import PerformanceMetrics island with client:load directive
-- [ ] T571 [US5] Import PerformanceComparison island with client:load directive
-- [ ] T572 [US5] Import HydrationVisualizer island if implemented
-- [ ] T573 [US5] Add page title "Performance Insights" and educational description explaining Islands Architecture
-- [ ] T574 [US5] Add section explaining each metric: what it measures, why it matters, target values
-- [ ] T575 [US5] Add section with architecture diagram or explanation of Islands concept
-- [ ] T576 [US5] Layout metrics, comparison chart, and visualizer in responsive grid using Tailwind
-- [ ] T577 [US5] Add "Export Metrics" button to download performance data as JSON
+- [x] T568 [US5] Create performance.astro page in quarkus-astro-app/src/main/webui/src/pages/performance.astro
+- [x] T569 [US5] Import Layout component in performance.astro
+- [x] T570 [US5] Import PerformanceMetrics island with client:load directive
+- [x] T571 [US5] Import PerformanceComparison island with client:load directive
+- [x] T572 [US5] Import HydrationVisualizer island if implemented
+- [x] T573 [US5] Add page title "Performance Insights" and educational description explaining Islands Architecture
+- [x] T574 [US5] Add section explaining each metric: what it measures, why it matters, target values
+- [x] T575 [US5] Add section with architecture diagram or explanation of Islands concept
+- [x] T576 [US5] Layout metrics, comparison chart, and visualizer in responsive grid using Tailwind
+- [x] T577 [US5] Add "Export Metrics" button to download performance data as JSON
 
 ### Documentation for Performance Demonstration
 
-- [ ] T578 [US5] Add Performance section to README.md explaining metrics and how to interpret them
-- [ ] T579 [US5] Document bundle size optimization techniques in README.md
-- [ ] T580 [US5] Document hydration optimization techniques in README.md
-- [ ] T581 [US5] Add troubleshooting section for performance issues in README.md
+- [x] T578 [US5] Add Performance section to README.md explaining metrics and how to interpret them
+- [x] T579 [US5] Document bundle size optimization techniques in README.md
+- [x] T580 [US5] Document hydration optimization techniques in README.md
+- [x] T581 [US5] Add troubleshooting section for performance issues in README.md
 
 ### Testing US5
 

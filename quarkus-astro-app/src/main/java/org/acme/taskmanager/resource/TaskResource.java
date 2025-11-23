@@ -7,6 +7,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -333,5 +334,44 @@ public class TaskResource {
     taskService.deleteTask(userId, id);
 
     return Response.noContent().build();
+  }
+
+  /**
+   * Toggles the completion status of a task.
+   *
+   * <p>T457-T460: Toggles a task between complete and incomplete states.
+   *
+   * @param id the task's unique identifier
+   * @return Response with 200 OK and updated TaskResponseDTO
+   */
+  @PATCH
+  @Path("/{id}/complete")
+  @Operation(
+      summary = "Toggle task completion",
+      description = "Toggles a task between complete and incomplete. "
+                    + "If incomplete, marks as complete with timestamp. "
+                    + "If complete, marks as incomplete and clears timestamp.")
+  @APIResponse(
+      responseCode = "200",
+      description = "Task completion toggled successfully",
+      content = @Content(
+          mediaType = MediaType.APPLICATION_JSON,
+          schema = @Schema(implementation = TaskResponseDTO.class)))
+  @APIResponse(responseCode = "404", description = "Task not found")
+  @APIResponse(responseCode = "401", description = "Not authenticated")
+  public Response toggleTaskCompletion(
+      @Parameter(
+          description = "Task UUID",
+          required = true,
+          schema = @Schema(type = SchemaType.STRING, format = "uuid"))
+      @PathParam("id") final UUID id) {
+
+    // T458: Extract userId from session
+    String userId = SessionUtils.getCurrentUserId(routingContext);
+
+    // T459: Call TaskService.toggleTaskCompletion() and return 200 OK
+    TaskResponseDTO response = taskService.toggleTaskCompletion(userId, id);
+
+    return Response.ok(response).build();
   }
 }

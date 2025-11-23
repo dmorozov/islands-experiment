@@ -24,6 +24,7 @@
 
 import { useStore } from '@nanostores/preact';
 import { useEffect } from 'preact/hooks';
+import { trackIslandHydration } from '@/lib/performance';
 import { taskFilter, updateFilter, resetFilters } from '@/lib/state';
 import { useGetApiCategories } from '@/lib/api/endpoints/categories/categories';
 import { preferences } from '@/lib/storage';
@@ -91,6 +92,11 @@ function TaskFilterContent() {
 
   // Fetch categories for dropdown
   const { data: categories, isLoading: categoriesLoading } = useGetApiCategories();
+
+  // T538: Track island hydration for performance monitoring
+  useEffect(() => {
+    trackIslandHydration('TaskFilter');
+  }, []);
 
   /**
    * Load filters from URL query params on mount

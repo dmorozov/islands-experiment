@@ -55,7 +55,8 @@
         "redhat.vscode-xml", // XML document formatter
         "redhat.vscode-microprofile", // YAML editor
         "astro-build.astro-vscode", // Astro support
-        "bradlc.vscode-tailwindcss" // Tailwind support
+        "bradlc.vscode-tailwindcss", // Tailwind support
+        "anthropic.claude-code" // Claude AI integration
       ]
     }
   },
@@ -71,10 +72,7 @@
     }
   },
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [
-    7171,
-    3000
-  ],
+  "forwardPorts": [7171, 3000],
   "mounts": [
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" // Binding the host docker socket to the containerit
   ],

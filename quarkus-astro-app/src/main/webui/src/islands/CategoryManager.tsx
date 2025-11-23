@@ -1,4 +1,5 @@
-import { useState } from 'preact/hooks';
+import { useState, useEffect } from 'preact/hooks';
+import { trackIslandHydration } from '@/lib/performance';
 import { useQueryClient } from '@tanstack/react-query';
 import {
   useGetApiCategories,
@@ -30,13 +31,18 @@ import {
   AlertDialogTitle,
 } from '../components/ui/alert-dialog';
 import { Badge } from '../components/ui/badge';
-import QueryProvider from '../components/providers/QueryProvider';
+import { QueryProvider } from '../components/providers/QueryProvider';
 
 /**
  * CategoryManager Island - Category CRUD UI
  * T394-T406: List, create, update, and delete categories with visual indicators
  */
 function CategoryManagerContent() {
+  // T539: Track island hydration for performance monitoring
+  useEffect(() => {
+    trackIslandHydration('CategoryManager');
+  }, []);
+
   const queryClient = useQueryClient();
   const { data: categories = [], isLoading } = useGetApiCategories();
   const createMutation = usePostApiCategories();

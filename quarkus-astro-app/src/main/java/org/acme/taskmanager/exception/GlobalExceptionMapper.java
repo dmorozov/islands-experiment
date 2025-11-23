@@ -55,6 +55,12 @@ public class GlobalExceptionMapper implements ExceptionMapper<Exception> {
    */
   @Override
   public Response toResponse(final Exception exception) {
+    // Skip JAX-RS framework exceptions (let them be handled by the framework)
+    // This allows Quinoa to properly forward requests to the Astro dev server
+    if (exception instanceof jakarta.ws.rs.WebApplicationException) {
+      throw (jakarta.ws.rs.WebApplicationException) exception;
+    }
+
     // Log all exceptions for debugging
     LOG.error("Exception occurred during request processing", exception);
 

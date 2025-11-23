@@ -25,6 +25,7 @@
 
 import { useStore } from '@nanostores/preact';
 import { useEffect } from 'preact/hooks';
+import { trackIslandHydration } from '@/lib/performance';
 import { Moon, Sun } from 'lucide-preact';
 import { userTheme, toggleTheme } from '@/lib/state';
 
@@ -52,6 +53,11 @@ export default function ThemeToggle() {
       root.classList.remove('dark');
     }
   }, [theme]);
+
+  // T541: Track island hydration for performance monitoring
+  useEffect(() => {
+    trackIslandHydration('ThemeToggle');
+  }, []);
 
   /**
    * Handle theme toggle button click
