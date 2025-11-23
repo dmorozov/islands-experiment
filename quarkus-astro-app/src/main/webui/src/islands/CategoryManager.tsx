@@ -82,10 +82,14 @@ function CategoryManagerContent() {
       // Invalidate categories query cache
       queryClient.invalidateQueries({ queryKey: getGetApiCategoriesQueryKey() });
 
-      // Reset form and close dialog
+      // Reset form
       setNewName('');
       setNewColor('#3B82F6');
-      setIsCreateDialogOpen(false);
+
+      // Add delay before closing to allow DOM updates to complete
+      setTimeout(() => {
+        setIsCreateDialogOpen(false);
+      }, 100);
     } catch (error: unknown) {
       // T405: Display error if duplicate category name
       if (error && typeof error === 'object' && 'status' in error && error.status === 409) {
@@ -157,7 +161,10 @@ function CategoryManagerContent() {
       // T406: Invalidate categories query cache
       queryClient.invalidateQueries({ queryKey: getGetApiCategoriesQueryKey() });
 
-      setDeletingCategory(null);
+      // Add delay before closing to allow DOM updates to complete
+      setTimeout(() => {
+        setDeletingCategory(null);
+      }, 100);
     } catch (error: unknown) {
       // T404: Display error if trying to delete default category
       if (error && typeof error === 'object' && 'status' in error && error.status === 400) {
@@ -185,7 +192,12 @@ function CategoryManagerContent() {
           <DialogTrigger asChild>
             <Button>New Category</Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent
+            onCloseAutoFocus={(e: Event) => {
+              // Prevent auto-focus behavior that causes errors
+              e.preventDefault();
+            }}
+          >
             <DialogHeader>
               <DialogTitle>Create New Category</DialogTitle>
               <DialogDescription>
@@ -350,7 +362,12 @@ function CategoryManagerContent() {
 
       {/* T403: Delete confirmation dialog */}
       <AlertDialog open={!!deletingCategory} onOpenChange={(open) => !open && setDeletingCategory(null)}>
-        <AlertDialogContent>
+        <AlertDialogContent
+          onCloseAutoFocus={(e: Event) => {
+            // Prevent auto-focus behavior that causes errors
+            e.preventDefault();
+          }}
+        >
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Category</AlertDialogTitle>
             <AlertDialogDescription>

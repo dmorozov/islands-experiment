@@ -12,6 +12,15 @@ import {
 } from '@/components/ui/dialog';
 import { QueryProvider } from '@/components/providers/QueryProvider';
 
+// Ensure JSX.IntrinsicElements exists for TypeScript when using Preact
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      [elemName: string]: any;
+    }
+  }
+}
+
 /**
  * NewTaskButton Island (T335-T338)
  *
@@ -26,8 +35,12 @@ function NewTaskButtonContent() {
   }, []);
 
   // T338: After task created, close modal
+  // Add a small delay to allow DOM to update and prevent focus restoration errors
   const handleSuccess = () => {
-    setIsOpen(false);
+    // Delay closing to allow mutations and DOM updates to complete
+    setTimeout(() => {
+      setIsOpen(false);
+    }, 100);
   };
 
   return (
@@ -54,7 +67,13 @@ function NewTaskButtonContent() {
       </DialogTrigger>
 
       {/* T337: Show TaskForm in modal with mode="create" */}
-      <DialogContent class="max-w-2xl">
+      <DialogContent
+        class="max-w-2xl"
+        onCloseAutoFocus={(e: Event) => {
+          // Prevent auto-focus behavior that causes errors
+          e.preventDefault();
+        }}
+      >
         <DialogHeader>
           <DialogTitle>Create New Task</DialogTitle>
           <DialogDescription>

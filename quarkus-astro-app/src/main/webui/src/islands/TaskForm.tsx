@@ -37,12 +37,7 @@ interface TaskFormProps {
   onCancel?: () => void;
 }
 
-export default function TaskForm({
-  mode,
-  initialTask,
-  onSuccess,
-  onCancel,
-}: TaskFormProps) {
+export default function TaskForm({ mode, initialTask, onSuccess, onCancel }: TaskFormProps) {
   const queryClient = useQueryClient();
 
   // T313: Form state using Preact useState
@@ -52,8 +47,7 @@ export default function TaskForm({
   const [priority, setPriority] = useState<'HIGH' | 'MEDIUM' | 'LOW'>('MEDIUM');
 
   // T311: Import useGetCategories hook for category dropdown
-  const { data: categories = [], isLoading: categoriesLoading } =
-    useGetApiCategories();
+  const { data: categories = [], isLoading: categoriesLoading } = useGetApiCategories();
 
   // T310: Import useCreateTask and useUpdateTask hooks
   const createMutation = usePostApiTasks();
@@ -108,7 +102,7 @@ export default function TaskForm({
       } else if (mode === 'edit' && initialTask) {
         // Call updateTask mutation
         await updateMutation.mutateAsync({
-          id: initialTask.id,
+          id: initialTask.id!,
           data: {
             title: title.trim(),
             description: description?.trim(),
@@ -149,7 +143,7 @@ export default function TaskForm({
   const isLoading = createMutation.isPending || updateMutation.isPending;
 
   return (
-    <form onSubmit={handleSubmit} class="space-y-4 p-4 border rounded-lg">
+    <form onSubmit={handleSubmit} class="space-y-4 rounded-lg border p-4">
       {/* T316: Render title input with required validation */}
       <div class="space-y-2">
         <Label htmlFor="task-title">
@@ -173,9 +167,7 @@ export default function TaskForm({
         <Textarea
           id="task-description"
           value={description}
-          onInput={(e) =>
-            setDescription((e.target as HTMLTextAreaElement).value)
-          }
+          onInput={(e) => setDescription((e.target as HTMLTextAreaElement).value)}
           placeholder="Enter task description"
           maxLength={2000}
           rows={4}
@@ -200,7 +192,7 @@ export default function TaskForm({
             {categories.map((category) => (
               <SelectItem key={category.id} value={category.id}>
                 <span
-                  class="inline-block w-3 h-3 rounded-full mr-2"
+                  class="mr-2 inline-block h-3 w-3 rounded-full"
                   style={{ backgroundColor: category.colorCode }}
                 ></span>
                 {category.name}
@@ -215,40 +207,35 @@ export default function TaskForm({
         <Label htmlFor="task-priority">
           Priority <span class="text-red-500">*</span>
         </Label>
-        <Select value={priority} onValueChange={(value) => setPriority(value as 'HIGH' | 'MEDIUM' | 'LOW')} disabled={isLoading}>
+        <Select
+          value={priority}
+          onValueChange={(value) => setPriority(value as 'HIGH' | 'MEDIUM' | 'LOW')}
+          disabled={isLoading}
+        >
           <SelectTrigger id="task-priority">
             <SelectValue placeholder="Select priority" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="HIGH">
-              <span class="text-red-600 font-semibold">High</span>
+              <span class="font-semibold text-red-600">High</span>
             </SelectItem>
             <SelectItem value="MEDIUM">
-              <span class="text-yellow-600 font-semibold">Medium</span>
+              <span class="font-semibold text-yellow-600">Medium</span>
             </SelectItem>
             <SelectItem value="LOW">
-              <span class="text-green-600 font-semibold">Low</span>
+              <span class="font-semibold text-green-600">Low</span>
             </SelectItem>
           </SelectContent>
         </Select>
       </div>
 
       {/* T324: Add loading state to submit button, T325: Add Cancel button */}
-      <div class="flex gap-2 justify-end">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={handleCancel}
-          disabled={isLoading}
-        >
+      <div class="flex justify-end gap-2">
+        <Button type="button" variant="outline" onClick={handleCancel} disabled={isLoading}>
           Cancel
         </Button>
         <Button type="submit" disabled={isLoading}>
-          {isLoading
-            ? 'Saving...'
-            : mode === 'create'
-              ? 'Create Task'
-              : 'Update Task'}
+          {isLoading ? 'Saving...' : mode === 'create' ? 'Create Task' : 'Update Task'}
         </Button>
       </div>
     </form>

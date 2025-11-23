@@ -190,7 +190,12 @@ function TaskCard({
                   Delete
                 </Button>
               </AlertDialogTrigger>
-              <AlertDialogContent>
+              <AlertDialogContent
+                onCloseAutoFocus={(e: Event) => {
+                  // Prevent auto-focus behavior that causes errors
+                  e.preventDefault();
+                }}
+              >
                 <AlertDialogHeader>
                   <AlertDialogTitle>Delete Task</AlertDialogTitle>
                   <AlertDialogDescription>
